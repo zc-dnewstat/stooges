@@ -331,12 +331,18 @@
                 </div>
             </div>
             
-            <div class="flex justify-center gap-x-3 mt-8">
+            <div class="flex flex-wrap justify-center gap-3 mt-8">
                 <button onclick="showRandomQuote()" class="px-7 py-3.5 flex items-center gap-x-2 bg-yellow-400 hover:bg-amber-300 transition-colors text-zinc-950 font-bold rounded-3xl text-sm">
                     <i class="fa-solid fa-sync-alt"></i> 
                     <span>ANOTHER ONE</span>
                 </button>
+                <button onclick="playCurrentQuote()" class="px-7 py-3.5 flex items-center gap-x-2 bg-zinc-800 hover:bg-zinc-700 transition-colors text-yellow-400 font-bold rounded-3xl text-sm border border-zinc-700">
+                    <i class="fa-solid fa-volume-high"></i>
+                    <span>PLAY AUDIO</span>
+                </button>
             </div>
+
+            <div id="quote-list" class="mt-10 grid gap-3 text-left"></div>
         </div>
     </div>
 
@@ -348,10 +354,16 @@
         </div>
         
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-1937.jpg?v=actual-stooges-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="The Three Stooges in 1937"></div>
-            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/moe-howard-1937.jpg?v=actual-stooges-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="Moe Howard"></div>
-            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-1937.jpg?v=actual-stooges-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" style="object-position: 48% 25%;" alt="Larry Fine with the Three Stooges"></div>
-            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/curly-howard-1937.jpg?v=actual-stooges-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="Curly Howard"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-1937.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="The Three Stooges in 1937"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-1936-cropped.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="The Three Stooges in Disorder in the Court"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-allentown-1938.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" style="object-position: 50% 18%;" alt="The Three Stooges at Allentown Fair in 1938"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/stooges-film-on-34-street.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="The Three Stooges filming on 34th Street"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/moe-howard-1937.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="Moe Howard"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-1937.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" style="object-position: 48% 25%;" alt="Larry Fine with the Three Stooges"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/curly-howard-1937.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="Curly Howard"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-pie-fight-trailer.png?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="Three Stooges pie fight trailer still"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/disorder-in-the-court-title-1936.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="Disorder in the Court title image"></div>
+            <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-title-card-1934-1936.png?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="The Three Stooges title card"></div>
         </div>
     </div>
 
@@ -429,6 +441,41 @@
                 display.style.opacity = '1';
             }, 280);
         }
+
+        function playQuoteAudio(index) {
+            const quote = quotes[index];
+            if (!quote || !window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            const utterance = new SpeechSynthesisUtterance(quote.text);
+            utterance.rate = quote.author.includes('Curly') ? 1.35 : 1.18;
+            utterance.pitch = quote.author.includes('Curly') ? 1.35 : 0.95;
+            utterance.volume = 1;
+            window.speechSynthesis.speak(utterance);
+        }
+
+        function playCurrentQuote() {
+            playQuoteAudio(currentQuoteIndex);
+        }
+
+        function selectQuoteAudio(index) {
+            const quote = quotes[index];
+            if (!quote) return;
+            currentQuoteIndex = index;
+            document.getElementById('quote-text').innerHTML = `"${quote.text}"`;
+            document.getElementById('quote-attribution').innerHTML = `— ${quote.author}`;
+            playQuoteAudio(index);
+        }
+
+        function renderQuoteAudioList() {
+            const list = document.getElementById('quote-list');
+            if (!list) return;
+            list.innerHTML = quotes.map((quote, index) => `
+                <button onclick="selectQuoteAudio(${index})" class="w-full flex items-center justify-between gap-4 px-5 py-4 bg-zinc-950 hover:bg-zinc-800 border border-zinc-800 hover:border-yellow-400/60 rounded-2xl transition-colors">
+                    <span class="text-sm text-zinc-300 leading-snug">"${quote.text}" <span class="text-yellow-400">— ${quote.author}</span></span>
+                    <span class="shrink-0 w-10 h-10 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center"><i class="fa-solid fa-volume-high"></i></span>
+                </button>
+            `).join('');
+        }
         
         // Film modal
         function showFilmModal(title, year, description) {
@@ -486,6 +533,7 @@
             initializeTailwind();
             initNavbar();
             initKeyboard();
+            renderQuoteAudioList();
             
             // Show a random quote on load after a delay
             setTimeout(() => {
@@ -503,26 +551,3 @@
     </script>
 </body>
 </html>
-<script>
-function playStoogeVoice(text) {
-    if (!window.speechSynthesis) { alert("Voice not supported"); return; }
-    const u = new SpeechSynthesisUtterance(text);
-    u.rate = 1.4; u.pitch = 1.15; u.volume = 0.95;
-    window.speechSynthesis.speak(u);
-}
-document.addEventListener('DOMContentLoaded', () => {
-    const btns = document.querySelectorAll('button');
-    btns.forEach(b => {
-        if (b.textContent.includes('Random Quote')) {
-            const v = document.createElement('button');
-            v.className = 'px-4 py-2.5 bg-zinc-800 hover:bg-zinc-700 text-yellow-400 rounded-2xl text-sm flex items-center gap-x-2 ml-2';
-            v.innerHTML = '<i class="fa-solid fa-play mr-1"></i>Voice';
-            v.onclick = () => {
-                const q = document.getElementById('current-quote');
-                if (q) playStoogeVoice(q.textContent.trim());
-            };
-            b.parentNode.insertBefore(v, b.nextSibling);
-        }
-    });
-});
-</script>
