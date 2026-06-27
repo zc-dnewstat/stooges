@@ -1682,6 +1682,10 @@
             stream: null,
             detector: null,
             detectorReady: null,
+            landmarker: null,
+            landmarkerReady: null,
+            visionFileset: null,
+            visionFilesetReady: null,
             portraitDataUrl: ''
         };
 
@@ -1690,11 +1694,40 @@
             if (status) status.textContent = message || '';
         }
 
+        async function loadCurlyVisionFileset() {
+            if (curlyCam.visionFilesetReady) return curlyCam.visionFilesetReady;
+            curlyCam.visionFilesetReady = (async () => {
+                const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18');
+                curlyCam.visionFileset = await vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm');
+                return { vision, fileset: curlyCam.visionFileset };
+            })();
+            return curlyCam.visionFilesetReady;
+        }
+
+        async function loadCurlyFaceLandmarker() {
+            if (curlyCam.landmarkerReady) return curlyCam.landmarkerReady;
+            curlyCam.landmarkerReady = (async () => {
+                const { vision, fileset } = await loadCurlyVisionFileset();
+                curlyCam.landmarker = await vision.FaceLandmarker.createFromOptions(fileset, {
+                    baseOptions: {
+                        modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/face_landmarker/face_landmarker/float16/latest/face_landmarker.task',
+                        delegate: 'CPU'
+                    },
+                    runningMode: 'IMAGE',
+                    numFaces: 1,
+                    minFaceDetectionConfidence: 0.45,
+                    minFacePresenceConfidence: 0.45,
+                    minTrackingConfidence: 0.45
+                });
+                return curlyCam.landmarker;
+            })();
+            return curlyCam.landmarkerReady;
+        }
+
         async function loadCurlyFaceDetector() {
             if (curlyCam.detectorReady) return curlyCam.detectorReady;
             curlyCam.detectorReady = (async () => {
-                const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18');
-                const fileset = await vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm');
+                const { vision, fileset } = await loadCurlyVisionFileset();
                 curlyCam.detector = await vision.FaceDetector.createFromOptions(fileset, {
                     baseOptions: {
                         modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/latest/blaze_face_short_range.tflite'
@@ -1731,15 +1764,69 @@
                 empty?.classList.add('hidden');
                 if (capture) capture.disabled = false;
                 setCurlyCamStatus('Camera ready. Center your face and tap Make Me Curly.');
-                loadCurlyFaceDetector().catch(() => {
-                    setCurlyCamStatus('Camera ready. Face detector fallback will still make a portrait.');
+                loadCurlyFaceLandmarker().catch(() => {
+                    loadCurlyFaceDetector().catch(() => null);
+                    setCurlyCamStatus('Camera ready. Basic face fitting will still make a portrait.');
                 });
             } catch (error) {
                 setCurlyCamStatus('Could not open the camera. Check browser camera permission and try again.');
             }
         }
 
+        const curlyFaceOval = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109];
+
+        function averageLandmarks(landmarks, indexes, canvas) {
+            const total = indexes.reduce((point, index) => {
+                const landmark = landmarks[index];
+                return {
+                    x: point.x + landmark.x * canvas.width,
+                    y: point.y + landmark.y * canvas.height
+                };
+            }, { x: 0, y: 0 });
+            return { x: total.x / indexes.length, y: total.y / indexes.length };
+        }
+
+        function faceBoxFromLandmarks(landmarks, canvas) {
+            const points = curlyFaceOval.map((index) => landmarks[index]).filter(Boolean);
+            const xs = points.map((point) => point.x * canvas.width);
+            const ys = points.map((point) => point.y * canvas.height);
+            return {
+                x: Math.min(...xs),
+                y: Math.min(...ys),
+                width: Math.max(...xs) - Math.min(...xs),
+                height: Math.max(...ys) - Math.min(...ys)
+            };
+        }
+
+        function buildLandmarkFaceMatch(landmarks, canvas) {
+            const leftEye = averageLandmarks(landmarks, [33, 133, 159, 145], canvas);
+            const rightEye = averageLandmarks(landmarks, [263, 362, 386, 374], canvas);
+            const eyeCenter = {
+                x: (leftEye.x + rightEye.x) / 2,
+                y: (leftEye.y + rightEye.y) / 2
+            };
+            return {
+                landmarks,
+                box: faceBoxFromLandmarks(landmarks, canvas),
+                leftEye,
+                rightEye,
+                eyeCenter,
+                nose: averageLandmarks(landmarks, [1, 4, 5], canvas),
+                mouth: averageLandmarks(landmarks, [13, 14, 17, 0], canvas),
+                angle: Math.atan2(rightEye.y - leftEye.y, rightEye.x - leftEye.x),
+                eyeDistance: Math.hypot(rightEye.x - leftEye.x, rightEye.y - leftEye.y)
+            };
+        }
+
         async function detectCapturedFace(canvas) {
+            try {
+                const landmarker = await loadCurlyFaceLandmarker();
+                const result = landmarker.detect(canvas);
+                const landmarks = result?.faceLandmarks?.[0];
+                if (landmarks?.length) return buildLandmarkFaceMatch(landmarks, canvas);
+            } catch {
+                // Fall back to the lighter box detector below.
+            }
             try {
                 const detector = await loadCurlyFaceDetector();
                 const result = detector.detect(canvas);
@@ -1747,10 +1834,12 @@
                 const box = detection?.boundingBox;
                 if (box && box.width > 0 && box.height > 0) {
                     return {
-                        x: box.originX,
-                        y: box.originY,
-                        width: box.width,
-                        height: box.height
+                        box: {
+                            x: box.originX,
+                            y: box.originY,
+                            width: box.width,
+                            height: box.height
+                        }
                     };
                 }
             } catch {
@@ -1758,10 +1847,12 @@
             }
             const side = Math.min(canvas.width, canvas.height) * 0.58;
             return {
-                x: (canvas.width - side) / 2,
-                y: (canvas.height - side) * 0.42,
-                width: side,
-                height: side
+                box: {
+                    x: (canvas.width - side) / 2,
+                    y: (canvas.height - side) * 0.42,
+                    width: side,
+                    height: side
+                }
             };
         }
 
@@ -1794,7 +1885,8 @@
             return Math.min(max, Math.max(min, value));
         }
 
-        function makeFaceCrop(box, canvas) {
+        function makeFaceCrop(faceMatch, canvas) {
+            const box = faceMatch.box || faceMatch;
             const width = box.width * 1.18;
             const height = box.height * 1.34;
             const centerX = box.x + box.width / 2;
@@ -1807,6 +1899,82 @@
                 width: Math.min(width, canvas.width - x),
                 height: Math.min(height, canvas.height - y)
             };
+        }
+
+
+        function drawLandmarkMaskPath(ctx, faceMatch, sourceCanvas) {
+            const points = curlyFaceOval.map((index) => faceMatch.landmarks[index]).filter(Boolean);
+            if (!points.length) return;
+            ctx.beginPath();
+            points.forEach((point, index) => {
+                const x = point.x * sourceCanvas.width;
+                const y = point.y * sourceCanvas.height;
+                if (index === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.closePath();
+        }
+
+        function buildLandmarkedFaceLayer(sourceCanvas, faceMatch, width, height) {
+            const layer = document.createElement('canvas');
+            layer.width = width;
+            layer.height = height;
+            const lctx = layer.getContext('2d');
+            const targetEyeCenter = { x: width * 0.5, y: height * 0.38 };
+            const targetEyeDistance = width * 0.43;
+            const scale = targetEyeDistance / Math.max(1, faceMatch.eyeDistance);
+
+            lctx.save();
+            lctx.translate(targetEyeCenter.x, targetEyeCenter.y);
+            lctx.rotate(-faceMatch.angle);
+            lctx.scale(scale, scale);
+            lctx.translate(-faceMatch.eyeCenter.x, -faceMatch.eyeCenter.y);
+            lctx.filter = 'grayscale(1) contrast(1.34) brightness(0.94) sepia(0.06) blur(0.35px)';
+            lctx.drawImage(sourceCanvas, 0, 0);
+            lctx.restore();
+
+            lctx.save();
+            lctx.globalCompositeOperation = 'source-atop';
+            lctx.globalAlpha = 0.18;
+            const lighting = lctx.createLinearGradient(0, height * 0.12, width, height * 0.92);
+            lighting.addColorStop(0, '#f4f4f5');
+            lighting.addColorStop(0.48, '#a1a1aa');
+            lighting.addColorStop(1, '#27272a');
+            lctx.fillStyle = lighting;
+            lctx.fillRect(0, 0, width, height);
+            lctx.restore();
+
+            drawFilmGrain(lctx, width, height, 0.052);
+
+            const mask = document.createElement('canvas');
+            mask.width = width;
+            mask.height = height;
+            const mctx = mask.getContext('2d');
+            mctx.save();
+            mctx.translate(targetEyeCenter.x, targetEyeCenter.y);
+            mctx.rotate(-faceMatch.angle);
+            mctx.scale(scale * 1.04, scale * 1.08);
+            mctx.translate(-faceMatch.eyeCenter.x, -faceMatch.eyeCenter.y + faceMatch.box.height * 0.03);
+            mctx.filter = 'blur(7px)';
+            mctx.fillStyle = '#000';
+            drawLandmarkMaskPath(mctx, faceMatch, sourceCanvas);
+            mctx.fill();
+            mctx.restore();
+
+            const softMask = mctx.createRadialGradient(width * 0.5, height * 0.44, width * 0.18, width * 0.5, height * 0.48, width * 0.56);
+            softMask.addColorStop(0, 'rgba(0,0,0,1)');
+            softMask.addColorStop(0.7, 'rgba(0,0,0,0.92)');
+            softMask.addColorStop(1, 'rgba(0,0,0,0)');
+            mctx.globalCompositeOperation = 'destination-in';
+            mctx.fillStyle = softMask;
+            mctx.fillRect(0, 0, width, height);
+
+            lctx.save();
+            lctx.globalCompositeOperation = 'destination-in';
+            lctx.drawImage(mask, 0, 0);
+            lctx.restore();
+
+            return layer;
         }
 
         function drawFilmGrain(ctx, width, height, alpha = 0.055) {
@@ -1875,7 +2043,7 @@
             return layer;
         }
 
-        async function makeCurlyPortrait(sourceCanvas, faceBox) {
+        async function makeCurlyPortrait(sourceCanvas, faceMatch) {
             const resultCanvas = document.getElementById('curlycam-result');
             const resultEmpty = document.getElementById('curlycam-result-empty');
             if (!resultCanvas) return '';
@@ -1885,19 +2053,21 @@
             const ctx = resultCanvas.getContext('2d');
             ctx.drawImage(template, 0, 0, resultCanvas.width, resultCanvas.height);
 
-            const crop = makeFaceCrop(faceBox, sourceCanvas);
-            const target = { x: 310, y: 315, width: 182, height: 226 };
-            const faceLayer = buildFeatheredFaceLayer(sourceCanvas, crop, target.width, target.height);
+            const crop = makeFaceCrop(faceMatch, sourceCanvas);
+            const target = { x: 306, y: 300, width: 176, height: 222 };
+            const faceLayer = faceMatch.landmarks
+                ? buildLandmarkedFaceLayer(sourceCanvas, faceMatch, target.width, target.height)
+                : buildFeatheredFaceLayer(sourceCanvas, crop, target.width, target.height);
 
             ctx.save();
-            ctx.globalAlpha = 0.92;
+            ctx.globalAlpha = faceMatch.landmarks ? 0.86 : 0.9;
             ctx.globalCompositeOperation = 'source-over';
             ctx.drawImage(faceLayer, target.x, target.y, target.width, target.height);
             ctx.restore();
 
             ctx.save();
             ctx.globalCompositeOperation = 'multiply';
-            ctx.globalAlpha = 0.17;
+            ctx.globalAlpha = faceMatch.landmarks ? 0.24 : 0.17;
             const shadow = ctx.createRadialGradient(
                 target.x + target.width * 0.5,
                 target.y + target.height * 0.53,
