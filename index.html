@@ -236,6 +236,7 @@
             #history h2,
             #films h2,
             #videos h2,
+            #cartoons h2,
             #daily-five h2,
             #slapstick-lab h2,
             #forum h2,
@@ -255,16 +256,19 @@
                 padding: 1rem;
             }
 
-            .video-card > div {
+            .video-card > div,
+            .cartoon-card > div {
                 grid-template-columns: 112px 1fr;
                 min-height: 0;
             }
 
-            .video-card .font-black {
+            .video-card .font-black,
+            .cartoon-card .font-black {
                 font-size: 1.05rem;
             }
 
-            .video-card p {
+            .video-card p,
+            .cartoon-card p {
                 display: -webkit-box;
                 -webkit-line-clamp: 2;
                 -webkit-box-orient: vertical;
@@ -278,11 +282,13 @@
                 flex-direction: column;
             }
 
-            .video-card > div {
+            .video-card > div,
+            .cartoon-card > div {
                 grid-template-columns: 1fr;
             }
 
-            .video-card > div > div:first-child {
+            .video-card > div > div:first-child,
+            .cartoon-card > div > div:first-child {
                 height: 11rem;
             }
         }
@@ -310,6 +316,7 @@
                     <a href="#history" class="hover:text-yellow-400 transition-colors">History</a>
                     <a href="#films" class="hover:text-yellow-400 transition-colors">Films</a>
                     <a href="#videos" class="hover:text-yellow-400 transition-colors">Videos</a>
+                    <a href="#cartoons" class="hover:text-yellow-400 transition-colors">Cartoons</a>
                     <a href="#daily-five" class="hover:text-yellow-400 transition-colors">Daily 5</a>
                     <a href="#slapstick-lab" class="hover:text-yellow-400 transition-colors">Lab</a>
                     <a href="#forum" class="hover:text-yellow-400 transition-colors">Knockabout</a>
@@ -340,6 +347,7 @@
                 <a href="#history" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">History</a>
                 <a href="#films" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Films</a>
                 <a href="#videos" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Videos</a>
+                <a href="#cartoons" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Cartoons</a>
                 <a href="#daily-five" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily 5</a>
                 <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Lab</a>
                 <a href="#forum" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Knockabout</a>
@@ -397,6 +405,7 @@
         <div class="max-w-7xl mx-auto px-6 py-5">
             <div class="flex gap-3 overflow-x-auto pb-1 text-sm">
                 <a href="#videos" class="jump-link px-4 py-2 rounded-2xl bg-yellow-400 text-zinc-950 font-bold">Play Shorts</a>
+                <a href="#cartoons" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Cartoon Chaos</a>
                 <a href="#daily-five" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Today's Five</a>
                 <a href="#films" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Essential List</a>
                 <a href="#forum" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Nyuk-Nyuk Knockabout</a>
@@ -567,6 +576,48 @@
                 </div>
             </div>
             </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cartoons -->
+    <div id="cartoons" class="site-page section-block max-w-7xl mx-auto px-6 py-24 is-hidden">
+        <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
+        <div class="section-heading-row flex justify-between items-end mb-9">
+            <div>
+                <span class="text-yellow-400 text-sm font-bold tracking-[2px]">SATURDAY MORNING STOOGES</span>
+                <h2 class="text-6xl font-black tracking-tighter">Cartoon Chaos</h2>
+            </div>
+            <div class="text-sm text-zinc-500 hidden md:block">The New Three Stooges clips • 5 per page</div>
+        </div>
+
+        <div class="grid lg:grid-cols-[1.45fr_1fr] gap-6 items-start">
+            <div id="featured-cartoon-panel" class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden scroll-mt-28">
+                <div class="aspect-video bg-black">
+                    <video id="featured-cartoon-video" class="w-full h-full" controls playsinline preload="metadata" poster="https://archive.org/download/thenew3stoogestv/thenew3stoogestv.thumbs/s01e01_The_Little_Old_Bombmaker_000117.jpg">
+                        <source id="featured-cartoon-source" src="https://archive.org/download/thenew3stoogestv/s01e01_The_Little_Old_Bombmaker.mp4" type="video/mp4">
+                    </video>
+                </div>
+                <div class="p-6 md:p-8">
+                    <div class="font-mono text-yellow-400 text-sm" id="featured-cartoon-year">1965</div>
+                    <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                        <div>
+                            <h3 id="featured-cartoon-title" class="font-black text-4xl tracking-tighter">The Little Old Bombmaker</h3>
+                            <p id="featured-cartoon-description" class="mt-3 text-zinc-400 leading-relaxed max-w-2xl">Animated Stooges mayhem from the 1960s TV run, with Moe, Larry, and Curly Joe bouncing from live-action intros into cartoon trouble.</p>
+                        </div>
+                        <button onclick="openFeaturedCartoonModal()" class="shrink-0 px-5 py-3 bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-bold rounded-2xl text-sm">
+                            <i class="fa-solid fa-up-right-and-down-left-from-center mr-2"></i> Theater View
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div id="cartoons-grid" class="grid gap-4"></div>
+                <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+                    <div id="cartoons-page-status" class="text-xs uppercase tracking-widest text-zinc-500"></div>
+                    <div id="cartoons-pagination" class="flex flex-wrap gap-2"></div>
+                </div>
             </div>
         </div>
     </div>
@@ -783,7 +834,7 @@
             });
         }
 
-        const pageIds = ['the-trio', 'history', 'films', 'videos', 'daily-five', 'slapstick-lab', 'forum', 'quotes', 'gallery'];
+        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-five', 'slapstick-lab', 'forum', 'quotes', 'gallery'];
 
         function getRouteFromHash() {
             const route = (window.location.hash || '#home').slice(1);
@@ -1040,6 +1091,207 @@
             }
         };
 
+        const cartoons = {
+            bombmaker: {
+                title: "The Little Old Bombmaker",
+                year: "1965",
+                description: "The New Three Stooges TV run drops the boys into animated trouble with explosive timing and cartoon logic.",
+                cardDescription: "A 1960s animated Stooge setup with appropriately dangerous timing.",
+                src: "https://archive.org/download/thenew3stoogestv/s01e01_The_Little_Old_Bombmaker.mp4",
+                poster: "https://archive.org/download/thenew3stoogestv/thenew3stoogestv.thumbs/s01e01_The_Little_Old_Bombmaker_000117.jpg",
+                alt: "The Little Old Bombmaker cartoon frame"
+            },
+            holdline: {
+                title: "Hold That Line",
+                year: "1965",
+                description: "Sports cartoon energy with the Stooges bringing their usual misunderstanding of teamwork.",
+                cardDescription: "Animated sports mayhem from the 1960s series.",
+                src: "https://archive.org/download/thenew3stoogestv/s01e09_Hold_That_Line.mp4",
+                poster: "https://archive.org/download/thenew3stoogestv/thenew3stoogestv.thumbs/s01e09_Hold_That_Line_000117.jpg",
+                alt: "Hold That Line cartoon frame"
+            },
+            dizzydoodlers: {
+                title: "Dizzy Doodlers",
+                year: "1965",
+                description: "A cartoon short built for scribbles, crashes, and the kind of mistakes only the Stooges can escalate.",
+                cardDescription: "A fast little animated mess with drawing-board energy.",
+                src: "https://archive.org/download/thenew3stoogestv/s01e11_DizzyDoodlers.mp4",
+                poster: "https://archive.org/download/thenew3stoogestv/thenew3stoogestv.thumbs/s01e11_DizzyDoodlers_000117.jpg",
+                alt: "Dizzy Doodlers cartoon frame"
+            },
+            moviescars: {
+                title: "Movie Scars",
+                year: "1965",
+                description: "The Stooges bounce through movie-business cartoon trouble, because Hollywood was apparently not already dangerous enough.",
+                cardDescription: "Animated studio chaos with a Stooge-sized dent.",
+                src: "https://archive.org/download/thenew3stoogestv/s01e13_Movie_Scars.mp4",
+                poster: "https://archive.org/download/thenew3stoogestv/thenew3stoogestv.thumbs/s01e13_Movie_Scars_000117.jpg",
+                alt: "Movie Scars cartoon frame"
+            },
+            chickenboys: {
+                title: "The Chicken Delivery Boys",
+                year: "1965",
+                description: "Delivery work gets animated, feathered, and immediately out of hand.",
+                cardDescription: "A delivery cartoon with feathers in the gears.",
+                src: "https://archive.org/download/thenew3stoogestv/s01e153_The_Chicken_Delivery_Boys.mp4",
+                poster: "https://archive.org/download/thenew3stoogestv/thenew3stoogestv.thumbs/s01e153_The_Chicken_Delivery_Boys_000117.jpg",
+                alt: "The Chicken Delivery Boys cartoon frame"
+            },
+            latestgun: {
+                title: "Latest Gun in the West",
+                year: "1965",
+                description: "Western cartoon trouble gives the Stooges horses, hats, and far too many ways to aim badly.",
+                cardDescription: "Animated western nonsense from the later TV run.",
+                src: "https://archive.org/download/new-three-stooges/1.%20Latest%20Gun%20In%20The%20West.mp4",
+                poster: "https://archive.org/download/new-three-stooges/new-three-stooges.thumbs/1.%20Latest%20Gun%20In%20The%20West_000120.jpg",
+                alt: "Latest Gun in the West cartoon frame"
+            },
+            mummysboys: {
+                title: "Mummy's Boys",
+                year: "1965",
+                description: "Ancient curses meet modern Stooge decision-making, which helps absolutely no one.",
+                cardDescription: "Mummy business, cartoon timing, and classic bad choices.",
+                src: "https://archive.org/download/new-three-stooges/2.%20Mummy%27s%20Boys.mp4",
+                poster: "https://archive.org/download/new-three-stooges/new-three-stooges.thumbs/2.%20Mummy%27s%20Boys_000120.jpg",
+                alt: "Mummy's Boys cartoon frame"
+            },
+            dinopoodi: {
+                title: "Dinopoodi",
+                year: "1965",
+                description: "Prehistoric cartoon mayhem, with the Stooges proving dinosaurs had plenty of reasons to go extinct.",
+                cardDescription: "Stone-age cartoon chaos with Curly Joe energy.",
+                src: "https://archive.org/download/the_new_three_stooges_dinopoodi/the_new_three_stooges_dinopoodi_512kb.mp4",
+                poster: "https://archive.org/download/the_new_three_stooges_dinopoodi/the_new_three_stooges_dinopoodi.thumbs/the_new_three_stooges_dinopoodi_000120.jpg",
+                alt: "Dinopoodi cartoon frame"
+            },
+            noisysilent: {
+                title: "The Noisy Silent Movie",
+                year: "1965",
+                description: "Silent-film gags get the Stooges treatment, which means the silence never had a chance.",
+                cardDescription: "Animated silent-movie spoofing, loudly done.",
+                src: "https://archive.org/download/the_new_three_stooges_the_noisy_silent_movie/the_new_three_stooges_the_noisy_silent_movie_512kb.mp4",
+                poster: "https://archive.org/download/the_new_three_stooges_the_noisy_silent_movie/the_new_three_stooges_the_noisy_silent_movie.thumbs/the_new_three_stooges_the_noisy_silent_movie_000120.jpg",
+                alt: "The Noisy Silent Movie cartoon frame"
+            },
+            aloha: {
+                title: "Aloha Ha Ha",
+                year: "1965",
+                description: "A tropical animated short where the scenery is lovely and the decision-making is pure Stooge.",
+                cardDescription: "Vacation cartoon chaos with a tropical punchline.",
+                src: "https://archive.org/download/the_new_three_stooges_aloha_ha_ha/the_new_three_stooges_aloha_ha_ha_512kb.mp4",
+                poster: "https://archive.org/download/the_new_three_stooges_aloha_ha_ha/the_new_three_stooges_aloha_ha_ha.thumbs/the_new_three_stooges_aloha_ha_ha_000120.jpg",
+                alt: "Aloha Ha Ha cartoon frame"
+            },
+            moeflips: {
+                title: "Moe Flips Out",
+                year: "1965",
+                description: "Moe reaches the obvious cartoon conclusion: if things are already impossible, flip harder.",
+                cardDescription: "A Moe-forward animated clip with maximum boil-over.",
+                src: "https://archive.org/download/km-moe-flips-out-1080p/km_Moe%20Flips%20Out_1080p.mp4",
+                poster: "https://archive.org/download/km-moe-flips-out-1080p/km-moe-flips-out-1080p.thumbs/km_Moe%20Flips%20Out_1080p_000117.jpg",
+                alt: "Moe Flips Out cartoon frame"
+            },
+            reel01: {
+                title: "New Three Stooges Cartoon Reel 1",
+                year: "1965",
+                description: "A syndicated animated reel from The New Three Stooges archive upload.",
+                cardDescription: "Extra animated Stooge reel from the Archive collection.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/the-three-stooges1.thumbs/THE_THREE_STOOGES_000117.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel02: {
+                title: "New Three Stooges Cartoon Reel 2",
+                year: "1965",
+                description: "Another animated reel from the Archive's New Three Stooges upload.",
+                cardDescription: "More Curly Joe-era cartoon mayhem.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES1.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel03: {
+                title: "New Three Stooges Cartoon Reel 3",
+                year: "1965",
+                description: "A playable animated reel from the 1960s Stooges cartoon era.",
+                cardDescription: "Animated Stooge business from the TV period.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES2.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel04: {
+                title: "New Three Stooges Cartoon Reel 4",
+                year: "1965",
+                description: "A New Three Stooges cartoon reel from the Archive set.",
+                cardDescription: "A compact dose of animated Stooge confusion.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES3.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel05: {
+                title: "New Three Stooges Cartoon Reel 5",
+                year: "1965",
+                description: "A short cartoon reel with the Stooges in their Saturday-morning mode.",
+                cardDescription: "Saturday-morning Stooge energy.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES4.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel06: {
+                title: "New Three Stooges Cartoon Reel 6",
+                year: "1965",
+                description: "Another playable reel from the New Three Stooges cartoon archive.",
+                cardDescription: "More animated trouble from the 1960s run.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES5.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel07: {
+                title: "New Three Stooges Cartoon Reel 7",
+                year: "1965",
+                description: "A playable cartoon reel from the Archive collection.",
+                cardDescription: "A bonus reel of cartoon Stooge mayhem.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES6.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel08: {
+                title: "New Three Stooges Cartoon Reel 8",
+                year: "1965",
+                description: "Another animated reel from the New Three Stooges set.",
+                cardDescription: "Cartoon clobbering from the syndicated-era upload.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES8.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel09: {
+                title: "New Three Stooges Cartoon Reel 9",
+                year: "1965",
+                description: "A playable cartoon reel from the Archive's New Three Stooges upload.",
+                cardDescription: "A little more animated Stooge racket.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES9.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel10: {
+                title: "New Three Stooges Cartoon Reel 10",
+                year: "1965",
+                description: "A New Three Stooges cartoon reel with direct playback.",
+                cardDescription: "Animated Stooges, direct from the Archive reel.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES10.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            },
+            reel11: {
+                title: "New Three Stooges Cartoon Reel 11",
+                year: "1965",
+                description: "The final playable reel from this New Three Stooges cartoon upload.",
+                cardDescription: "One more reel of cartoon chaos.",
+                src: "https://archive.org/download/the-three-stooges1/THE_THREE_STOOGES11.mp4",
+                poster: "https://archive.org/download/the-three-stooges1/__ia_thumb.jpg",
+                alt: "New Three Stooges cartoon reel frame"
+            }
+        };
+
         const stoogeRoster = [
             {
                 name: "MOE",
@@ -1135,7 +1387,10 @@
         let currentQuoteAudio = null;
         let currentShortKey = 'disorder';
         let currentShortPage = 0;
+        let currentCartoonKey = 'bombmaker';
+        let currentCartoonPage = 0;
         const SHORTS_PER_PAGE = 5;
+        const CARTOONS_PER_PAGE = 5;
 
         function showRandomQuote() {
             const display = document.getElementById('quote-display');
@@ -1298,6 +1553,97 @@
             });
         }
 
+        function setFeaturedCartoon(key, shouldPlay = false) {
+            const cartoon = cartoons[key];
+            if (!cartoon) return;
+            currentCartoonKey = key;
+            const video = document.getElementById('featured-cartoon-video');
+            const source = document.getElementById('featured-cartoon-source');
+            document.getElementById('featured-cartoon-title').textContent = cartoon.title;
+            document.getElementById('featured-cartoon-year').textContent = cartoon.year;
+            document.getElementById('featured-cartoon-description').textContent = cartoon.description;
+            if (video && source) {
+                video.pause();
+                source.src = cartoon.src;
+                video.poster = cartoon.poster;
+                video.load();
+                if (shouldPlay) {
+                    video.play().catch(() => {});
+                }
+            }
+            document.querySelectorAll('.cartoon-card').forEach((card) => {
+                card.classList.toggle('is-active', card.dataset.cartoon === key);
+            });
+        }
+
+        function keepFeaturedCartoonComfortablyInView() {
+            const panel = document.getElementById('featured-cartoon-panel');
+            if (!panel) return;
+            const rect = panel.getBoundingClientRect();
+            const navOffset = window.innerWidth < 768 ? 92 : 104;
+            const isComfortable = rect.top >= navOffset && rect.bottom <= window.innerHeight - 16;
+            if (isComfortable) return;
+            const targetY = window.scrollY + rect.top - navOffset;
+            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
+
+        function openCartoon(key, theater = false) {
+            setFeaturedCartoon(key, !theater);
+            if (theater) {
+                setTimeout(openFeaturedCartoonModal, 350);
+                return;
+            }
+            setTimeout(keepFeaturedCartoonComfortablyInView, 180);
+        }
+
+        function openFeaturedCartoonModal() {
+            const cartoon = cartoons[currentCartoonKey] || cartoons.bombmaker;
+            showFilmModal(cartoon.title, cartoon.year, cartoon.description, cartoon.src, cartoon.poster);
+        }
+
+        function getCartoonEntries() {
+            return Object.entries(cartoons);
+        }
+
+        function renderCartoonGallery() {
+            const grid = document.getElementById('cartoons-grid');
+            const pagination = document.getElementById('cartoons-pagination');
+            const status = document.getElementById('cartoons-page-status');
+            if (!grid || !pagination || !status) return;
+            const entries = getCartoonEntries();
+            const totalPages = Math.max(1, Math.ceil(entries.length / CARTOONS_PER_PAGE));
+            currentCartoonPage = Math.min(currentCartoonPage, totalPages - 1);
+            const pageEntries = entries.slice(currentCartoonPage * CARTOONS_PER_PAGE, (currentCartoonPage + 1) * CARTOONS_PER_PAGE);
+            grid.innerHTML = pageEntries.map(([key, cartoon]) => `
+                <button data-cartoon="${key}" class="cartoon-card ${key === currentCartoonKey ? 'is-active' : ''} group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
+                        <div class="relative overflow-hidden bg-black">
+                            <img src="${cartoon.poster}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="${cartoon.alt || cartoon.title}">
+                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
+                        </div>
+                        <div class="p-5">
+                            <div class="font-mono text-yellow-400 text-xs">${cartoon.year}</div>
+                            <div class="font-black text-xl tracking-tight">${cartoon.title}</div>
+                            <p class="mt-2 text-sm text-zinc-400">${cartoon.cardDescription || cartoon.description}</p>
+                        </div>
+                    </div>
+                </button>
+            `).join('');
+            status.textContent = `Cartoons ${currentCartoonPage * CARTOONS_PER_PAGE + 1}-${currentCartoonPage * CARTOONS_PER_PAGE + pageEntries.length} of ${entries.length}`;
+            pagination.innerHTML = Array.from({ length: totalPages }, (_, index) => `
+                <button type="button" data-page="${index}" class="cartoon-page-button ${index === currentCartoonPage ? 'is-active' : ''} min-w-10 h-10 px-3 rounded-2xl border border-zinc-700 text-sm font-bold hover:border-yellow-400 hover:text-yellow-400 transition-colors" aria-label="Show cartoons page ${index + 1}">${index + 1}</button>
+            `).join('');
+            grid.querySelectorAll('.cartoon-card').forEach((card) => {
+                card.addEventListener('click', () => openCartoon(card.dataset.cartoon));
+            });
+            pagination.querySelectorAll('.cartoon-page-button').forEach((button) => {
+                button.addEventListener('click', () => {
+                    currentCartoonPage = Number(button.dataset.page);
+                    renderCartoonGallery();
+                });
+            });
+        }
+
         function openShortFromDaily(key) {
             const entries = getShortEntries();
             const index = entries.findIndex(([shortKey]) => shortKey === key);
@@ -1409,6 +1755,11 @@
         function initVideoGallery() {
             renderVideoGallery();
             renderDailyFive();
+        }
+
+        function initCartoonGallery() {
+            renderCartoonGallery();
+            setFeaturedCartoon('bombmaker');
         }
 
         // Film modal
@@ -1556,6 +1907,7 @@
             initPageRouter();
             renderQuoteAudioList();
             initVideoGallery();
+            initCartoonGallery();
             renderStoogeRoster();
             initImageLightbox();
             setFeaturedShort('disorder');
