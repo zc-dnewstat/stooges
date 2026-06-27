@@ -2563,7 +2563,13 @@
 
         function initImageLightbox() {
             document.querySelectorAll('img').forEach((img) => {
-                if (img.closest('.video-card') || img.closest('#image-lightbox')) return;
+                if (
+                    img.closest('.video-card') ||
+                    img.closest('#image-lightbox') ||
+                    img.closest('.mobile-nav-tile') ||
+                    img.closest('a, button') ||
+                    img.getAttribute('aria-hidden') === 'true'
+                ) return;
                 img.classList.add('click-enlarge');
                 img.addEventListener('click', (event) => {
                     event.preventDefault();
