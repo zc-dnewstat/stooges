@@ -242,6 +242,7 @@
             #slapstick-lab h2,
             #books h2,
             #records h2,
+            #songs h2,
             #forum h2,
             #quotes h2,
             #gallery h2 {
@@ -326,6 +327,7 @@
                     <a href="#slapstick-lab" class="hover:text-yellow-400 transition-colors">Lab</a>
                     <a href="#books" class="hover:text-yellow-400 transition-colors">Books</a>
                     <a href="#records" class="hover:text-yellow-400 transition-colors">Records</a>
+                    <a href="#songs" class="hover:text-yellow-400 transition-colors">Songs</a>
                     <a href="#forum" class="hover:text-yellow-400 transition-colors">Knockabout</a>
                     <a href="#quotes" class="hover:text-yellow-400 transition-colors">Quotes</a>
                     <a href="#gallery" class="hover:text-yellow-400 transition-colors">Gallery</a>
@@ -361,6 +363,7 @@
                 <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Lab</a>
                 <a href="#books" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Books</a>
                 <a href="#records" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Records</a>
+                <a href="#songs" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Songs</a>
                 <a href="#forum" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Knockabout</a>
                 <a href="#quotes" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Quotes</a>
                 <a href="#gallery" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Gallery</a>
@@ -423,6 +426,7 @@
                 <a href="#films" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Essential List</a>
                 <a href="#books" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Book Nook</a>
                 <a href="#records" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Wax Works</a>
+                <a href="#songs" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Nyuk-Tune Jukebox</a>
                 <a href="#forum" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Nyuk-Nyuk Knockabout</a>
                 <a href="#quotes" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Audio Quotes</a>
                 <a href="#gallery" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Photos</a>
@@ -881,6 +885,88 @@
         </div>
     </div>
 
+    <!-- Songs -->
+    <div id="songs" class="site-page section-block bg-zinc-900 py-24 is-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
+            <div class="section-heading-row flex justify-between items-end mb-9">
+                <div>
+                    <span class="text-yellow-400 text-sm font-bold tracking-[2px]">SINGING STOOGES</span>
+                    <h2 class="text-6xl font-black tracking-tighter">The Nyuk-Tune Jukebox</h2>
+                </div>
+                <div class="text-sm text-zinc-500 hidden md:block">Playable Stooge songs and musical bits</div>
+            </div>
+
+            <div class="grid lg:grid-cols-[1.15fr_0.85fr] gap-6 mb-6">
+                <article class="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950 min-h-[360px]">
+                    <div class="absolute inset-0 opacity-25" style="background-image:url('/images/three-stooges-title-card-1934-1936.png?v=songs-1');background-size:cover;background-position:center;"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/90 to-zinc-950/65"></div>
+                    <div class="relative z-10 p-7 md:p-9 max-w-3xl">
+                        <div class="text-xs uppercase tracking-widest text-yellow-400">Featured sing-along</div>
+                        <h3 class="mt-3 font-black text-4xl md:text-5xl tracking-tight">Swingin' the Alphabet</h3>
+                        <p class="mt-4 text-zinc-400 leading-relaxed">The famous "B-A-Bay" classroom number from <span class="text-white font-bold">Violent Is the Word for Curly</span>, with Moe, Larry, and Curly turning phonics into a full-contact sport.</p>
+                        <audio class="mt-7 w-full" controls preload="metadata" src="https://archive.org/download/tvtunes_17763/The%20Three%20Stooges%20-%20Swingin%20The%20Alphabet.mp3"></audio>
+                    </div>
+                </article>
+
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl p-7 md:p-8">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">Holiday record sides</div>
+                    <h3 class="mt-2 font-black text-3xl tracking-tight">Stooges on 78</h3>
+                    <p class="mt-3 text-sm text-zinc-400">Two real Three Stooges and Orchestra sides from the Great 78 Project.</p>
+                    <div class="mt-6 space-y-5">
+                        <div>
+                            <div class="font-bold">Wreck the Halls with Boughs of Holly</div>
+                            <audio class="mt-3 w-full" controls preload="metadata" src="https://archive.org/download/78_wreck-the-halls-with-boughs-of-holly_the-three-stooges-and-orchestra-barer_gbia0534530a/WRECK%20THE%20HALLS%20WITH%20BOU%20-%20THE%20THREE%20STOOGES%20AND%20ORCHESTRA.mp3"></audio>
+                        </div>
+                        <div>
+                            <div class="font-bold">Jingle Bells</div>
+                            <audio class="mt-3 w-full" controls preload="metadata" src="https://archive.org/download/78_jingle-bells_the-three-stooges-and-orchestra-barer_gbia0534530b/JINGLE%20BELLS%20-%20THE%20THREE%20STOOGES%20AND%20ORCHESTRA.mp3"></audio>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <article class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">Shorts song</div>
+                    <h3 class="mt-1 font-black text-2xl tracking-tight">Dixie</h3>
+                    <p class="mt-2 text-sm text-zinc-500">A quick Stooge musical turn.</p>
+                    <audio class="mt-4 w-full" controls preload="metadata" src="https://archive.org/download/tvtunes_10710/The%20Three%20Stooges%20-%20Dixie.mp3"></audio>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">Shorts song</div>
+                    <h3 class="mt-1 font-black text-2xl tracking-tight">Home on the Range</h3>
+                    <p class="mt-2 text-sm text-zinc-500">Western crooning, Stooge style.</p>
+                    <audio class="mt-4 w-full" controls preload="metadata" src="https://archive.org/download/tvtunes_13998/The%20Three%20Stooges%20-%20Home%20on%20the%20Range.mp3"></audio>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">Shorts song</div>
+                    <h3 class="mt-1 font-black text-2xl tracking-tight">She'll Be Coming Round the Mountain</h3>
+                    <p class="mt-2 text-sm text-zinc-500">A familiar tune with the usual rough edges.</p>
+                    <audio class="mt-4 w-full" controls preload="metadata" src="https://archive.org/download/tvtunes_13999/The%20Three%20Stooges%20-%20Shell%20Be%20Coming%20Round%20the%20Mountain.mp3"></audio>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">Shorts song</div>
+                    <h3 class="mt-1 font-black text-2xl tracking-tight">Yankee Doodle</h3>
+                    <p class="mt-2 text-sm text-zinc-500">Patriotic noise, delivered with conviction.</p>
+                    <audio class="mt-4 w-full" controls preload="metadata" src="https://archive.org/download/tvtunes_14000/The%20Three%20Stooges%20-%20Yankee%20Doodle.mp3"></audio>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">Shorts song</div>
+                    <h3 class="mt-1 font-black text-2xl tracking-tight">Old King Cole</h3>
+                    <p class="mt-2 text-sm text-zinc-500">Storybook singing from the shorts.</p>
+                    <audio class="mt-4 w-full" controls preload="metadata" src="https://archive.org/download/tvtunes_16110/The%20Three%20Stooges%20-%20Old%20King%20Cole.mp3"></audio>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">Shorts song</div>
+                    <h3 class="mt-1 font-black text-2xl tracking-tight">Nursery Rhymes</h3>
+                    <p class="mt-2 text-sm text-zinc-500">Kids' verse after the Stooges get through with it.</p>
+                    <audio class="mt-4 w-full" controls preload="metadata" src="https://archive.org/download/tvtunes_16109/The%20Three%20Stooges%20-%20Nursery%20Rhymes.mp3"></audio>
+                </article>
+            </div>
+        </div>
+    </div>
+
     <!-- Quotes -->
     <div id="quotes" class="site-page section-block bg-zinc-900 py-24 is-hidden">
         <div class="max-w-4xl mx-auto px-6 text-center">
@@ -1034,7 +1120,7 @@
             });
         }
 
-        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-signup', 'curlycam', 'daily-five', 'slapstick-lab', 'books', 'records', 'forum', 'quotes', 'gallery'];
+        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-signup', 'curlycam', 'daily-five', 'slapstick-lab', 'books', 'records', 'songs', 'forum', 'quotes', 'gallery'];
 
         function getRouteFromHash() {
             const route = (window.location.hash || '#home').slice(1);
