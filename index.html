@@ -198,6 +198,65 @@
             display: grid;
         }
 
+        .mobile-nav-tile {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 0.75rem;
+            min-height: 4.6rem;
+            overflow: hidden;
+        }
+
+        .mobile-nav-tile::before {
+            content: '';
+            position: absolute;
+            right: -0.6rem;
+            top: 50%;
+            width: 4.25rem;
+            height: 4.25rem;
+            transform: translateY(-50%) rotate(-8deg);
+            border-radius: 9999px;
+            background: radial-gradient(circle at 35% 32%, rgb(250 204 21 / 0.28), rgb(250 204 21 / 0.08) 48%, transparent 70%);
+            opacity: 0.85;
+        }
+
+        .mobile-gag {
+            position: relative;
+            z-index: 1;
+            flex: 0 0 auto;
+            width: 2.55rem;
+            height: 2.55rem;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: #facc15;
+            color: #18181b;
+            border: 2px solid rgb(255 255 255 / 0.14);
+            box-shadow: 0 12px 24px -16px rgb(250 204 21 / 0.9);
+            transform: rotate(var(--gag-tilt, -6deg));
+            transition: transform 0.2s ease;
+        }
+
+        .mobile-gag i {
+            font-size: 1.05rem;
+        }
+
+        .mobile-gag .tiny-3 {
+            font-size: 1.35rem;
+            font-weight: 900;
+            letter-spacing: -0.08em;
+        }
+
+        .mobile-nav-tile:nth-child(2n) .mobile-gag {
+            --gag-tilt: 7deg;
+        }
+
+        .mobile-nav-tile:hover .mobile-gag {
+            transform: rotate(var(--gag-tilt, -6deg)) scale(1.08);
+        }
+
         .site-page.is-hidden,
         .home-only.is-hidden {
             display: none !important;
@@ -258,6 +317,11 @@
 
             .film-row {
                 padding: 1rem;
+            }
+
+
+            .mobile-nav-tile {
+                padding-right: 0.7rem;
             }
 
             .video-card > div,
@@ -351,22 +415,22 @@
                 </div>
             </div>
             <div id="mobile-menu" class="md:hidden pb-5 grid-cols-2 gap-2 text-sm font-medium">
-                <a href="#home" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Home</a>
-                <a href="#the-trio" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Trio</a>
-                <a href="#history" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Saga</a>
-                <a href="#films" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Films</a>
-                <a href="#videos" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Videos</a>
-                <a href="#cartoons" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Cartoons</a>
-                <a href="#daily-signup" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily Email</a>
-                <a href="#curlycam" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Curly Cam</a>
-                <a href="#daily-five" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily 5</a>
-                <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Lab</a>
-                <a href="#books" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Books</a>
-                <a href="#records" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Records</a>
-                <a href="#songs" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Songs</a>
-                <a href="#forum" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Knockabout</a>
-                <a href="#quotes" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Quotes</a>
-                <a href="#gallery" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Gallery</a>
+                <a href="#home" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Home</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-house"></i></span></a>
+                <a href="#the-trio" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Trio</span><span class="mobile-gag" aria-hidden="true"><span class="tiny-3">3</span></span></a>
+                <a href="#history" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Saga</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-scroll"></i></span></a>
+                <a href="#films" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Films</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-film"></i></span></a>
+                <a href="#videos" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Videos</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-play"></i></span></a>
+                <a href="#cartoons" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Cartoons</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-wand-magic-sparkles"></i></span></a>
+                <a href="#daily-signup" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Daily Email</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-envelope"></i></span></a>
+                <a href="#curlycam" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Curly Cam</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-camera-retro"></i></span></a>
+                <a href="#daily-five" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Daily 5</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-calendar-days"></i></span></a>
+                <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Lab</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-flask"></i></span></a>
+                <a href="#books" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Books</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-book-open"></i></span></a>
+                <a href="#records" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Records</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-record-vinyl"></i></span></a>
+                <a href="#songs" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Songs</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-music"></i></span></a>
+                <a href="#forum" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Knockabout</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-bolt"></i></span></a>
+                <a href="#quotes" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Quotes</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-comment-dots"></i></span></a>
+                <a href="#gallery" onclick="toggleMobileNav(false)" class="mobile-nav-tile px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors"><span>Gallery</span><span class="mobile-gag" aria-hidden="true"><i class="fa-solid fa-images"></i></span></a>
             </div>
         </div>
     </nav>
