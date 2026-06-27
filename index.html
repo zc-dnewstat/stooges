@@ -167,6 +167,7 @@
                     <a href="#the-trio" class="hover:text-yellow-400 transition-colors">The Trio</a>
                     <a href="#history" class="hover:text-yellow-400 transition-colors">History</a>
                     <a href="#films" class="hover:text-yellow-400 transition-colors">Films</a>
+                    <a href="#videos" class="hover:text-yellow-400 transition-colors">Videos</a>
                     <a href="#quotes" class="hover:text-yellow-400 transition-colors">Quotes</a>
                     <a href="#gallery" class="hover:text-yellow-400 transition-colors">Gallery</a>
                 </div>
@@ -192,6 +193,7 @@
                 <a href="#the-trio" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Trio</a>
                 <a href="#history" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">History</a>
                 <a href="#films" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Films</a>
+                <a href="#videos" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Videos</a>
                 <a href="#quotes" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Quotes</a>
                 <a href="#gallery" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Gallery</a>
             </div>
@@ -376,9 +378,9 @@
                 <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1934</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">Three Little Pigskins</span></div>
                 <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
             </div>
-            <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="showFilmModal('Disorder in the Court', '1936', 'One of their most famous shorts. Curly testifies in court while the boys play music.')">
+            <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="showFilmModal('Disorder in the Court', '1936', 'One of their most famous shorts. Curly testifies in court while the boys play music.', 'https://archive.org/embed/disorder_in_the_court')">
                 <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1936</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">Disorder in the Court</span></div>
-                <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+                <i class="fa-solid fa-play text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
             </div>
             <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="showFilmModal('A Plumbing We Will Go', '1940', 'The boys as plumbers. Features the legendary pipe organ sequence.')">
                 <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1940</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">A Plumbing We Will Go</span></div>
@@ -403,9 +405,72 @@
         </div>
         
         <div class="text-center mt-8">
-            <button onclick="document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })" class="text-sm px-6 py-3 border border-zinc-700 hover:bg-zinc-900 transition-colors rounded-2xl text-zinc-400 hover:text-white">
-                Keep browsing the gallery ->
+            <button onclick="document.getElementById('videos').scrollIntoView({ behavior: 'smooth' })" class="text-sm px-6 py-3 border border-zinc-700 hover:bg-zinc-900 transition-colors rounded-2xl text-zinc-400 hover:text-white">
+                Watch playable shorts ->
             </button>
+        </div>
+    </div>
+
+    <!-- Videos -->
+    <div id="videos" class="bg-zinc-900 py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-9">
+                <div>
+                    <span class="text-yellow-400 text-sm font-bold tracking-[2px]">SHORTS VIDEO GALLERY</span>
+                    <h2 class="text-6xl font-black tracking-tighter">Watch the Shorts</h2>
+                </div>
+                <div class="text-sm text-zinc-500 hidden md:block">Playable public-domain embeds</div>
+            </div>
+
+            <div class="grid lg:grid-cols-2 gap-5">
+                <button onclick="showFilmModal('Disorder in the Court', '1936', 'One of the most widely shared Stooges shorts, with Curly on the witness stand and the boys turning court into chaos.', 'https://archive.org/embed/disorder_in_the_court')" class="group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="aspect-video relative overflow-hidden">
+                        <img src="/images/disorder-in-the-court-title-1936.jpg?v=videos-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Disorder in the Court title card">
+                        <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition-colors"></div>
+                        <div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play text-xl"></i></span></div>
+                    </div>
+                    <div class="p-6 flex items-center justify-between gap-4">
+                        <div><div class="font-mono text-yellow-400 text-sm">1936</div><div class="font-black text-2xl tracking-tight">Disorder in the Court</div></div>
+                        <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                </button>
+
+                <button onclick="showFilmModal('Sing a Song of Six Pants', '1947', 'A Shemp-era favorite with the boys as tailors tangled up in a reward chase.', 'https://archive.org/embed/sing_a_song_of_six_pants')" class="group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="aspect-video relative overflow-hidden">
+                        <img src="/images/three-stooges-title-card-1934-1936.png?v=videos-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Three Stooges title card">
+                        <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition-colors"></div>
+                        <div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play text-xl"></i></span></div>
+                    </div>
+                    <div class="p-6 flex items-center justify-between gap-4">
+                        <div><div class="font-mono text-yellow-400 text-sm">1947</div><div class="font-black text-2xl tracking-tight">Sing a Song of Six Pants</div></div>
+                        <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                </button>
+
+                <button onclick="showFilmModal('Malice in the Palace', '1949', 'The boys run a restaurant and get pulled into a jewel-theft chase.', 'https://archive.org/embed/malice_in_the_palace')" class="group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="aspect-video relative overflow-hidden">
+                        <img src="/images/three-stooges-pie-fight-trailer.png?v=videos-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Three Stooges pie fight still">
+                        <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition-colors"></div>
+                        <div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play text-xl"></i></span></div>
+                    </div>
+                    <div class="p-6 flex items-center justify-between gap-4">
+                        <div><div class="font-mono text-yellow-400 text-sm">1949</div><div class="font-black text-2xl tracking-tight">Malice in the Palace</div></div>
+                        <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                </button>
+
+                <button onclick="showFilmModal('Brideless Groom', '1947', 'Shemp has to get married fast to inherit a fortune. Naturally, everything goes sideways.', 'https://archive.org/embed/brideless_groom')" class="group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="aspect-video relative overflow-hidden">
+                        <img src="/images/three-stooges-1937.jpg?v=videos-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: 48% 25%;" alt="The Three Stooges in 1937">
+                        <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition-colors"></div>
+                        <div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play text-xl"></i></span></div>
+                    </div>
+                    <div class="p-6 flex items-center justify-between gap-4">
+                        <div><div class="font-mono text-yellow-400 text-sm">1947</div><div class="font-black text-2xl tracking-tight">Brideless Groom</div></div>
+                        <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+                    </div>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -469,7 +534,10 @@
 
     <!-- Film Modal -->
     <div id="film-modal" onclick="if (event.target.id === 'film-modal') hideFilmModal()" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
-        <div onclick="event.stopImmediatePropagation()" class="bg-zinc-900 border border-zinc-700 max-w-lg w-full rounded-3xl overflow-hidden">
+        <div onclick="event.stopImmediatePropagation()" class="bg-zinc-900 border border-zinc-700 max-w-4xl w-full rounded-3xl overflow-hidden">
+            <div id="modal-video-wrap" class="hidden aspect-video bg-black border-b border-zinc-800">
+                <iframe id="modal-video" class="w-full h-full" title="Three Stooges short video" allowfullscreen webkitallowfullscreen frameborder="0"></iframe>
+            </div>
             <div class="p-8">
                 <div id="modal-year" class="font-mono text-yellow-400 text-sm mb-1"></div>
                 <div id="modal-title" class="font-black text-4xl tracking-tighter"></div>
@@ -574,19 +642,30 @@
         }
         
         // Film modal
-        function showFilmModal(title, year, description) {
+        function showFilmModal(title, year, description, videoUrl = '') {
             const modal = document.getElementById('film-modal');
+            const videoWrap = document.getElementById('modal-video-wrap');
+            const video = document.getElementById('modal-video');
             document.getElementById('modal-title').textContent = title;
             document.getElementById('modal-year').textContent = year;
             document.getElementById('modal-description').textContent = description;
+            if (videoUrl) {
+                video.src = videoUrl;
+                videoWrap.classList.remove('hidden');
+            } else {
+                video.src = '';
+                videoWrap.classList.add('hidden');
+            }
             modal.classList.remove('hidden');
             modal.classList.add('flex');
         }
         
         function hideFilmModal() {
             const modal = document.getElementById('film-modal');
+            const video = document.getElementById('modal-video');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
+            if (video) video.src = '';
         }
         
         function toggleMobileNav(forceOpen) {
