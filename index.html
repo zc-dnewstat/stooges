@@ -315,10 +315,11 @@
                 <div class="hidden md:flex items-center gap-x-5 lg:gap-x-8 text-xs lg:text-sm font-medium">
                     <a href="#home" class="hover:text-yellow-400 transition-colors">Home</a>
                     <a href="#the-trio" class="hover:text-yellow-400 transition-colors">The Trio</a>
-                    <a href="#history" class="hover:text-yellow-400 transition-colors">History</a>
+                    <a href="#history" class="hover:text-yellow-400 transition-colors">Stooge Saga</a>
                     <a href="#films" class="hover:text-yellow-400 transition-colors">Films</a>
                     <a href="#videos" class="hover:text-yellow-400 transition-colors">Videos</a>
                     <a href="#cartoons" class="hover:text-yellow-400 transition-colors">Cartoons</a>
+                    <a href="#daily-signup" class="hover:text-yellow-400 transition-colors">Daily Email</a>
                     <a href="#daily-five" class="hover:text-yellow-400 transition-colors">Daily 5</a>
                     <a href="#slapstick-lab" class="hover:text-yellow-400 transition-colors">Lab</a>
                     <a href="#books" class="hover:text-yellow-400 transition-colors">Books</a>
@@ -348,10 +349,11 @@
             <div id="mobile-menu" class="md:hidden pb-5 grid-cols-2 gap-2 text-sm font-medium">
                 <a href="#home" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Home</a>
                 <a href="#the-trio" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Trio</a>
-                <a href="#history" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">History</a>
+                <a href="#history" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Saga</a>
                 <a href="#films" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Films</a>
                 <a href="#videos" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Videos</a>
                 <a href="#cartoons" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Cartoons</a>
+                <a href="#daily-signup" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily Email</a>
                 <a href="#daily-five" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily 5</a>
                 <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Lab</a>
                 <a href="#books" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Books</a>
@@ -412,6 +414,7 @@
             <div class="flex gap-3 overflow-x-auto pb-1 text-sm">
                 <a href="#videos" class="jump-link px-4 py-2 rounded-2xl bg-yellow-400 text-zinc-950 font-bold">Play Shorts</a>
                 <a href="#cartoons" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Cartoon Chaos</a>
+                <a href="#daily-signup" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Daily Nyuk-Mail</a>
                 <a href="#daily-five" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Today's Five</a>
                 <a href="#films" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Essential List</a>
                 <a href="#books" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Book Nook</a>
@@ -424,8 +427,9 @@
     </div>
 
     <!-- Daily Quote Signup -->
-    <div id="daily-signup" class="home-only section-block bg-zinc-900 border-y border-zinc-800">
-        <div class="max-w-7xl mx-auto px-6 py-8">
+    <div id="daily-signup" class="site-page section-block bg-zinc-900 border-y border-zinc-800 py-24 is-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
             <form id="quote-signup-form" class="grid lg:grid-cols-[1fr_1.15fr] gap-6 items-center bg-zinc-950 border border-yellow-400/30 rounded-3xl p-6 md:p-8">
                 <div>
                     <div class="text-xs uppercase tracking-widest text-yellow-400 mb-3">Daily inbox nyuk</div>
@@ -466,7 +470,7 @@
             <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
             <div class="max-w-2xl">
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">FROM VAUDEVILLE TO HOLLYWOOD</span>
-                <h2 class="text-6xl font-black tracking-tighter mt-2 mb-8">A Century of Chaos</h2>
+                <h2 class="text-6xl font-black tracking-tighter mt-2 mb-8">The Slap-Happy Stooge Saga</h2>
             </div>
 
             <div class="grid md:grid-cols-12 gap-x-12 gap-y-12 text-[15px]">
@@ -958,7 +962,7 @@
             });
         }
 
-        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-five', 'slapstick-lab', 'books', 'records', 'forum', 'quotes', 'gallery'];
+        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-signup', 'daily-five', 'slapstick-lab', 'books', 'records', 'forum', 'quotes', 'gallery'];
 
         function getRouteFromHash() {
             const route = (window.location.hash || '#home').slice(1);
