@@ -107,6 +107,13 @@
             color: #18181b;
         }
 
+        .stooge-target-button.is-active {
+            background: #facc15;
+            border-color: #facc15;
+            color: #18181b;
+            box-shadow: 0 0 0 1px rgb(250 204 21 / 0.28), 0 18px 38px -30px rgb(250 204 21 / 0.75);
+        }
+
         .tesla-browser #curlycam .curlycam-touch-control {
             min-height: 60px;
             font-size: 1rem;
@@ -587,9 +594,29 @@
             <div>
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">FACE-SWAP FOLDEROL</span>
                 <h2 class="text-6xl font-black tracking-tighter">Curly Camera Booth</h2>
-                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Snap a front or rear camera photo and the booth automatically blends your face into Curly's spot in the Stooges portrait. No dragging, lining up, or fancy finger-work.</p>
+                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Pick Curly, Larry, or Moe, then snap or upload a photo. The booth automatically blends your face into that Stooge's spot in the portrait. No dragging, lining up, or fancy finger-work.</p>
             </div>
             <div class="text-sm text-zinc-500 hidden md:block">iPhone and Android camera friendly</div>
+        </div>
+
+        <div class="mb-6 bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
+            <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">Pick your Stooge</div>
+                    <h3 class="mt-1 text-2xl font-black tracking-tight">Choose the face to replace</h3>
+                </div>
+                <div class="grid grid-cols-3 gap-3">
+                    <button id="curlycam-target-curly" type="button" onclick="setCurlyTarget('curly')" class="stooge-target-button curlycam-touch-control is-active px-4 py-3 border border-yellow-400 bg-yellow-400 text-zinc-950 transition-colors font-bold rounded-2xl">
+                        Curly
+                    </button>
+                    <button id="curlycam-target-larry" type="button" onclick="setCurlyTarget('larry')" class="stooge-target-button curlycam-touch-control px-4 py-3 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 transition-colors font-bold rounded-2xl">
+                        Larry
+                    </button>
+                    <button id="curlycam-target-moe" type="button" onclick="setCurlyTarget('moe')" class="stooge-target-button curlycam-touch-control px-4 py-3 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 transition-colors font-bold rounded-2xl">
+                        Moe
+                    </button>
+                </div>
+            </div>
         </div>
 
         <div class="grid lg:grid-cols-[1fr_1fr] gap-6">
@@ -625,7 +652,7 @@
                         <i class="fa-solid fa-video mr-2"></i> Open Camera
                     </button>
                     <button id="curlycam-capture" type="button" onclick="takeCurlyPhoto()" disabled class="curlycam-touch-control flex-1 px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
-                        <i class="fa-solid fa-bolt mr-2"></i> Make Me Curly
+                        <i class="fa-solid fa-bolt mr-2"></i> <span id="curlycam-capture-label">Make Me Curly</span>
                     </button>
                     <button id="curlycam-retake-inline" type="button" onclick="retakeCurlyPhoto()" disabled class="curlycam-touch-control hidden flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-rotate-left mr-2"></i> New Picture
@@ -657,7 +684,7 @@
                     <canvas id="curlycam-result" class="hidden h-full w-full object-contain"></canvas>
                     <div id="curlycam-result-empty" class="p-8 text-center text-zinc-500">
                         <i class="fa-solid fa-face-grin-squint text-5xl text-yellow-400"></i>
-                        <p class="mt-4 max-w-sm">Your face-on-Curly Stooges portrait appears here after the camera booth works its slapstick magic.</p>
+                        <p id="curlycam-result-help" class="mt-4 max-w-sm">Your face-on-Curly Stooges portrait appears here after the camera booth works its slapstick magic.</p>
                     </div>
                 </div>
                 <div class="mt-5 grid gap-3">
@@ -2078,6 +2105,7 @@
             landmarkerReady: null,
             visionFilesetReady: null,
             facingMode: 'user',
+            target: 'curly',
             sourceMode: 'camera',
             uploadedObjectUrl: '',
             portraitDataUrl: ''
@@ -2086,6 +2114,38 @@
         function setCurlyCamStatus(message, target = 'curlycam-status') {
             const status = document.getElementById(target);
             if (status) status.textContent = message || '';
+        }
+
+        function getCurlyTargetConfig() {
+            return stoogeFaceTargets[curlyCam.target] || stoogeFaceTargets.curly;
+        }
+
+        function updateCurlyTargetControls() {
+            const activeTarget = getCurlyTargetConfig();
+            Object.keys(stoogeFaceTargets).forEach((key) => {
+                const button = document.getElementById(`curlycam-target-${key}`);
+                const isActive = key === activeTarget.key;
+                button?.classList.toggle('is-active', isActive);
+                button?.classList.toggle('bg-yellow-400', isActive);
+                button?.classList.toggle('text-zinc-950', isActive);
+                button?.classList.toggle('border-yellow-400', isActive);
+                button?.classList.toggle('border-zinc-700', !isActive);
+                button?.classList.toggle('text-zinc-300', !isActive);
+            });
+            const resultHelp = document.getElementById('curlycam-result-help');
+            if (resultHelp) {
+                resultHelp.textContent = `Your face-on-${activeTarget.label} Stooges portrait appears here after the camera booth works its slapstick magic.`;
+            }
+            const captureLabel = document.getElementById('curlycam-capture-label');
+            if (captureLabel) captureLabel.textContent = `Make Me ${activeTarget.label}`;
+        }
+
+        function setCurlyTarget(target) {
+            if (!stoogeFaceTargets[target]) return;
+            curlyCam.target = target;
+            resetCurlyPortrait();
+            updateCurlyTargetControls();
+            setCurlyCamStatus(`${getCurlyTargetConfig().label} selected. Take a new picture or use a saved photo.`);
         }
 
         function withCurlyCamTimeout(promise, milliseconds) {
@@ -2242,7 +2302,7 @@
                 video.classList.toggle('scale-x-[-1]', mode === 'user');
                 empty?.classList.add('hidden');
                 if (capture) capture.disabled = false;
-                setCurlyCamStatus(`${mode === 'user' ? 'Front' : 'Rear'} camera ready. Center your face and tap Make Me Curly.`);
+                setCurlyCamStatus(`${mode === 'user' ? 'Front' : 'Rear'} camera ready. Center your face and tap Make Me ${getCurlyTargetConfig().label}.`);
                 loadCurlyFaceLandmarker().catch(() => {
                     loadCurlyFaceDetector().catch(() => null);
                     setCurlyCamStatus('Camera ready. Basic face fitting will still make a portrait.');
@@ -2255,29 +2315,100 @@
 
         const curlyFaceOvalLandmarks = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109];
 
-        const curlyTemplateFaceAnchors = {
-            forehead: { x: 398, y: 272, weight: 1.2 },
-            leftBrow: { x: 345, y: 310, weight: 1.2 },
-            rightBrow: { x: 452, y: 310, weight: 1.2 },
-            leftEyeOuter: { x: 318, y: 336, weight: 2.4 },
-            leftEyeInner: { x: 374, y: 336, weight: 2.4 },
-            rightEyeInner: { x: 423, y: 336, weight: 2.4 },
-            rightEyeOuter: { x: 480, y: 335, weight: 2.4 },
-            leftEye: { x: 346, y: 337, weight: 3 },
-            rightEye: { x: 452, y: 337, weight: 3 },
-            noseBridge: { x: 399, y: 357, weight: 1.8 },
-            nose: { x: 399, y: 392, weight: 3.2 },
-            leftNostril: { x: 377, y: 407, weight: 2 },
-            rightNostril: { x: 421, y: 407, weight: 2 },
-            mouthLeft: { x: 359, y: 447, weight: 2.8 },
-            mouth: { x: 399, y: 449, weight: 3.4 },
-            mouthRight: { x: 439, y: 447, weight: 2.8 },
-            lowerLip: { x: 399, y: 466, weight: 2 },
-            chin: { x: 398, y: 515, weight: 1.4 },
-            leftCheek: { x: 311, y: 398, weight: 1.2 },
-            rightCheek: { x: 488, y: 398, weight: 1.2 },
-            leftJaw: { x: 331, y: 477, weight: 1 },
-            rightJaw: { x: 467, y: 477, weight: 1 }
+        const stoogeFaceTargets = {
+            curly: {
+                key: 'curly',
+                label: 'Curly',
+                anchors: {
+                    forehead: { x: 398, y: 272, weight: 1.2 },
+                    leftBrow: { x: 345, y: 310, weight: 1.2 },
+                    rightBrow: { x: 452, y: 310, weight: 1.2 },
+                    leftEyeOuter: { x: 318, y: 336, weight: 2.4 },
+                    leftEyeInner: { x: 374, y: 336, weight: 2.4 },
+                    rightEyeInner: { x: 423, y: 336, weight: 2.4 },
+                    rightEyeOuter: { x: 480, y: 335, weight: 2.4 },
+                    leftEye: { x: 346, y: 337, weight: 3 },
+                    rightEye: { x: 452, y: 337, weight: 3 },
+                    noseBridge: { x: 399, y: 357, weight: 1.8 },
+                    nose: { x: 399, y: 392, weight: 3.2 },
+                    leftNostril: { x: 377, y: 407, weight: 2 },
+                    rightNostril: { x: 421, y: 407, weight: 2 },
+                    mouthLeft: { x: 359, y: 447, weight: 2.8 },
+                    mouth: { x: 399, y: 449, weight: 3.4 },
+                    mouthRight: { x: 439, y: 447, weight: 2.8 },
+                    lowerLip: { x: 399, y: 466, weight: 2 },
+                    chin: { x: 398, y: 515, weight: 1.4 },
+                    leftCheek: { x: 311, y: 398, weight: 1.2 },
+                    rightCheek: { x: 488, y: 398, weight: 1.2 },
+                    leftJaw: { x: 331, y: 477, weight: 1 },
+                    rightJaw: { x: 467, y: 477, weight: 1 }
+                },
+                fallbackTarget: { x: 310, y: 315, width: 182, height: 226 },
+                fade: { cx: 399, cy: 407, inner: 72, outer: 158, x: 250, y: 245, width: 300, height: 305 },
+                shadow: { cx: 399, cy: 404, inner: 66, outer: 172 }
+            },
+            larry: {
+                key: 'larry',
+                label: 'Larry',
+                anchors: {
+                    forehead: { x: 190, y: 560, weight: 1.2 },
+                    leftBrow: { x: 130, y: 611, weight: 1.2 },
+                    rightBrow: { x: 245, y: 610, weight: 1.2 },
+                    leftEyeOuter: { x: 113, y: 642, weight: 2.4 },
+                    leftEyeInner: { x: 166, y: 640, weight: 2.4 },
+                    rightEyeInner: { x: 222, y: 638, weight: 2.4 },
+                    rightEyeOuter: { x: 274, y: 635, weight: 2.4 },
+                    leftEye: { x: 142, y: 641, weight: 3 },
+                    rightEye: { x: 248, y: 637, weight: 3 },
+                    noseBridge: { x: 194, y: 660, weight: 1.8 },
+                    nose: { x: 195, y: 700, weight: 3.2 },
+                    leftNostril: { x: 174, y: 708, weight: 2 },
+                    rightNostril: { x: 216, y: 708, weight: 2 },
+                    mouthLeft: { x: 153, y: 747, weight: 2.8 },
+                    mouth: { x: 194, y: 752, weight: 3.4 },
+                    mouthRight: { x: 235, y: 746, weight: 2.8 },
+                    lowerLip: { x: 195, y: 768, weight: 2 },
+                    chin: { x: 190, y: 820, weight: 1.4 },
+                    leftCheek: { x: 85, y: 695, weight: 1.2 },
+                    rightCheek: { x: 299, y: 688, weight: 1.2 },
+                    leftJaw: { x: 110, y: 775, weight: 1 },
+                    rightJaw: { x: 285, y: 770, weight: 1 }
+                },
+                fallbackTarget: { x: 80, y: 560, width: 235, height: 295 },
+                fade: { cx: 194, cy: 705, inner: 78, outer: 168, x: 45, y: 540, width: 305, height: 335 },
+                shadow: { cx: 194, cy: 710, inner: 70, outer: 180 }
+            },
+            moe: {
+                key: 'moe',
+                label: 'Moe',
+                anchors: {
+                    forehead: { x: 604, y: 565, weight: 1.2 },
+                    leftBrow: { x: 535, y: 620, weight: 1.2 },
+                    rightBrow: { x: 654, y: 624, weight: 1.2 },
+                    leftEyeOuter: { x: 513, y: 659, weight: 2.4 },
+                    leftEyeInner: { x: 565, y: 659, weight: 2.4 },
+                    rightEyeInner: { x: 628, y: 657, weight: 2.4 },
+                    rightEyeOuter: { x: 681, y: 656, weight: 2.4 },
+                    leftEye: { x: 540, y: 659, weight: 3 },
+                    rightEye: { x: 655, y: 657, weight: 3 },
+                    noseBridge: { x: 592, y: 675, weight: 1.8 },
+                    nose: { x: 590, y: 718, weight: 3.2 },
+                    leftNostril: { x: 567, y: 729, weight: 2 },
+                    rightNostril: { x: 611, y: 728, weight: 2 },
+                    mouthLeft: { x: 552, y: 761, weight: 2.8 },
+                    mouth: { x: 594, y: 765, weight: 3.4 },
+                    mouthRight: { x: 635, y: 758, weight: 2.8 },
+                    lowerLip: { x: 596, y: 782, weight: 2 },
+                    chin: { x: 602, y: 838, weight: 1.4 },
+                    leftCheek: { x: 500, y: 715, weight: 1.2 },
+                    rightCheek: { x: 713, y: 708, weight: 1.2 },
+                    leftJaw: { x: 520, y: 797, weight: 1 },
+                    rightJaw: { x: 701, y: 790, weight: 1 }
+                },
+                fallbackTarget: { x: 500, y: 560, width: 230, height: 300 },
+                fade: { cx: 600, cy: 714, inner: 80, outer: 170, x: 465, y: 545, width: 300, height: 335 },
+                shadow: { cx: 600, cy: 716, inner: 70, outer: 178 }
+            }
         };
 
         function averageLandmarkPoint(landmarks, indexes, canvas) {
@@ -2477,13 +2608,27 @@
             };
         }
 
-        function drawCurlyTemplateFaceMask(ctx) {
+        function drawCurlyTemplateFaceMask(ctx, target = getCurlyTargetConfig()) {
             ctx.beginPath();
-            ctx.moveTo(398, 265);
-            ctx.bezierCurveTo(319, 268, 271, 320, 273, 393);
-            ctx.bezierCurveTo(275, 458, 327, 511, 397, 522);
-            ctx.bezierCurveTo(468, 512, 522, 459, 525, 395);
-            ctx.bezierCurveTo(529, 320, 478, 268, 398, 265);
+            if (target.key === 'larry') {
+                ctx.moveTo(190, 545);
+                ctx.bezierCurveTo(85, 550, 45, 625, 58, 704);
+                ctx.bezierCurveTo(68, 778, 121, 826, 190, 838);
+                ctx.bezierCurveTo(270, 833, 330, 770, 322, 693);
+                ctx.bezierCurveTo(315, 610, 280, 548, 190, 545);
+            } else if (target.key === 'moe') {
+                ctx.moveTo(604, 553);
+                ctx.bezierCurveTo(505, 556, 462, 622, 476, 704);
+                ctx.bezierCurveTo(489, 785, 535, 838, 602, 848);
+                ctx.bezierCurveTo(681, 837, 735, 777, 732, 704);
+                ctx.bezierCurveTo(730, 626, 700, 560, 604, 553);
+            } else {
+                ctx.moveTo(398, 265);
+                ctx.bezierCurveTo(319, 268, 271, 320, 273, 393);
+                ctx.bezierCurveTo(275, 458, 327, 511, 397, 522);
+                ctx.bezierCurveTo(468, 512, 522, 459, 525, 395);
+                ctx.bezierCurveTo(529, 320, 478, 268, 398, 265);
+            }
             ctx.closePath();
         }
 
@@ -2503,18 +2648,19 @@
 
         function weightedAnchorPairs(faceMatch) {
             const pairs = [];
-            Object.entries(curlyTemplateFaceAnchors).forEach(([key, target]) => {
+            Object.entries(getCurlyTargetConfig().anchors).forEach(([key, targetPoint]) => {
                 const source = faceMatch.anchors[key];
-                if (!source || !target) return;
-                const repeats = Math.max(1, Math.round(target.weight || 1));
+                if (!source || !targetPoint) return;
+                const repeats = Math.max(1, Math.round(targetPoint.weight || 1));
                 for (let index = 0; index < repeats; index += 1) {
-                    pairs.push({ source, target });
+                    pairs.push({ source, target: targetPoint });
                 }
             });
             return pairs;
         }
 
         function buildLandmarkAlignedFaceLayer(sourceCanvas, faceMatch, width, height) {
+            const target = getCurlyTargetConfig();
             const pairs = weightedAnchorPairs(faceMatch);
             const transform = solveAffineTransform(pairs);
             if (!transform) return null;
@@ -2551,17 +2697,18 @@
             mctx.save();
             mctx.filter = 'blur(5px)';
             mctx.fillStyle = '#000';
-            drawCurlyTemplateFaceMask(mctx);
+            drawCurlyTemplateFaceMask(mctx, target);
             mctx.fill();
             mctx.restore();
 
-            const faceFade = mctx.createRadialGradient(399, 395, 72, 399, 407, 158);
+            const fade = target.fade;
+            const faceFade = mctx.createRadialGradient(fade.cx, fade.cy - 12, fade.inner, fade.cx, fade.cy, fade.outer);
             faceFade.addColorStop(0, 'rgba(0,0,0,1)');
             faceFade.addColorStop(0.7, 'rgba(0,0,0,0.96)');
             faceFade.addColorStop(1, 'rgba(0,0,0,0)');
             mctx.globalCompositeOperation = 'destination-in';
             mctx.fillStyle = faceFade;
-            mctx.fillRect(250, 245, 300, 305);
+            mctx.fillRect(fade.x, fade.y, fade.width, fade.height);
 
             lctx.save();
             lctx.globalCompositeOperation = 'destination-in';
@@ -2642,6 +2789,7 @@
             const resultCanvas = document.getElementById('curlycam-result');
             const resultEmpty = document.getElementById('curlycam-result-empty');
             if (!resultCanvas) return '';
+            const target = getCurlyTargetConfig();
             const template = await loadCurlyTemplate();
             resultCanvas.width = template.naturalWidth;
             resultCanvas.height = template.naturalHeight;
@@ -2651,7 +2799,7 @@
             const landmarkLayer = faceMatch.landmarks
                 ? buildLandmarkAlignedFaceLayer(sourceCanvas, faceMatch, resultCanvas.width, resultCanvas.height)
                 : null;
-            const fallbackTarget = { x: 310, y: 315, width: 182, height: 226 };
+            const fallbackTarget = target.fallbackTarget;
 
             ctx.save();
             ctx.globalCompositeOperation = 'source-over';
@@ -2669,20 +2817,21 @@
             ctx.save();
             ctx.globalCompositeOperation = 'multiply';
             ctx.globalAlpha = landmarkLayer ? 0.22 : 0.17;
+            const shadowConfig = target.shadow;
             const shadow = ctx.createRadialGradient(
-                landmarkLayer ? 399 : fallbackTarget.x + fallbackTarget.width * 0.5,
-                landmarkLayer ? 398 : fallbackTarget.y + fallbackTarget.height * 0.53,
-                landmarkLayer ? 66 : fallbackTarget.width * 0.22,
-                landmarkLayer ? 399 : fallbackTarget.x + fallbackTarget.width * 0.5,
-                landmarkLayer ? 404 : fallbackTarget.y + fallbackTarget.height * 0.55,
-                landmarkLayer ? 172 : fallbackTarget.width * 0.58
+                landmarkLayer ? shadowConfig.cx : fallbackTarget.x + fallbackTarget.width * 0.5,
+                landmarkLayer ? shadowConfig.cy - 6 : fallbackTarget.y + fallbackTarget.height * 0.53,
+                landmarkLayer ? shadowConfig.inner : fallbackTarget.width * 0.22,
+                landmarkLayer ? shadowConfig.cx : fallbackTarget.x + fallbackTarget.width * 0.5,
+                landmarkLayer ? shadowConfig.cy : fallbackTarget.y + fallbackTarget.height * 0.55,
+                landmarkLayer ? shadowConfig.outer : fallbackTarget.width * 0.58
             );
             shadow.addColorStop(0, 'rgba(255,255,255,0)');
             shadow.addColorStop(0.76, 'rgba(90,90,90,0.28)');
             shadow.addColorStop(1, 'rgba(35,35,35,0.65)');
             ctx.fillStyle = shadow;
             if (landmarkLayer) {
-                drawCurlyTemplateFaceMask(ctx);
+                drawCurlyTemplateFaceMask(ctx, target);
             } else {
                 ctx.beginPath();
                 ctx.ellipse(fallbackTarget.x + fallbackTarget.width / 2, fallbackTarget.y + fallbackTarget.height / 2, fallbackTarget.width * 0.52, fallbackTarget.height * 0.51, 0, 0, Math.PI * 2);
@@ -2705,7 +2854,7 @@
         async function processCurlySourceCanvas(sourceCanvas) {
             const faceBox = await detectCapturedFace(sourceCanvas);
             await makeCurlyPortrait(sourceCanvas, faceBox);
-            setCurlyCamStatus('Portrait ready. The blend is on screen.');
+            setCurlyCamStatus(`${getCurlyTargetConfig().label} portrait ready. The blend is on screen.`);
         }
 
         function loadCurlyUploadImage(file) {
@@ -2731,7 +2880,7 @@
                 setCurlyCamStatus('Choose an image file for Curly Cam.');
                 return;
             }
-            setCurlyCamStatus('Loading the photo and fitting it onto Curly...');
+            setCurlyCamStatus(`Loading the photo and fitting it onto ${getCurlyTargetConfig().label}...`);
             try {
                 stopCurlyCamStream();
                 const image = await loadCurlyUploadImage(file);
@@ -2763,7 +2912,7 @@
                 setCurlyCamStatus('Open the camera first.');
                 return;
             }
-            setCurlyCamStatus('Finding your face and fitting it onto Curly...');
+            setCurlyCamStatus(`Finding your face and fitting it onto ${getCurlyTargetConfig().label}...`);
             sourceCanvas.width = video.videoWidth;
             sourceCanvas.height = video.videoHeight;
             const sourceCtx = sourceCanvas.getContext('2d');
@@ -2813,7 +2962,7 @@
                 await startCurlyCam();
                 return;
             }
-            setCurlyCamStatus('Ready for a new picture. Center your face and tap Make Me Curly.');
+            setCurlyCamStatus(`Ready for a new picture. Center your face and tap Make Me ${getCurlyTargetConfig().label}.`);
         }
 
         function deleteCurlyPortrait() {
@@ -3288,6 +3437,7 @@
             renderStoogeRoster();
             initImageLightbox();
             initCurlyCamCompatibility();
+            updateCurlyTargetControls();
             updateCurlyCameraModeControls();
             setFeaturedShort('disorder');
             setGagShort('plumbing', 'Plumbers in a Mansion');
