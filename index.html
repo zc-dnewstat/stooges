@@ -682,6 +682,20 @@
                 </button>
             </div>
 
+            <form id="quote-signup-form" class="mt-10 bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6 text-left">
+                <div class="flex flex-col lg:flex-row lg:items-end gap-4">
+                    <div class="flex-1">
+                        <label for="quote-email" class="block text-xs uppercase tracking-widest text-yellow-400 mb-2">Daily quote email</label>
+                        <input id="quote-email" name="email" type="email" autocomplete="email" required placeholder="moe@example.com" class="w-full rounded-2xl bg-zinc-950 border border-zinc-700 px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+                    </div>
+                    <button type="submit" class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-bold rounded-2xl">
+                        <i class="fa-solid fa-envelope mr-2"></i> Send Me One Daily
+                    </button>
+                </div>
+                <div id="quote-signup-status" class="mt-3 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
+            </form>
+
             <div id="quote-list" class="mt-10 grid gap-3 text-left"></div>
         </div>
     </div>
@@ -1426,6 +1440,33 @@
             `).join('');
         }
 
+        function initQuoteSignup() {
+            const form = document.getElementById('quote-signup-form');
+            const status = document.getElementById('quote-signup-status');
+            if (!form || !status) return;
+            form.addEventListener('submit', async (event) => {
+                event.preventDefault();
+                status.textContent = 'Signing you up...';
+                const submit = form.querySelector('button[type="submit"]');
+                if (submit) submit.disabled = true;
+                try {
+                    const response = await fetch('/api/stooge-quotes/subscribe', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(Object.fromEntries(new FormData(form).entries()))
+                    });
+                    const result = await response.json();
+                    if (!response.ok || !result.ok) throw new Error(result.error || 'Signup failed.');
+                    status.textContent = result.message || 'You are signed up for the daily Stooge quote.';
+                    form.reset();
+                } catch (error) {
+                    status.textContent = error.message || 'Could not sign you up. Try again in a minute.';
+                } finally {
+                    if (submit) submit.disabled = false;
+                }
+            });
+        }
+
         function setFeaturedShort(key, shouldPlay = false) {
             const short = shorts[key];
             if (!short) return;
@@ -1881,6 +1922,7 @@
             initKeyboard();
             initPageRouter();
             renderQuoteAudioList();
+            initQuoteSignup();
             initVideoGallery();
             initCartoonGallery();
             renderStoogeRoster();
