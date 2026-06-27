@@ -107,6 +107,19 @@
             color: #18181b;
         }
 
+        .tesla-browser #curlycam .curlycam-touch-control {
+            min-height: 60px;
+            font-size: 1rem;
+        }
+
+        .tesla-browser #curlycam .curlycam-stage {
+            max-height: min(68vh, 720px);
+        }
+
+        .tesla-browser #curlycam .curlycam-tesla-note {
+            display: block;
+        }
+
         .gag-reel {
             background:
                 linear-gradient(135deg, rgb(250 204 21 / 0.12), transparent 38%),
@@ -590,8 +603,9 @@
                         <i class="fa-solid fa-camera"></i>
                     </div>
                 </div>
-                <div class="relative aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800">
+                <div class="curlycam-stage relative aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800">
                     <video id="curlycam-video" class="hidden h-full w-full object-cover scale-x-[-1]" playsinline muted autoplay></video>
+                    <img id="curlycam-upload-preview" class="hidden h-full w-full object-cover" alt="Selected Curly Cam source photo">
                     <div id="curlycam-camera-empty" class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center text-zinc-500">
                         <i class="fa-solid fa-mobile-screen-button text-5xl text-yellow-400"></i>
                         <p id="curlycam-camera-help" class="max-w-sm">Choose front or rear camera, look straight at the lens, then tap the shutter.</p>
@@ -599,23 +613,32 @@
                 </div>
                 <canvas id="curlycam-source" class="hidden"></canvas>
                 <div class="mt-5 grid grid-cols-2 gap-3">
-                    <button id="curlycam-front" type="button" onclick="setCurlyCameraMode('user')" class="px-4 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 transition-colors font-bold rounded-2xl">
+                    <button id="curlycam-front" type="button" onclick="setCurlyCameraMode('user')" class="curlycam-touch-control px-4 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-user mr-2"></i> Front
                     </button>
-                    <button id="curlycam-rear" type="button" onclick="setCurlyCameraMode('environment')" class="px-4 py-3 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 transition-colors font-bold rounded-2xl">
+                    <button id="curlycam-rear" type="button" onclick="setCurlyCameraMode('environment')" class="curlycam-touch-control px-4 py-3 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-camera-rotate mr-2"></i> Rear
                     </button>
                 </div>
                 <div class="mt-5 flex flex-col sm:flex-row gap-3">
-                    <button id="curlycam-start" type="button" onclick="startCurlyCam()" class="flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 transition-colors font-bold rounded-2xl">
+                    <button id="curlycam-start" type="button" onclick="startCurlyCam()" class="curlycam-touch-control flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-video mr-2"></i> Open Camera
                     </button>
-                    <button id="curlycam-capture" type="button" onclick="takeCurlyPhoto()" disabled class="flex-1 px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
+                    <button id="curlycam-capture" type="button" onclick="takeCurlyPhoto()" disabled class="curlycam-touch-control flex-1 px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-bolt mr-2"></i> Make Me Curly
                     </button>
-                    <button id="curlycam-retake-inline" type="button" onclick="retakeCurlyPhoto()" disabled class="hidden flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
+                    <button id="curlycam-retake-inline" type="button" onclick="retakeCurlyPhoto()" disabled class="curlycam-touch-control hidden flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-rotate-left mr-2"></i> New Picture
                     </button>
+                </div>
+                <div class="mt-3 grid gap-3">
+                    <input id="curlycam-upload" type="file" accept="image/*" class="hidden" onchange="handleCurlyUpload(event)">
+                    <button id="curlycam-upload-button" type="button" onclick="document.getElementById('curlycam-upload')?.click()" class="curlycam-touch-control px-5 py-3 border border-zinc-700 hover:bg-zinc-800 transition-colors text-zinc-300 font-bold rounded-2xl">
+                        <i class="fa-solid fa-image mr-2"></i> Use Photo Instead
+                    </button>
+                    <div class="curlycam-tesla-note hidden text-xs text-zinc-500 leading-relaxed">
+                        Tesla browsers may not expose the car cameras to websites. If Open Camera is blocked, use a saved photo here and Curly Cam will still make the souvenir.
+                    </div>
                 </div>
                 <div id="curlycam-status" class="mt-4 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
             </section>
@@ -638,10 +661,10 @@
                     </div>
                 </div>
                 <div class="mt-5 grid gap-3">
-                    <button id="curlycam-retake" type="button" onclick="retakeCurlyPhoto()" disabled class="px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
+                    <button id="curlycam-retake" type="button" onclick="retakeCurlyPhoto()" disabled class="curlycam-touch-control px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-rotate-left mr-2"></i> New Picture
                     </button>
-                    <button id="curlycam-delete" type="button" onclick="deleteCurlyPortrait()" disabled class="px-5 py-3 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-300 font-bold rounded-2xl">
+                    <button id="curlycam-delete" type="button" onclick="deleteCurlyPortrait()" disabled class="curlycam-touch-control px-5 py-3 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-300 font-bold rounded-2xl">
                         <i class="fa-solid fa-trash-can mr-2"></i> Delete Portrait
                     </button>
                 </div>
@@ -2055,6 +2078,8 @@
             landmarkerReady: null,
             visionFilesetReady: null,
             facingMode: 'user',
+            sourceMode: 'camera',
+            uploadedObjectUrl: '',
             portraitDataUrl: ''
         };
 
@@ -2125,6 +2150,32 @@
             }
         }
 
+        function isTeslaBrowser() {
+            return /Tesla|QtCarBrowser|Model S|Model 3|Model X|Model Y/i.test(navigator.userAgent || '');
+        }
+
+        function initCurlyCamCompatibility() {
+            const isTesla = isTeslaBrowser();
+            document.body.classList.toggle('tesla-browser', isTesla);
+            const note = document.querySelector('.curlycam-tesla-note');
+            if (note && (isTesla || !navigator.mediaDevices?.getUserMedia)) note.classList.remove('hidden');
+            const help = document.getElementById('curlycam-camera-help');
+            if (help && isTesla) {
+                help.textContent = 'Try Open Camera. If the Tesla browser blocks vehicle camera access, use a saved photo instead.';
+            }
+            if (!navigator.mediaDevices?.getUserMedia) {
+                document.getElementById('curlycam-start')?.setAttribute('disabled', 'disabled');
+                setCurlyCamStatus('This browser does not expose live camera access. Use Photo Instead will still make the Curly portrait.');
+            }
+        }
+
+        function revokeCurlyUploadPreview() {
+            if (curlyCam.uploadedObjectUrl) {
+                URL.revokeObjectURL(curlyCam.uploadedObjectUrl);
+                curlyCam.uploadedObjectUrl = '';
+            }
+        }
+
         function updateCurlyCameraModeControls() {
             const front = document.getElementById('curlycam-front');
             const rear = document.getElementById('curlycam-rear');
@@ -2142,7 +2193,11 @@
             rear?.classList.toggle('border-zinc-700', isFront);
             rear?.classList.toggle('text-zinc-300', isFront);
             if (start) start.innerHTML = `<i class="fa-solid fa-video mr-2"></i> Open ${isFront ? 'Front' : 'Rear'} Camera`;
-            if (help) help.textContent = `${isFront ? 'Open the front camera' : 'Open the rear camera'}, look straight at the lens, then tap the shutter.`;
+            if (help) {
+                help.textContent = isTeslaBrowser()
+                    ? 'Try Open Camera. If the Tesla browser blocks vehicle camera access, use a saved photo instead.'
+                    : `${isFront ? 'Open the front camera' : 'Open the rear camera'}, look straight at the lens, then tap the shutter.`;
+            }
         }
 
         async function setCurlyCameraMode(mode) {
@@ -2159,13 +2214,20 @@
         async function startCurlyCam(mode = curlyCam.facingMode) {
             const video = document.getElementById('curlycam-video');
             const empty = document.getElementById('curlycam-camera-empty');
+            const preview = document.getElementById('curlycam-upload-preview');
             const capture = document.getElementById('curlycam-capture');
             if (!video) return;
+            if (!navigator.mediaDevices?.getUserMedia) {
+                setCurlyCamStatus('Live camera is not available in this browser. Use Photo Instead to pick a saved picture.');
+                return;
+            }
             curlyCam.facingMode = mode;
+            curlyCam.sourceMode = 'camera';
             updateCurlyCameraModeControls();
             setCurlyCamStatus(`Opening the ${mode === 'user' ? 'front' : 'rear'} camera...`);
             try {
                 stopCurlyCamStream();
+                preview?.classList.add('hidden');
                 curlyCam.stream = await navigator.mediaDevices.getUserMedia({
                     audio: false,
                     video: {
@@ -2186,7 +2248,8 @@
                     setCurlyCamStatus('Camera ready. Basic face fitting will still make a portrait.');
                 });
             } catch (error) {
-                setCurlyCamStatus(`Could not open the ${mode === 'user' ? 'front' : 'rear'} camera. Check browser camera permission and try again.`);
+                const teslaHint = isTeslaBrowser() ? ' Tesla may not expose its car cameras to web pages, so use a saved photo instead.' : '';
+                setCurlyCamStatus(`Could not open the ${mode === 'user' ? 'front' : 'rear'} camera. Check browser camera permission and try again.${teslaHint}`);
             }
         }
 
@@ -2639,6 +2702,60 @@
             return dataUrl;
         }
 
+        async function processCurlySourceCanvas(sourceCanvas) {
+            const faceBox = await detectCapturedFace(sourceCanvas);
+            await makeCurlyPortrait(sourceCanvas, faceBox);
+            setCurlyCamStatus('Portrait ready. The blend is on screen.');
+        }
+
+        function loadCurlyUploadImage(file) {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = reject;
+                revokeCurlyUploadPreview();
+                curlyCam.uploadedObjectUrl = URL.createObjectURL(file);
+                image.src = curlyCam.uploadedObjectUrl;
+            });
+        }
+
+        async function handleCurlyUpload(event) {
+            const file = event?.target?.files?.[0];
+            const sourceCanvas = document.getElementById('curlycam-source');
+            const preview = document.getElementById('curlycam-upload-preview');
+            const video = document.getElementById('curlycam-video');
+            const empty = document.getElementById('curlycam-camera-empty');
+            const capture = document.getElementById('curlycam-capture');
+            if (!file || !sourceCanvas) return;
+            if (!file.type.startsWith('image/')) {
+                setCurlyCamStatus('Choose an image file for Curly Cam.');
+                return;
+            }
+            setCurlyCamStatus('Loading the photo and fitting it onto Curly...');
+            try {
+                stopCurlyCamStream();
+                const image = await loadCurlyUploadImage(file);
+                const maxSide = 1600;
+                const scale = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
+                sourceCanvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+                sourceCanvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+                sourceCanvas.getContext('2d').drawImage(image, 0, 0, sourceCanvas.width, sourceCanvas.height);
+                curlyCam.sourceMode = 'upload';
+                if (preview) {
+                    preview.src = curlyCam.uploadedObjectUrl;
+                    preview.classList.remove('hidden');
+                }
+                video?.classList.add('hidden');
+                empty?.classList.add('hidden');
+                if (capture) capture.disabled = true;
+                await processCurlySourceCanvas(sourceCanvas);
+            } catch {
+                setCurlyCamStatus('Could not use that photo. Try a different image.');
+            } finally {
+                if (event?.target) event.target.value = '';
+            }
+        }
+
         async function takeCurlyPhoto() {
             const video = document.getElementById('curlycam-video');
             const sourceCanvas = document.getElementById('curlycam-source');
@@ -2659,20 +2776,24 @@
             } else {
                 sourceCtx.drawImage(video, 0, 0, sourceCanvas.width, sourceCanvas.height);
             }
-            const faceBox = await detectCapturedFace(sourceCanvas);
-            await makeCurlyPortrait(sourceCanvas, faceBox);
-            setCurlyCamStatus('Portrait ready. The blend is on screen.');
+            curlyCam.sourceMode = 'camera';
+            await processCurlySourceCanvas(sourceCanvas);
         }
 
         function resetCurlyPortrait() {
             curlyCam.portraitDataUrl = '';
             const resultCanvas = document.getElementById('curlycam-result');
             const resultEmpty = document.getElementById('curlycam-result-empty');
+            const preview = document.getElementById('curlycam-upload-preview');
+            const empty = document.getElementById('curlycam-camera-empty');
             if (resultCanvas) {
                 resultCanvas.getContext('2d').clearRect(0, 0, resultCanvas.width, resultCanvas.height);
                 resultCanvas.classList.add('hidden');
             }
             resultEmpty?.classList.remove('hidden');
+            preview?.classList.add('hidden');
+            if (!curlyCam.stream) empty?.classList.remove('hidden');
+            revokeCurlyUploadPreview();
             document.getElementById('curlycam-delete')?.setAttribute('disabled', 'disabled');
             document.getElementById('curlycam-retake')?.setAttribute('disabled', 'disabled');
             const inlineRetake = document.getElementById('curlycam-retake-inline');
@@ -2681,7 +2802,13 @@
         }
 
         async function retakeCurlyPhoto() {
+            const lastSourceMode = curlyCam.sourceMode;
             resetCurlyPortrait();
+            if (lastSourceMode === 'upload') {
+                curlyCam.sourceMode = 'upload';
+                setCurlyCamStatus('Choose another saved photo, or open the camera if this browser allows it.');
+                return;
+            }
             if (!curlyCam.stream) {
                 await startCurlyCam();
                 return;
@@ -3160,6 +3287,7 @@
             initCartoonGallery();
             renderStoogeRoster();
             initImageLightbox();
+            initCurlyCamCompatibility();
             updateCurlyCameraModeControls();
             setFeaturedShort('disorder');
             setGagShort('plumbing', 'Plumbers in a Mansion');
