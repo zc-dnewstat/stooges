@@ -409,17 +409,18 @@
         
         // Quotes database
         const quotes = [
-            { text: "Why, you triple-crossing, four-flushing, two-timing, one-track-minded, low-down, good-for-nothing, double-dealing, back-stabbing, two-faced, snake-in-the-grass!", author: "Moe Howard" },
-            { text: "Nyuk nyuk nyuk!", author: "Curly Howard" },
-            { text: "Soitenly!", author: "Curly Howard" },
-            { text: "I'm a victim of circumstance!", author: "Curly Howard" },
-            { text: "I'll moider ya! I'll moider ya!", author: "Moe Howard" },
-            { text: "Woo woo woo woo!", author: "Curly Howard" },
-            { text: "Hey, look! A pigeon!", author: "Larry Fine" },
-            { text: "Spread out!", author: "Moe Howard" }
+            { text: "Why, you triple-crossing, four-flushing, two-timing, one-track-minded, low-down, good-for-nothing, double-dealing, back-stabbing, two-faced, snake-in-the-grass!", author: "Moe Howard", audio: "/audio/quote-moe-triple-crossing.wav?v=audio-2" },
+            { text: "Nyuk nyuk nyuk!", author: "Curly Howard", audio: "/audio/quote-curly-nyuk.wav?v=audio-2" },
+            { text: "Soitenly!", author: "Curly Howard", audio: "/audio/quote-curly-soitenly.wav?v=audio-2" },
+            { text: "I'm a victim of circumstance!", author: "Curly Howard", audio: "/audio/quote-curly-circumstance.wav?v=audio-2" },
+            { text: "I'll moider ya! I'll moider ya!", author: "Moe Howard", audio: "/audio/quote-moe-moider.wav?v=audio-2" },
+            { text: "Woo woo woo woo!", author: "Curly Howard", audio: "/audio/quote-curly-woo.wav?v=audio-2" },
+            { text: "Hey, look! A pigeon!", author: "Larry Fine", audio: "/audio/quote-larry-look.wav?v=audio-2" },
+            { text: "Spread out!", author: "Moe Howard", audio: "/audio/quote-moe-spread-out.wav?v=audio-2" }
         ];
         
         let currentQuoteIndex = 0;
+        let currentQuoteAudio = null;
         
         function showRandomQuote() {
             const display = document.getElementById('quote-display');
@@ -444,13 +445,16 @@
 
         function playQuoteAudio(index) {
             const quote = quotes[index];
-            if (!quote || !window.speechSynthesis) return;
-            window.speechSynthesis.cancel();
-            const utterance = new SpeechSynthesisUtterance(quote.text);
-            utterance.rate = quote.author.includes('Curly') ? 1.35 : 1.18;
-            utterance.pitch = quote.author.includes('Curly') ? 1.35 : 0.95;
-            utterance.volume = 1;
-            window.speechSynthesis.speak(utterance);
+            if (!quote || !quote.audio) return;
+            if (currentQuoteAudio) {
+                currentQuoteAudio.pause();
+                currentQuoteAudio.currentTime = 0;
+            }
+            currentQuoteAudio = new Audio(quote.audio);
+            currentQuoteAudio.volume = 1;
+            currentQuoteAudio.play().catch(() => {
+                alert('Tap the audio button again if your browser blocked autoplay.');
+            });
         }
 
         function playCurrentQuote() {
