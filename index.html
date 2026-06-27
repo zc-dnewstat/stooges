@@ -609,6 +609,9 @@
                     <button id="curlycam-capture" type="button" onclick="takeCurlyPhoto()" disabled class="flex-1 px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-bolt mr-2"></i> Make Me Curly
                     </button>
+                    <button id="curlycam-retake-inline" type="button" onclick="retakeCurlyPhoto()" disabled class="hidden flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
+                        <i class="fa-solid fa-rotate-left mr-2"></i> New Picture
+                    </button>
                 </div>
                 <div id="curlycam-status" class="mt-4 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
             </section>
@@ -2503,6 +2506,9 @@
             resultCanvas.classList.remove('hidden');
             resultEmpty?.classList.add('hidden');
             document.getElementById('curlycam-retake')?.removeAttribute('disabled');
+            const inlineRetake = document.getElementById('curlycam-retake-inline');
+            inlineRetake?.removeAttribute('disabled');
+            inlineRetake?.classList.remove('hidden');
             document.getElementById('curlycam-delete')?.removeAttribute('disabled');
             return dataUrl;
         }
@@ -2543,6 +2549,9 @@
             resultEmpty?.classList.remove('hidden');
             document.getElementById('curlycam-delete')?.setAttribute('disabled', 'disabled');
             document.getElementById('curlycam-retake')?.setAttribute('disabled', 'disabled');
+            const inlineRetake = document.getElementById('curlycam-retake-inline');
+            inlineRetake?.setAttribute('disabled', 'disabled');
+            inlineRetake?.classList.add('hidden');
         }
 
         async function retakeCurlyPhoto() {
