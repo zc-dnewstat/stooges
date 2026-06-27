@@ -239,6 +239,8 @@
             #cartoons h2,
             #daily-five h2,
             #slapstick-lab h2,
+            #books h2,
+            #records h2,
             #forum h2,
             #quotes h2,
             #gallery h2 {
@@ -319,6 +321,8 @@
                     <a href="#cartoons" class="hover:text-yellow-400 transition-colors">Cartoons</a>
                     <a href="#daily-five" class="hover:text-yellow-400 transition-colors">Daily 5</a>
                     <a href="#slapstick-lab" class="hover:text-yellow-400 transition-colors">Lab</a>
+                    <a href="#books" class="hover:text-yellow-400 transition-colors">Books</a>
+                    <a href="#records" class="hover:text-yellow-400 transition-colors">Records</a>
                     <a href="#forum" class="hover:text-yellow-400 transition-colors">Knockabout</a>
                     <a href="#quotes" class="hover:text-yellow-400 transition-colors">Quotes</a>
                     <a href="#gallery" class="hover:text-yellow-400 transition-colors">Gallery</a>
@@ -350,6 +354,8 @@
                 <a href="#cartoons" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Cartoons</a>
                 <a href="#daily-five" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily 5</a>
                 <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Lab</a>
+                <a href="#books" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Books</a>
+                <a href="#records" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Records</a>
                 <a href="#forum" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Knockabout</a>
                 <a href="#quotes" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Quotes</a>
                 <a href="#gallery" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Gallery</a>
@@ -408,10 +414,35 @@
                 <a href="#cartoons" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Cartoon Chaos</a>
                 <a href="#daily-five" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Today's Five</a>
                 <a href="#films" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Essential List</a>
+                <a href="#books" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Book Nook</a>
+                <a href="#records" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Wax Works</a>
                 <a href="#forum" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Nyuk-Nyuk Knockabout</a>
                 <a href="#quotes" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Audio Quotes</a>
                 <a href="#gallery" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Photos</a>
             </div>
+        </div>
+    </div>
+
+    <!-- Daily Quote Signup -->
+    <div id="daily-signup" class="home-only section-block bg-zinc-900 border-y border-zinc-800">
+        <div class="max-w-7xl mx-auto px-6 py-8">
+            <form id="quote-signup-form" class="grid lg:grid-cols-[1fr_1.15fr] gap-6 items-center bg-zinc-950 border border-yellow-400/30 rounded-3xl p-6 md:p-8">
+                <div>
+                    <div class="text-xs uppercase tracking-widest text-yellow-400 mb-3">Daily inbox nyuk</div>
+                    <h2 class="text-3xl md:text-4xl font-black tracking-tight">Get one Stooge quote every morning.</h2>
+                    <p class="mt-3 text-zinc-400 leading-relaxed">No spam, no endless racket. Just one classic quote a day, with an unsubscribe link in every email.</p>
+                </div>
+                <div>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input id="quote-email" name="email" type="email" autocomplete="email" required placeholder="moe@example.com" class="min-w-0 flex-1 rounded-2xl bg-zinc-900 border border-zinc-700 px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400">
+                        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
+                        <button type="submit" class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-bold rounded-2xl">
+                            <i class="fa-solid fa-envelope mr-2"></i> Send Me One Daily
+                        </button>
+                    </div>
+                    <div id="quote-signup-status" class="mt-3 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -656,6 +687,124 @@
         </div>
     </div>
 
+    <!-- Book Nook -->
+    <div id="books" class="site-page section-block bg-zinc-900 py-24 is-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
+            <div class="section-heading-row flex justify-between items-end mb-9">
+                <div>
+                    <span class="text-yellow-400 text-sm font-bold tracking-[2px]">STOOGE SHELF STACKS</span>
+                    <h2 class="text-6xl font-black tracking-tighter">The Nyuk-Nyuk Book Nook</h2>
+                </div>
+                <div class="text-sm text-zinc-500 hidden md:block">Biographies • episode guides • comics • deep dives</div>
+            </div>
+
+            <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-6 items-stretch mb-6">
+                <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-7 md:p-8">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400 mb-5">Reader's advisory</div>
+                    <p class="text-zinc-400 leading-relaxed">Start with Moe's memoir for the inside voice, jump to the encyclopedia for quick facts, then use the film guides when you are trying to remember which short had the pipe organ, the courtroom, or the bad idea with hats.</p>
+                    <div class="mt-7 grid grid-cols-3 gap-3 text-center text-xs">
+                        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4"><div class="text-2xl font-black text-yellow-400">8</div><div class="text-zinc-500">Shelf picks</div></div>
+                        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4"><div class="text-2xl font-black text-yellow-400">3</div><div class="text-zinc-500">Best starters</div></div>
+                        <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-4"><div class="text-2xl font-black text-yellow-400">190</div><div class="text-zinc-500">Shorts to cross-check</div></div>
+                    </div>
+                </div>
+                <div class="relative overflow-hidden rounded-3xl border border-zinc-800 bg-zinc-950 min-h-[320px]">
+                    <div class="absolute inset-0 opacity-25" style="background-image:url('/images/three-stooges-title-card-1934-1936.png?v=books-1');background-size:cover;background-position:center;"></div>
+                    <div class="absolute inset-0 bg-gradient-to-r from-zinc-950 via-zinc-950/90 to-zinc-950/60"></div>
+                    <div class="relative z-10 p-8 md:p-10 max-w-2xl">
+                        <div class="text-xs uppercase tracking-widest text-yellow-400 mb-4">Suggested reading order</div>
+                        <ol class="space-y-4 text-zinc-300">
+                            <li><span class="font-mono text-yellow-400">01</span> <span class="font-bold text-white">I Stooged to Conquer</span> for Moe's own version of the chaos.</li>
+                            <li><span class="font-mono text-yellow-400">02</span> <span class="font-bold text-white">The Complete Three Stooges</span> when you want the film-by-film map.</li>
+                            <li><span class="font-mono text-yellow-400">03</span> <span class="font-bold text-white">Stoogeology</span> when you want the fan microscope.</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid sm:grid-cols-2 xl:grid-cols-4 gap-4">
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <img src="https://covers.openlibrary.org/b/id/9027421-L.jpg" class="h-64 w-full object-cover bg-zinc-900" alt="I Stooged to Conquer book cover">
+                    <div class="p-5"><div class="text-xs text-yellow-400 font-mono">MEMOIR</div><h3 class="mt-1 font-black text-2xl tracking-tight">I Stooged to Conquer</h3><p class="mt-3 text-sm text-zinc-400">Moe Howard's own backstage account, crankiness and all.</p></div>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <img src="https://covers.openlibrary.org/b/id/736142-L.jpg" class="h-64 w-full object-cover bg-zinc-900" alt="The Complete Three Stooges book cover">
+                    <div class="p-5"><div class="text-xs text-yellow-400 font-mono">GUIDE</div><h3 class="mt-1 font-black text-2xl tracking-tight">The Complete Three Stooges</h3><p class="mt-3 text-sm text-zinc-400">A heavy-duty episode and production reference for the shorts.</p></div>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <img src="https://covers.openlibrary.org/b/id/14378408-L.jpg" class="h-64 w-full object-cover bg-zinc-900" alt="Stoogeology book cover">
+                    <div class="p-5"><div class="text-xs text-yellow-400 font-mono">FAN DEEP DIVE</div><h3 class="mt-1 font-black text-2xl tracking-tight">Stoogeology</h3><p class="mt-3 text-sm text-zinc-400">The kind of guide made for pausing, rewinding, and arguing.</p></div>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <img src="https://covers.openlibrary.org/b/id/12196339-L.jpg" class="h-64 w-full object-cover bg-zinc-900" alt="Three Stooges FAQ book cover">
+                    <div class="p-5"><div class="text-xs text-yellow-400 font-mono">FAQ</div><h3 class="mt-1 font-black text-2xl tracking-tight">Three Stooges FAQ</h3><p class="mt-3 text-sm text-zinc-400">A fast lane through cast changes, films, running bits, and trivia.</p></div>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <img src="https://covers.openlibrary.org/b/id/593929-L.jpg" class="h-64 w-full object-cover bg-zinc-900" alt="Official Three Stooges Encyclopedia book cover">
+                    <div class="p-5"><div class="text-xs text-yellow-400 font-mono">ENCYCLOPEDIA</div><h3 class="mt-1 font-black text-2xl tracking-tight">Official Three Stooges Encyclopedia</h3><p class="mt-3 text-sm text-zinc-400">The grab-it-first reference shelf for names, films, and odd facts.</p></div>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <img src="https://covers.openlibrary.org/b/id/7815776-L.jpg" class="h-64 w-full object-cover bg-zinc-900" alt="Best of the Three Stooges Comicbooks cover">
+                    <div class="p-5"><div class="text-xs text-yellow-400 font-mono">COMICS</div><h3 class="mt-1 font-black text-2xl tracking-tight">Best of the Comicbooks</h3><p class="mt-3 text-sm text-zinc-400">Printed slapstick panels for when moving pictures are too dignified.</p></div>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <img src="https://covers.openlibrary.org/b/id/241417-L.jpg" class="h-64 w-full object-cover bg-zinc-900" alt="The Three Stooges book cover">
+                    <div class="p-5"><div class="text-xs text-yellow-400 font-mono">BIOGRAPHY</div><h3 class="mt-1 font-black text-2xl tracking-tight">The Three Stooges</h3><p class="mt-3 text-sm text-zinc-400">A broader biography shelf pick for the whole act and its afterlife.</p></div>
+                </article>
+                <article class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <img src="https://covers.openlibrary.org/b/id/9342834-L.jpg" class="h-64 w-full object-cover bg-zinc-900" alt="Three Stooges Graphic Novels cover">
+                    <div class="p-5"><div class="text-xs text-yellow-400 font-mono">GRAPHIC NOVEL</div><h3 class="mt-1 font-black text-2xl tracking-tight">Graphic Novels</h3><p class="mt-3 text-sm text-zinc-400">The Stooges as illustrated chaos, which feels historically inevitable.</p></div>
+                </article>
+            </div>
+        </div>
+    </div>
+
+    <!-- Records -->
+    <div id="records" class="site-page section-block max-w-7xl mx-auto px-6 py-24 is-hidden">
+        <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
+        <div class="section-heading-row flex justify-between items-end mb-9">
+            <div>
+                <span class="text-yellow-400 text-sm font-bold tracking-[2px]">78 RPM + SOUND BITES</span>
+                <h2 class="text-6xl font-black tracking-tighter">The Stooge Wax Works</h2>
+            </div>
+            <div class="text-sm text-zinc-500 hidden md:block">Playable records and restored site audio</div>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-6 mb-6">
+            <article class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+                <img src="https://archive.org/download/78_wreck-the-halls-with-boughs-of-holly_the-three-stooges-and-orchestra-barer_gbia0534530a/78_wreck-the-halls-with-boughs-of-holly_the-three-stooges-and-orchestra-barer_gbia0534530a_itemimage.jpg" class="h-72 w-full object-cover bg-zinc-950" alt="Wreck the Halls with Boughs of Holly record label">
+                <div class="p-6">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">78 RPM record</div>
+                    <h3 class="mt-2 font-black text-3xl tracking-tight">Wreck the Halls with Boughs of Holly</h3>
+                    <p class="mt-3 text-zinc-400 text-sm">The Three Stooges and Orchestra, pulled from the Great 78 Project.</p>
+                    <audio class="mt-5 w-full" controls preload="metadata" src="https://archive.org/download/78_wreck-the-halls-with-boughs-of-holly_the-three-stooges-and-orchestra-barer_gbia0534530a/WRECK%20THE%20HALLS%20WITH%20BOU%20-%20THE%20THREE%20STOOGES%20AND%20ORCHESTRA.mp3"></audio>
+                </div>
+            </article>
+            <article class="bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden">
+                <img src="https://archive.org/download/78_jingle-bells_the-three-stooges-and-orchestra-barer_gbia0534530b/78_jingle-bells_the-three-stooges-and-orchestra-barer_gbia0534530b_itemimage.jpg" class="h-72 w-full object-cover bg-zinc-950" alt="Jingle Bells record label">
+                <div class="p-6">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400">78 RPM record</div>
+                    <h3 class="mt-2 font-black text-3xl tracking-tight">Jingle Bells</h3>
+                    <p class="mt-3 text-zinc-400 text-sm">A real Stooge holiday record side, also from the Great 78 Project.</p>
+                    <audio class="mt-5 w-full" controls preload="metadata" src="https://archive.org/download/78_jingle-bells_the-three-stooges-and-orchestra-barer_gbia0534530b/JINGLE%20BELLS%20-%20THE%20THREE%20STOOGES%20AND%20ORCHESTRA.mp3"></audio>
+                </div>
+            </article>
+        </div>
+
+        <div class="bg-zinc-900 border border-zinc-800 rounded-3xl p-6 md:p-8">
+            <div class="text-xs uppercase tracking-widest text-yellow-400 mb-5">Sound bite turntable</div>
+            <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
+                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5"><div class="font-bold">Raise your right hand</div><audio class="mt-3 w-full" controls preload="metadata" src="/audio/quote-moe-triple-crossing.wav?v=records-1"></audio></div>
+                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5"><div class="font-bold">I don't mean that one</div><audio class="mt-3 w-full" controls preload="metadata" src="/audio/quote-curly-soitenly.wav?v=records-1"></audio></div>
+                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5"><div class="font-bold">Do you swear?</div><audio class="mt-3 w-full" controls preload="metadata" src="/audio/quote-curly-circumstance.wav?v=records-1"></audio></div>
+                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5"><div class="font-bold">Spread it out</div><audio class="mt-3 w-full" controls preload="metadata" src="/audio/quote-moe-moider.wav?v=records-1"></audio></div>
+                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5"><div class="font-bold">Drop the vernacular</div><audio class="mt-3 w-full" controls preload="metadata" src="/audio/quote-larry-look.wav?v=records-1"></audio></div>
+                <div class="bg-zinc-950 border border-zinc-800 rounded-2xl p-5"><div class="font-bold">Show what happened</div><audio class="mt-3 w-full" controls preload="metadata" src="/audio/quote-moe-spread-out.wav?v=records-1"></audio></div>
+            </div>
+        </div>
+    </div>
+
     <!-- Quotes -->
     <div id="quotes" class="site-page section-block bg-zinc-900 py-24 is-hidden">
         <div class="max-w-4xl mx-auto px-6 text-center">
@@ -681,20 +830,6 @@
                     <span>PLAY REAL CLIP</span>
                 </button>
             </div>
-
-            <form id="quote-signup-form" class="mt-10 bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6 text-left">
-                <div class="flex flex-col lg:flex-row lg:items-end gap-4">
-                    <div class="flex-1">
-                        <label for="quote-email" class="block text-xs uppercase tracking-widest text-yellow-400 mb-2">Daily quote email</label>
-                        <input id="quote-email" name="email" type="email" autocomplete="email" required placeholder="moe@example.com" class="w-full rounded-2xl bg-zinc-950 border border-zinc-700 px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400">
-                        <input type="text" name="website" tabindex="-1" autocomplete="off" class="hidden" aria-hidden="true">
-                    </div>
-                    <button type="submit" class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-bold rounded-2xl">
-                        <i class="fa-solid fa-envelope mr-2"></i> Send Me One Daily
-                    </button>
-                </div>
-                <div id="quote-signup-status" class="mt-3 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
-            </form>
 
             <div id="quote-list" class="mt-10 grid gap-3 text-left"></div>
         </div>
@@ -823,7 +958,7 @@
             });
         }
 
-        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-five', 'slapstick-lab', 'forum', 'quotes', 'gallery'];
+        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-five', 'slapstick-lab', 'books', 'records', 'forum', 'quotes', 'gallery'];
 
         function getRouteFromHash() {
             const route = (window.location.hash || '#home').slice(1);
