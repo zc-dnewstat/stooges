@@ -322,7 +322,7 @@
         <div class="max-w-4xl mx-auto px-6 text-center">
             <span class="text-yellow-400 text-sm font-bold tracking-[2px]">WORDS TO LIVE BY</span>
             <h2 class="text-6xl font-black tracking-tighter mt-3 mb-4">Classic Quotes</h2>
-            <p class="text-zinc-400 max-w-sm mx-auto">The wisdom of the Stooges, delivered with maximum impact.</p>
+            <p class="text-zinc-400 max-w-sm mx-auto">The wisdom of the Stooges, paired with real public-domain film audio clips.</p>
             
             <div id="quote-display" class="quote-card mt-10 bg-zinc-950 border border-zinc-800 rounded-3xl p-12 max-w-3xl mx-auto min-h-[220px] flex items-center justify-center">
                 <div>
@@ -338,7 +338,7 @@
                 </button>
                 <button onclick="playCurrentQuote()" class="px-7 py-3.5 flex items-center gap-x-2 bg-zinc-800 hover:bg-zinc-700 transition-colors text-yellow-400 font-bold rounded-3xl text-sm border border-zinc-700">
                     <i class="fa-solid fa-volume-high"></i>
-                    <span>PLAY AUDIO</span>
+                    <span>PLAY REAL CLIP</span>
                 </button>
             </div>
 
@@ -409,14 +409,14 @@
         
         // Quotes database
         const quotes = [
-            { text: "Why, you triple-crossing, four-flushing, two-timing, one-track-minded, low-down, good-for-nothing, double-dealing, back-stabbing, two-faced, snake-in-the-grass!", author: "Moe Howard", audio: "/audio/quote-moe-triple-crossing.wav?v=audio-2" },
-            { text: "Nyuk nyuk nyuk!", author: "Curly Howard", audio: "/audio/quote-curly-nyuk.wav?v=audio-2" },
-            { text: "Soitenly!", author: "Curly Howard", audio: "/audio/quote-curly-soitenly.wav?v=audio-2" },
-            { text: "I'm a victim of circumstance!", author: "Curly Howard", audio: "/audio/quote-curly-circumstance.wav?v=audio-2" },
-            { text: "I'll moider ya! I'll moider ya!", author: "Moe Howard", audio: "/audio/quote-moe-moider.wav?v=audio-2" },
-            { text: "Woo woo woo woo!", author: "Curly Howard", audio: "/audio/quote-curly-woo.wav?v=audio-2" },
-            { text: "Hey, look! A pigeon!", author: "Larry Fine", audio: "/audio/quote-larry-look.wav?v=audio-2" },
-            { text: "Spread out!", author: "Moe Howard", audio: "/audio/quote-moe-spread-out.wav?v=audio-2" }
+            { text: "Why, you triple-crossing, four-flushing, two-timing, one-track-minded, low-down, good-for-nothing, double-dealing, back-stabbing, two-faced, snake-in-the-grass!", author: "Moe Howard", audio: "/audio/quote-moe-triple-crossing.wav?v=actual-voices-1" },
+            { text: "Nyuk nyuk nyuk!", author: "Curly Howard", audio: "/audio/quote-curly-nyuk.wav?v=actual-voices-1" },
+            { text: "Soitenly!", author: "Curly Howard", audio: "/audio/quote-curly-soitenly.wav?v=actual-voices-1" },
+            { text: "I'm a victim of circumstance!", author: "Curly Howard", audio: "/audio/quote-curly-circumstance.wav?v=actual-voices-1" },
+            { text: "I'll moider ya! I'll moider ya!", author: "Moe Howard", audio: "/audio/quote-moe-moider.wav?v=actual-voices-1" },
+            { text: "Woo woo woo woo!", author: "Curly Howard", audio: "/audio/quote-curly-woo.wav?v=actual-voices-1" },
+            { text: "Hey, look! A pigeon!", author: "Larry Fine", audio: "/audio/quote-larry-look.wav?v=actual-voices-1" },
+            { text: "Spread out!", author: "Moe Howard", audio: "/audio/quote-moe-spread-out.wav?v=actual-voices-1" }
         ];
         
         let currentQuoteIndex = 0;
