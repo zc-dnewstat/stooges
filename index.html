@@ -570,7 +570,7 @@
             <div>
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">FACE-SWAP FOLDEROL</span>
                 <h2 class="text-6xl font-black tracking-tighter">Curly Camera Booth</h2>
-                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Snap a front-camera photo and the booth automatically blends your face into Curly's spot in the Stooges portrait. No dragging, lining up, or fancy finger-work.</p>
+                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Snap a front or rear camera photo and the booth automatically blends your face into Curly's spot in the Stooges portrait. No dragging, lining up, or fancy finger-work.</p>
             </div>
             <div class="text-sm text-zinc-500 hidden md:block">iPhone and Android camera friendly</div>
         </div>
@@ -590,13 +590,21 @@
                     <video id="curlycam-video" class="hidden h-full w-full object-cover scale-x-[-1]" playsinline muted autoplay></video>
                     <div id="curlycam-camera-empty" class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center text-zinc-500">
                         <i class="fa-solid fa-mobile-screen-button text-5xl text-yellow-400"></i>
-                        <p class="max-w-sm">Open your front camera, look straight at the phone, then tap the shutter.</p>
+                        <p id="curlycam-camera-help" class="max-w-sm">Choose front or rear camera, look straight at the lens, then tap the shutter.</p>
                     </div>
                 </div>
                 <canvas id="curlycam-source" class="hidden"></canvas>
+                <div class="mt-5 grid grid-cols-2 gap-3">
+                    <button id="curlycam-front" type="button" onclick="setCurlyCameraMode('user')" class="px-4 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 transition-colors font-bold rounded-2xl">
+                        <i class="fa-solid fa-user mr-2"></i> Front
+                    </button>
+                    <button id="curlycam-rear" type="button" onclick="setCurlyCameraMode('environment')" class="px-4 py-3 border border-zinc-700 text-zinc-300 hover:bg-zinc-800 transition-colors font-bold rounded-2xl">
+                        <i class="fa-solid fa-camera-rotate mr-2"></i> Rear
+                    </button>
+                </div>
                 <div class="mt-5 flex flex-col sm:flex-row gap-3">
                     <button id="curlycam-start" type="button" onclick="startCurlyCam()" class="flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 transition-colors font-bold rounded-2xl">
-                        <i class="fa-solid fa-video mr-2"></i> Open Front Camera
+                        <i class="fa-solid fa-video mr-2"></i> Open Camera
                     </button>
                     <button id="curlycam-capture" type="button" onclick="takeCurlyPhoto()" disabled class="flex-1 px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-bolt mr-2"></i> Make Me Curly
@@ -623,6 +631,9 @@
                     </div>
                 </div>
                 <div class="mt-5 grid gap-3">
+                    <button id="curlycam-retake" type="button" onclick="retakeCurlyPhoto()" disabled class="px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
+                        <i class="fa-solid fa-rotate-left mr-2"></i> New Picture
+                    </button>
                     <button id="curlycam-delete" type="button" onclick="deleteCurlyPortrait()" disabled class="px-5 py-3 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-300 font-bold rounded-2xl">
                         <i class="fa-solid fa-trash-can mr-2"></i> Delete Portrait
                     </button>
@@ -1914,6 +1925,7 @@
             landmarker: null,
             landmarkerReady: null,
             visionFilesetReady: null,
+            facingMode: 'user',
             portraitDataUrl: ''
         };
 
@@ -1977,20 +1989,58 @@
             return curlyCam.detectorReady;
         }
 
-        async function startCurlyCam() {
+        function stopCurlyCamStream() {
+            if (curlyCam.stream) {
+                curlyCam.stream.getTracks().forEach((track) => track.stop());
+                curlyCam.stream = null;
+            }
+        }
+
+        function updateCurlyCameraModeControls() {
+            const front = document.getElementById('curlycam-front');
+            const rear = document.getElementById('curlycam-rear');
+            const start = document.getElementById('curlycam-start');
+            const help = document.getElementById('curlycam-camera-help');
+            const isFront = curlyCam.facingMode === 'user';
+            front?.classList.toggle('bg-yellow-400', isFront);
+            front?.classList.toggle('text-zinc-950', isFront);
+            front?.classList.toggle('border', !isFront);
+            front?.classList.toggle('border-zinc-700', !isFront);
+            front?.classList.toggle('text-zinc-300', !isFront);
+            rear?.classList.toggle('bg-yellow-400', !isFront);
+            rear?.classList.toggle('text-zinc-950', !isFront);
+            rear?.classList.toggle('border', isFront);
+            rear?.classList.toggle('border-zinc-700', isFront);
+            rear?.classList.toggle('text-zinc-300', isFront);
+            if (start) start.innerHTML = `<i class="fa-solid fa-video mr-2"></i> Open ${isFront ? 'Front' : 'Rear'} Camera`;
+            if (help) help.textContent = `${isFront ? 'Open the front camera' : 'Open the rear camera'}, look straight at the lens, then tap the shutter.`;
+        }
+
+        async function setCurlyCameraMode(mode) {
+            if (!['user', 'environment'].includes(mode)) return;
+            curlyCam.facingMode = mode;
+            updateCurlyCameraModeControls();
+            if (curlyCam.stream) {
+                await startCurlyCam(mode);
+            } else {
+                setCurlyCamStatus(`${mode === 'user' ? 'Front' : 'Rear'} camera selected.`);
+            }
+        }
+
+        async function startCurlyCam(mode = curlyCam.facingMode) {
             const video = document.getElementById('curlycam-video');
             const empty = document.getElementById('curlycam-camera-empty');
             const capture = document.getElementById('curlycam-capture');
             if (!video) return;
-            setCurlyCamStatus('Opening the front camera...');
+            curlyCam.facingMode = mode;
+            updateCurlyCameraModeControls();
+            setCurlyCamStatus(`Opening the ${mode === 'user' ? 'front' : 'rear'} camera...`);
             try {
-                if (curlyCam.stream) {
-                    curlyCam.stream.getTracks().forEach((track) => track.stop());
-                }
+                stopCurlyCamStream();
                 curlyCam.stream = await navigator.mediaDevices.getUserMedia({
                     audio: false,
                     video: {
-                        facingMode: 'user',
+                        facingMode: { ideal: mode },
                         width: { ideal: 1280 },
                         height: { ideal: 1600 }
                     }
@@ -1998,15 +2048,16 @@
                 video.srcObject = curlyCam.stream;
                 await video.play();
                 video.classList.remove('hidden');
+                video.classList.toggle('scale-x-[-1]', mode === 'user');
                 empty?.classList.add('hidden');
                 if (capture) capture.disabled = false;
-                setCurlyCamStatus('Camera ready. Center your face and tap Make Me Curly.');
+                setCurlyCamStatus(`${mode === 'user' ? 'Front' : 'Rear'} camera ready. Center your face and tap Make Me Curly.`);
                 loadCurlyFaceLandmarker().catch(() => {
                     loadCurlyFaceDetector().catch(() => null);
                     setCurlyCamStatus('Camera ready. Basic face fitting will still make a portrait.');
                 });
             } catch (error) {
-                setCurlyCamStatus('Could not open the camera. Check browser camera permission and try again.');
+                setCurlyCamStatus(`Could not open the ${mode === 'user' ? 'front' : 'rear'} camera. Check browser camera permission and try again.`);
             }
         }
 
@@ -2451,6 +2502,7 @@
             curlyCam.portraitDataUrl = dataUrl;
             resultCanvas.classList.remove('hidden');
             resultEmpty?.classList.add('hidden');
+            document.getElementById('curlycam-retake')?.removeAttribute('disabled');
             document.getElementById('curlycam-delete')?.removeAttribute('disabled');
             return dataUrl;
         }
@@ -2466,17 +2518,21 @@
             sourceCanvas.width = video.videoWidth;
             sourceCanvas.height = video.videoHeight;
             const sourceCtx = sourceCanvas.getContext('2d');
-            sourceCtx.save();
-            sourceCtx.translate(sourceCanvas.width, 0);
-            sourceCtx.scale(-1, 1);
-            sourceCtx.drawImage(video, 0, 0, sourceCanvas.width, sourceCanvas.height);
-            sourceCtx.restore();
+            if (curlyCam.facingMode === 'user') {
+                sourceCtx.save();
+                sourceCtx.translate(sourceCanvas.width, 0);
+                sourceCtx.scale(-1, 1);
+                sourceCtx.drawImage(video, 0, 0, sourceCanvas.width, sourceCanvas.height);
+                sourceCtx.restore();
+            } else {
+                sourceCtx.drawImage(video, 0, 0, sourceCanvas.width, sourceCanvas.height);
+            }
             const faceBox = await detectCapturedFace(sourceCanvas);
             await makeCurlyPortrait(sourceCanvas, faceBox);
             setCurlyCamStatus('Portrait ready. The blend is on screen.');
         }
 
-        function deleteCurlyPortrait() {
+        function resetCurlyPortrait() {
             curlyCam.portraitDataUrl = '';
             const resultCanvas = document.getElementById('curlycam-result');
             const resultEmpty = document.getElementById('curlycam-result-empty');
@@ -2486,6 +2542,20 @@
             }
             resultEmpty?.classList.remove('hidden');
             document.getElementById('curlycam-delete')?.setAttribute('disabled', 'disabled');
+            document.getElementById('curlycam-retake')?.setAttribute('disabled', 'disabled');
+        }
+
+        async function retakeCurlyPhoto() {
+            resetCurlyPortrait();
+            if (!curlyCam.stream) {
+                await startCurlyCam();
+                return;
+            }
+            setCurlyCamStatus('Ready for a new picture. Center your face and tap Make Me Curly.');
+        }
+
+        function deleteCurlyPortrait() {
+            resetCurlyPortrait();
             setCurlyCamStatus('Portrait deleted. Take another whenever you are ready.');
         }
 
@@ -2955,6 +3025,7 @@
             initCartoonGallery();
             renderStoogeRoster();
             initImageLightbox();
+            updateCurlyCameraModeControls();
             setFeaturedShort('disorder');
             setGagShort('plumbing', 'Plumbers in a Mansion');
 
