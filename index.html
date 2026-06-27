@@ -81,6 +81,70 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        body.day-mode {
+            background: #f8fafc;
+            color: #18181b;
+        }
+
+        body.day-mode .stooge-bg {
+            background: linear-gradient(135deg, #fef3c7 0%, #f8fafc 62%, #fee2e2 100%);
+        }
+
+        body.day-mode .bg-zinc-950,
+        body.day-mode .bg-zinc-900,
+        body.day-mode .nav-scrolled {
+            background-color: #ffffff;
+        }
+
+        body.day-mode .bg-zinc-800 {
+            background-color: #f4f4f5;
+        }
+
+        body.day-mode .border-zinc-800,
+        body.day-mode .border-zinc-700 {
+            border-color: #d4d4d8;
+        }
+
+        body.day-mode .text-zinc-200,
+        body.day-mode .text-zinc-300,
+        body.day-mode .text-zinc-400,
+        body.day-mode .text-zinc-500,
+        body.day-mode .text-white {
+            color: #3f3f46;
+        }
+
+        body.day-mode .text-white\/5 {
+            color: rgb(24 24 27 / 0.06);
+        }
+
+        body.day-mode .hover\:text-white:hover {
+            color: #18181b;
+        }
+
+        body.day-mode .film-row:hover,
+        body.day-mode .quote-card:hover {
+            background-color: #f4f4f5;
+        }
+
+        #mobile-menu {
+            display: none;
+        }
+
+        #mobile-menu.is-open {
+            display: grid;
+        }
+
+        @media (max-width: 767px) {
+            .brand-title {
+                font-size: 1.35rem;
+                line-height: 1;
+            }
+
+            .hero-title {
+                font-size: clamp(4rem, 21vw, 5.8rem);
+            }
+        }
     </style>
 </head>
 <body class="bg-zinc-950 text-zinc-200">
@@ -94,7 +158,7 @@
                             <span class="text-zinc-950 font-black text-3xl tracking-tighter">3</span>
                         </div>
                         <div>
-                            <span class="font-black text-3xl tracking-tighter">THE STOOGES</span>
+                            <span class="brand-title font-black text-3xl tracking-tighter">THE STOOGES</span>
                         </div>
                     </div>
                 </div>
@@ -108,6 +172,11 @@
                 </div>
                 
                 <div class="flex items-center gap-x-3">
+                    <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle day and night mode"
+                            class="w-11 h-11 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 transition-colors text-yellow-400 rounded-2xl flex items-center justify-center">
+                        <i id="theme-icon" class="fa-solid fa-moon"></i>
+                    </button>
+
                     <button onclick="showRandomQuote()" 
                             class="px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-bold text-sm rounded-2xl flex items-center gap-x-2">
                         <i class="fa-solid fa-random"></i>
@@ -118,6 +187,13 @@
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
+            </div>
+            <div id="mobile-menu" class="md:hidden pb-5 grid-cols-2 gap-2 text-sm font-medium">
+                <a href="#the-trio" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Trio</a>
+                <a href="#history" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">History</a>
+                <a href="#films" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Films</a>
+                <a href="#quotes" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Quotes</a>
+                <a href="#gallery" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Gallery</a>
             </div>
         </div>
     </nav>
@@ -133,7 +209,7 @@
                     <span class="text-sm font-medium tracking-[3px] text-yellow-400">EST. 1925 • 190+ SHORTS</span>
                 </div>
                 
-                <h1 class="text-7xl md:text-8xl font-black tracking-tighter leading-none mb-4">
+                <h1 class="hero-title text-7xl md:text-8xl font-black tracking-tighter leading-none mb-4">
                     THE<br>THREE<br><span class="stooge-gradient">STOOGES</span>
                 </h1>
                 
@@ -308,11 +384,27 @@
                 <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1940</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">A Plumbing We Will Go</span></div>
                 <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
             </div>
+            <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="showFilmModal('Punch Drunks', '1934', 'Curly becomes a boxing terror whenever he hears Pop Goes the Weasel.')">
+                <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1934</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">Punch Drunks</span></div>
+                <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+            </div>
+            <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="showFilmModal('Hoi Polloi', '1935', 'A professor bets the Stooges can be trained into gentlemen. Results vary wildly.')">
+                <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1935</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">Hoi Polloi</span></div>
+                <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+            </div>
+            <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="showFilmModal('Violent Is the Word for Curly', '1938', 'The boys land on a college campus and turn academia into pure confusion.')">
+                <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1938</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">Violent Is the Word for Curly</span></div>
+                <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+            </div>
+            <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="showFilmModal('You Nazty Spy!', '1940', 'One of Hollywood\'s earliest anti-Hitler satires, with Moe as the dictator of Moronica.')">
+                <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1940</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">You Nazty Spy!</span></div>
+                <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+            </div>
         </div>
         
         <div class="text-center mt-8">
-            <button onclick="alert('Full filmography coming soon — 190 shorts is a lot of nyuks!')" class="text-sm px-6 py-3 border border-zinc-700 hover:bg-zinc-900 transition-colors rounded-2xl text-zinc-400 hover:text-white">
-                Browse full 190 shorts →
+            <button onclick="document.getElementById('gallery').scrollIntoView({ behavior: 'smooth' })" class="text-sm px-6 py-3 border border-zinc-700 hover:bg-zinc-900 transition-colors rounded-2xl text-zinc-400 hover:text-white">
+                Keep browsing the gallery ->
             </button>
         </div>
     </div>
@@ -497,9 +589,33 @@
             modal.classList.add('hidden');
         }
         
-        function toggleMobileNav() {
-            const nav = document.querySelector('.md\\:flex.items-center.gap-x-9');
-            if (nav) nav.classList.toggle('hidden');
+        function toggleMobileNav(forceOpen) {
+            const menu = document.getElementById('mobile-menu');
+            if (!menu) return;
+            if (typeof forceOpen === 'boolean') {
+                menu.classList.toggle('is-open', forceOpen);
+            } else {
+                menu.classList.toggle('is-open');
+            }
+        }
+
+        function applyTheme(theme) {
+            const isDay = theme === 'day';
+            document.body.classList.toggle('day-mode', isDay);
+            const icon = document.getElementById('theme-icon');
+            const toggle = document.getElementById('theme-toggle');
+            if (icon) icon.className = isDay ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            if (toggle) toggle.setAttribute('aria-label', isDay ? 'Switch to night mode' : 'Switch to day mode');
+            localStorage.setItem('stooges-theme', theme);
+        }
+
+        function toggleTheme() {
+            applyTheme(document.body.classList.contains('day-mode') ? 'night' : 'day');
+        }
+
+        function initTheme() {
+            const saved = localStorage.getItem('stooges-theme');
+            applyTheme(saved || 'night');
         }
         
         // Keyboard support
@@ -535,6 +651,7 @@
         // Boot everything
         function init() {
             initializeTailwind();
+            initTheme();
             initNavbar();
             initKeyboard();
             renderQuoteAudioList();
