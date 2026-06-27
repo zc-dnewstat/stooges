@@ -238,6 +238,7 @@
             #videos h2,
             #daily-five h2,
             #slapstick-lab h2,
+            #forum h2,
             #quotes h2,
             #gallery h2 {
                 font-size: clamp(2.45rem, 12vw, 3.35rem);
@@ -311,6 +312,7 @@
                     <a href="#videos" class="hover:text-yellow-400 transition-colors">Videos</a>
                     <a href="#daily-five" class="hover:text-yellow-400 transition-colors">Daily 5</a>
                     <a href="#slapstick-lab" class="hover:text-yellow-400 transition-colors">Lab</a>
+                    <a href="#forum" class="hover:text-yellow-400 transition-colors">Forum</a>
                     <a href="#quotes" class="hover:text-yellow-400 transition-colors">Quotes</a>
                     <a href="#gallery" class="hover:text-yellow-400 transition-colors">Gallery</a>
                 </div>
@@ -340,6 +342,7 @@
                 <a href="#videos" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Videos</a>
                 <a href="#daily-five" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily 5</a>
                 <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Lab</a>
+                <a href="#forum" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Forum</a>
                 <a href="#quotes" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Quotes</a>
                 <a href="#gallery" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Gallery</a>
             </div>
@@ -396,99 +399,25 @@
                 <a href="#videos" class="jump-link px-4 py-2 rounded-2xl bg-yellow-400 text-zinc-950 font-bold">Play Shorts</a>
                 <a href="#daily-five" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Today's Five</a>
                 <a href="#films" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Essential List</a>
+                <a href="#forum" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Forum</a>
                 <a href="#quotes" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Audio Quotes</a>
                 <a href="#gallery" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Photos</a>
             </div>
         </div>
     </div>
 
-    <!-- The Trio -->
+    <!-- The Stooges -->
     <div id="the-trio" class="site-page section-block max-w-7xl mx-auto px-6 pt-24 pb-16 is-hidden">
         <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
         <div class="section-heading-row flex items-end justify-between mb-10">
             <div>
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">THE LEGENDS</span>
-                <h2 class="text-6xl font-black tracking-tighter">Meet the Trio</h2>
+                <h2 class="text-6xl font-black tracking-tighter">Meet the Stooges</h2>
             </div>
-            <a href="#history" class="hidden md:flex items-center text-sm font-medium text-yellow-400 hover:text-yellow-300 transition-colors">Their full story →</a>
+            <a href="#videos" class="hidden md:flex items-center text-sm font-medium text-yellow-400 hover:text-yellow-300 transition-colors">Watch their shorts -></a>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
-            <!-- Moe -->
-            <div class="stooge-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
-                <div class="h-80 relative">
-                    <img src="/images/moe-howard-1937.jpg?v=actual-stooges-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Moe Howard">
-                    <div class="absolute top-4 right-4 bg-black/70 text-yellow-400 text-xs font-mono px-3 py-1 rounded-2xl backdrop-blur">1925–1975</div>
-                </div>
-                <div class="p-7">
-                    <div class="flex items-baseline justify-between">
-                        <div>
-                            <div class="font-black text-4xl tracking-tighter">MOE</div>
-                            <div class="text-yellow-400 text-sm font-medium">Moses Horwitz</div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-xs text-zinc-500">THE BOSS</div>
-                        </div>
-                    </div>
-                    <p class="mt-5 text-zinc-400 text-[15px] leading-relaxed">The sharp-witted leader with the iconic bowl cut. Moe was the brains (and the slaps) behind the operation.</p>
-
-                    <div class="mt-6 pt-6 border-t border-zinc-800 flex items-center justify-between text-sm">
-                        <div><span class="font-mono text-yellow-400">1907</span> — <span class="text-zinc-500">1975</span></div>
-                        <div class="text-emerald-400 flex items-center gap-x-1"><i class="fa-solid fa-check text-xs"></i> <span class="text-xs font-medium">190+ films</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Larry -->
-            <div class="stooge-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
-                <div class="h-80 relative">
-                    <img src="/images/three-stooges-1937.jpg?v=actual-stooges-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" style="object-position: 48% 25%;" alt="Larry Fine">
-                    <div class="absolute top-4 right-4 bg-black/70 text-yellow-400 text-xs font-mono px-3 py-1 rounded-2xl backdrop-blur">1925–1970</div>
-                </div>
-                <div class="p-7">
-                    <div class="flex items-baseline justify-between">
-                        <div>
-                            <div class="font-black text-4xl tracking-tighter">LARRY</div>
-                            <div class="text-yellow-400 text-sm font-medium">Lawrence Fein</div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-xs text-zinc-500">THE VIOLINIST</div>
-                        </div>
-                    </div>
-                    <p class="mt-5 text-zinc-400 text-[15px] leading-relaxed">The curly-haired middle man. Larry's violin skills and gentle demeanor made him the perfect foil to Moe's aggression.</p>
-
-                    <div class="mt-6 pt-6 border-t border-zinc-800 flex items-center justify-between text-sm">
-                        <div><span class="font-mono text-yellow-400">1902</span> — <span class="text-zinc-500">1975</span></div>
-                        <div class="text-emerald-400 flex items-center gap-x-1"><i class="fa-solid fa-check text-xs"></i> <span class="text-xs font-medium">190+ films</span></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Curly -->
-            <div class="stooge-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
-                <div class="h-80 relative">
-                    <img src="/images/curly-howard-1937.jpg?v=actual-stooges-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Curly Howard">
-                    <div class="absolute top-4 right-4 bg-black/70 text-yellow-400 text-xs font-mono px-3 py-1 rounded-2xl backdrop-blur">1932–1947</div>
-                </div>
-                <div class="p-7">
-                    <div class="flex items-baseline justify-between">
-                        <div>
-                            <div class="font-black text-4xl tracking-tighter">CURLY</div>
-                            <div class="text-yellow-400 text-sm font-medium">Jerome Horwitz</div>
-                        </div>
-                        <div class="text-right">
-                            <div class="text-xs text-zinc-500">THE WILD CARD</div>
-                        </div>
-                    </div>
-                    <p class="mt-5 text-zinc-400 text-[15px] leading-relaxed">The beloved bald-headed genius of physical comedy. Curly's "nyuk nyuk nyuk" and "soitenly!" defined an era.</p>
-
-                    <div class="mt-6 pt-6 border-t border-zinc-800 flex items-center justify-between text-sm">
-                        <div><span class="font-mono text-yellow-400">1903</span> — <span class="text-zinc-500">1952</span></div>
-                        <div class="text-emerald-400 flex items-center gap-x-1"><i class="fa-solid fa-check text-xs"></i> <span class="text-xs font-medium">97 films</span></div>
-                    </div>
-                </div>
-            </div>
-        </div>
+        <div id="stooge-roster-grid" class="grid md:grid-cols-2 xl:grid-cols-3 gap-6"></div>
     </div>
 
     <!-- History -->
@@ -654,14 +583,22 @@
                         <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Make Mayhem
                     </button>
                 </div>
-                <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-7">
-                    <div class="text-xs uppercase tracking-widest text-yellow-400 mb-4">Today's ridiculous short</div>
-                    <div id="gag-title" class="font-black text-4xl tracking-tighter">Plumbers in a Palace</div>
-                    <p id="gag-description" class="mt-5 text-zinc-400 leading-relaxed">The boys arrive to fix one sink, flood three rooms, and accidentally become royal advisors.</p>
-                    <div class="mt-7 grid grid-cols-3 gap-3 text-center text-xs">
-                        <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">190</div><div class="text-zinc-500">Shorts</div></div>
-                        <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">24</div><div class="text-zinc-500">Years</div></div>
-                        <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">ALL</div><div class="text-zinc-500">Nyuks</div></div>
+                <div class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <div class="aspect-video bg-black overflow-hidden">
+                        <img id="gag-poster" src="/images/three-stooges-film-on-34-street.jpg?v=gag-video-1" class="w-full h-full object-cover" alt="A Plumbing We Will Go still">
+                    </div>
+                    <div class="p-7">
+                        <div class="text-xs uppercase tracking-widest text-yellow-400 mb-4">Today's ridiculous short</div>
+                        <div id="gag-title" class="font-black text-4xl tracking-tighter">Plumbers in a Mansion</div>
+                        <p id="gag-description" class="mt-5 text-zinc-400 leading-relaxed">The boys take a plumbing job and route water, wires, and sanity through the wrong pipes.</p>
+                        <button id="gag-play-button" onclick="openGagShort()" class="mt-7 w-full inline-flex items-center justify-center px-5 py-3 bg-yellow-400 hover:bg-yellow-300 text-zinc-950 font-bold rounded-2xl transition-colors">
+                            <i class="fa-solid fa-play mr-2"></i> Play Matching Short
+                        </button>
+                        <div class="mt-5 grid grid-cols-3 gap-3 text-center text-xs">
+                            <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">190</div><div class="text-zinc-500">Shorts</div></div>
+                            <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">24</div><div class="text-zinc-500">Years</div></div>
+                            <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">ALL</div><div class="text-zinc-500">Nyuks</div></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -720,6 +657,53 @@
         </div>
     </div>
 
+    <!-- Forum -->
+    <div id="forum" class="site-page section-block bg-zinc-900 py-24 is-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
+            <div class="section-heading-row flex justify-between items-end mb-9">
+                <div>
+                    <span class="text-yellow-400 text-sm font-bold tracking-[2px]">STOOGE FORUM</span>
+                    <h2 class="text-6xl font-black tracking-tighter">Talk Stooges</h2>
+                </div>
+                <a id="forum-open-link" href="https://meta.discourse.org/" target="_blank" rel="noopener" class="text-sm px-5 py-3 rounded-2xl bg-yellow-400 hover:bg-yellow-300 text-zinc-950 font-bold transition-colors">
+                    <i class="fa-brands fa-discourse mr-2"></i> Open Discourse
+                </a>
+            </div>
+
+            <div class="grid lg:grid-cols-[0.8fr_1.2fr] gap-6 items-stretch">
+                <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-7 md:p-8">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400 mb-4">Community categories</div>
+                    <div class="space-y-3 text-sm">
+                        <div class="flex items-center justify-between gap-4 border border-zinc-800 rounded-2xl p-4"><span>Short of the Day</span><span class="text-yellow-400 font-mono">videos</span></div>
+                        <div class="flex items-center justify-between gap-4 border border-zinc-800 rounded-2xl p-4"><span>Favorite Stooges</span><span class="text-yellow-400 font-mono">cast</span></div>
+                        <div class="flex items-center justify-between gap-4 border border-zinc-800 rounded-2xl p-4"><span>Quotes and Sound Bites</span><span class="text-yellow-400 font-mono">audio</span></div>
+                        <div class="flex items-center justify-between gap-4 border border-zinc-800 rounded-2xl p-4"><span>Restoration Finds</span><span class="text-yellow-400 font-mono">archive</span></div>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden min-h-[420px] relative">
+                    <div class="absolute inset-0 opacity-20" style="background-image: url('/images/three-stooges-1937.jpg?v=forum-1'); background-size: cover; background-position: 48% 25%;"></div>
+                    <div class="absolute inset-0 bg-gradient-to-br from-zinc-950 via-zinc-950/90 to-red-950/60"></div>
+                    <div class="relative z-10 h-full min-h-[420px] p-8 md:p-10 flex flex-col justify-between">
+                        <div class="flex items-center justify-between gap-4">
+                            <div>
+                                <div class="font-black text-3xl tracking-tight">Powered by Discourse</div>
+                                <div class="mt-2 text-zinc-400 max-w-xl">Open the community board for short discussions, cast debates, quotes, restorations, and whatever argument starts when somebody says Shemp was funnier.</div>
+                            </div>
+                            <i class="fa-brands fa-discourse text-5xl text-yellow-400"></i>
+                        </div>
+                        <div class="grid sm:grid-cols-3 gap-3 text-sm">
+                            <a href="https://meta.discourse.org/" target="_blank" rel="noopener" class="rounded-2xl bg-yellow-400 text-zinc-950 font-bold p-5 hover:bg-yellow-300 transition-colors"><i class="fa-solid fa-arrow-up-right-from-square mr-2"></i> Launch Forum</a>
+                            <a href="#videos" class="rounded-2xl bg-zinc-900/90 border border-zinc-800 p-5 hover:border-yellow-400 hover:text-yellow-400 transition-colors"><i class="fa-solid fa-clapperboard mr-2"></i> Pick a Short</a>
+                            <a href="#quotes" class="rounded-2xl bg-zinc-900/90 border border-zinc-800 p-5 hover:border-yellow-400 hover:text-yellow-400 transition-colors"><i class="fa-solid fa-volume-high mr-2"></i> Quote Board</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="border-t border-zinc-800 py-12">
         <div class="max-w-7xl mx-auto px-6 text-center text-sm text-zinc-500">
@@ -774,7 +758,7 @@
             });
         }
 
-        const pageIds = ['the-trio', 'history', 'films', 'videos', 'daily-five', 'slapstick-lab', 'quotes', 'gallery'];
+        const pageIds = ['the-trio', 'history', 'films', 'videos', 'daily-five', 'slapstick-lab', 'forum', 'quotes', 'gallery'];
 
         function getRouteFromHash() {
             const route = (window.location.hash || '#home').slice(1);
@@ -1001,8 +985,126 @@
                 src: "https://archive.org/download/ThreeStooges1948/TTS%201948%2009%20Crime%20on%20Their%20Hands.mp4",
                 poster: "https://archive.org/download/ThreeStooges1948/ThreeStooges1948.thumbs/TTS%201948%2009%20Crime%20on%20Their%20Hands_000300.jpg",
                 alt: "Crime on Their Hands frame"
+            },
+            cornycasanovas: {
+                title: "Corny Casanovas",
+                year: "1952",
+                description: "Shemp, Larry, and Moe trip through romantic misunderstandings with a very Shemp-sized panic spiral.",
+                cardDescription: "A Shemp showcase with domestic confusion and flying tempers.",
+                src: "https://archive.org/download/139.CornyCasanovas1952ShempLarryMoe/The%20Three%20Stooges%20-%20139%20-%20Corny%20Casanovas%20%281952%29%20%28Shemp%2C%20Larry%2C%20Moe%29%20%5BDaBaron%5D.mp4",
+                poster: "https://archive.org/download/139.CornyCasanovas1952ShempLarryMoe/139.CornyCasanovas1952ShempLarryMoe.thumbs/The%20Three%20Stooges%20-%20139%20-%20Corny%20Casanovas%20%281952%29%20%28Shemp%2C%20Larry%2C%20Moe%29%20%5BDaBaron%5D_000300.jpg",
+                alt: "Corny Casanovas frame"
+            },
+            merrymixup: {
+                title: "A Merry Mix-Up",
+                year: "1957",
+                description: "Joe Besser joins Moe and Larry for triple-identity confusion that keeps doubling back on itself.",
+                cardDescription: "A Joe Besser-era identity pileup with three sets of lookalikes.",
+                src: "https://archive.org/download/177AMerryMixUp/177%20A%20Merry%20Mix-Up.mp4",
+                poster: "https://archive.org/download/177AMerryMixUp/177AMerryMixUp.thumbs/177%20A%20Merry%20Mix-Up_000294.jpg",
+                alt: "A Merry Mix-Up frame"
+            },
+            hercules: {
+                title: "The Three Stooges Meet Hercules",
+                year: "1962",
+                description: "Curly Joe joins Moe and Larry for a time-machine feature packed with mythological mayhem.",
+                cardDescription: "A Curly Joe feature with time travel, Hercules, and oversized trouble.",
+                src: "https://archive.org/download/the-three-stooges-meet-hercules-knuckehead/The%20Three%20Stooges%20Meet%20Hercules.ia.mp4",
+                poster: "https://archive.org/download/the-three-stooges-meet-hercules-knuckehead/the-three-stooges-meet-hercules-knuckehead.thumbs/The%20Three%20Stooges%20Meet%20Hercules_000300.jpg",
+                alt: "The Three Stooges Meet Hercules frame"
             }
         };
+
+        const stoogeRoster = [
+            {
+                name: "MOE",
+                realName: "Moses Horwitz",
+                role: "THE BOSS",
+                years: "1925-1975",
+                life: "1897 - 1975",
+                films: "190+ films",
+                bio: "The sharp-witted leader with the iconic bowl cut. Moe was the brains, the timing, and most of the slaps behind the operation.",
+                shortKey: "meninblack",
+                image: "/images/moe-howard-1937.jpg?v=roster-2",
+                alt: "Moe Howard"
+            },
+            {
+                name: "LARRY",
+                realName: "Lawrence Fein",
+                role: "THE VIOLINIST",
+                years: "1925-1970",
+                life: "1902 - 1975",
+                films: "190+ films",
+                bio: "The curly-haired middle man whose violin chops and soft-shoe timing made him the perfect foil for Moe's volcanic management style.",
+                shortKey: "hoipolloi",
+                image: "/images/three-stooges-1937.jpg?v=roster-2",
+                imagePosition: "48% 25%",
+                alt: "Larry Fine with the Three Stooges"
+            },
+            {
+                name: "CURLY",
+                realName: "Jerome Horwitz",
+                role: "THE WILD CARD",
+                years: "1932-1947",
+                life: "1903 - 1952",
+                films: "97 films",
+                bio: "The beloved physical-comedy genius whose nyuks, spins, barks, and impossible reactions became the sound of the Stooges for generations.",
+                shortKey: "disorder",
+                image: "/images/curly-howard-1937.jpg?v=roster-2",
+                alt: "Curly Howard"
+            },
+            {
+                name: "SHEMP",
+                realName: "Samuel Horwitz",
+                role: "THE ORIGINAL",
+                years: "1925-1932 / 1946-1955",
+                life: "1895 - 1955",
+                films: "70+ Stooge shorts",
+                bio: "The original third Stooge returned after Curly's illness and brought twitchy, nervous, verbal chaos that gave the late 40s shorts their own flavor.",
+                shortKey: "cornycasanovas",
+                image: "https://archive.org/download/139.CornyCasanovas1952ShempLarryMoe/139.CornyCasanovas1952ShempLarryMoe.thumbs/The%20Three%20Stooges%20-%20139%20-%20Corny%20Casanovas%20%281952%29%20%28Shemp%2C%20Larry%2C%20Moe%29%20%5BDaBaron%5D_000300.jpg",
+                alt: "Shemp-era short frame"
+            },
+            {
+                name: "JOE",
+                realName: "Joe Besser",
+                role: "THE FUSSY ONE",
+                years: "1956-1958",
+                life: "1907 - 1988",
+                films: "16 shorts",
+                bio: "Joe Besser's run traded some roughhouse for fussy, squealing protest comedy, closing out the Columbia short-subject era with Moe and Larry.",
+                shortKey: "merrymixup",
+                image: "https://archive.org/download/177AMerryMixUp/177AMerryMixUp.thumbs/177%20A%20Merry%20Mix-Up_000294.jpg",
+                alt: "Joe Besser-era short frame"
+            },
+            {
+                name: "CURLY JOE",
+                realName: "Joe DeRita",
+                role: "THE FEATURE FILM STOOGE",
+                years: "1958-1970",
+                life: "1909 - 1993",
+                films: "6 features + cartoons",
+                bio: "Joe DeRita helped carry the act into feature films, TV, and the 1960s revival, giving the later Stooges a bigger-screen finish.",
+                shortKey: "hercules",
+                image: "https://archive.org/download/the-three-stooges-meet-hercules-knuckehead/the-three-stooges-meet-hercules-knuckehead.thumbs/The%20Three%20Stooges%20Meet%20Hercules_000300.jpg",
+                alt: "Curly Joe feature frame"
+            }
+        ];
+
+        const gagShorts = [
+            { key: 'plumbing', title: 'Plumbers in a Mansion' },
+            { key: 'meninblack', title: 'Doctors at a Hospital' },
+            { key: 'disorder', title: 'Witnesses in a Courtroom' },
+            { key: 'hoipolloi', title: 'Gentlemen at a Society Party' },
+            { key: 'punchdrunks', title: 'Boxers with a Bad Tune' },
+            { key: 'shivering', title: 'Detectives in a Haunted House' },
+            { key: 'sixpants', title: 'Tailors with a Reward Poster' },
+            { key: 'merrymixup', title: 'Triplets in a Mix-Up' },
+            { key: 'hercules', title: 'Time Travelers with Hercules' },
+            { key: 'cornycasanovas', title: 'Romantics in a Domestic Disaster' }
+        ];
+
+        let currentGagShortKey = 'plumbing';
 
         let currentQuoteIndex = 0;
         let currentQuoteAudio = null;
@@ -1211,6 +1313,74 @@
             }).join('');
         }
 
+        function renderStoogeRoster() {
+            const grid = document.getElementById('stooge-roster-grid');
+            if (!grid) return;
+            grid.innerHTML = stoogeRoster.map((stooge) => {
+                const short = shorts[stooge.shortKey];
+                const position = stooge.imagePosition ? ` style="object-position: ${stooge.imagePosition};"` : '';
+                return `
+                    <article class="stooge-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
+                        <div class="h-80 relative bg-black">
+                            <img src="${stooge.image}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"${position} alt="${stooge.alt}">
+                            <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent"></div>
+                            <div class="absolute top-4 right-4 bg-black/70 text-yellow-400 text-xs font-mono px-3 py-1 rounded-2xl backdrop-blur">${stooge.years}</div>
+                            <button type="button" onclick="playStoogeFeature('${stooge.shortKey}')" class="absolute bottom-4 left-4 inline-flex items-center gap-2 px-4 py-2 rounded-2xl bg-yellow-400 text-zinc-950 font-bold text-sm hover:bg-yellow-300 transition-colors">
+                                <i class="fa-solid fa-play"></i> ${short ? short.title : 'Play'}
+                            </button>
+                        </div>
+                        <div class="p-7">
+                            <div class="flex items-baseline justify-between gap-4">
+                                <div>
+                                    <div class="font-black text-4xl tracking-tighter">${stooge.name}</div>
+                                    <div class="text-yellow-400 text-sm font-medium">${stooge.realName}</div>
+                                </div>
+                                <div class="text-right text-xs text-zinc-500">${stooge.role}</div>
+                            </div>
+                            <p class="mt-5 text-zinc-400 text-[15px] leading-relaxed">${stooge.bio}</p>
+                            <div class="mt-6 pt-6 border-t border-zinc-800 flex items-center justify-between gap-4 text-sm">
+                                <div><span class="font-mono text-yellow-400">${stooge.life.split(' - ')[0]}</span> - <span class="text-zinc-500">${stooge.life.split(' - ')[1]}</span></div>
+                                <div class="text-emerald-400 flex items-center gap-x-1"><i class="fa-solid fa-check text-xs"></i> <span class="text-xs font-medium">${stooge.films}</span></div>
+                            </div>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function playStoogeFeature(key) {
+            const entries = getShortEntries();
+            const index = entries.findIndex(([shortKey]) => shortKey === key);
+            if (index >= 0) {
+                currentShortPage = Math.floor(index / SHORTS_PER_PAGE);
+                renderVideoGallery();
+            }
+            navigateToPage('videos');
+            setTimeout(() => openShort(key), 80);
+        }
+
+        function openGagShort() {
+            openShortFromDaily(currentGagShortKey);
+        }
+
+        function setGagShort(key, titleOverride = '') {
+            const short = shorts[key];
+            if (!short) return;
+            currentGagShortKey = key;
+            const poster = document.getElementById('gag-poster');
+            const title = document.getElementById('gag-title');
+            const description = document.getElementById('gag-description');
+            const playButton = document.getElementById('gag-play-button');
+            if (poster) {
+                poster.src = short.poster;
+                poster.alt = short.alt || `${short.title} poster`;
+                poster.style.objectPosition = short.posterPosition || 'center';
+            }
+            if (title) title.textContent = titleOverride || short.title;
+            if (description) description.textContent = short.description;
+            if (playButton) playButton.innerHTML = `<i class="fa-solid fa-play mr-2"></i> Play ${short.title}`;
+        }
+
         function initVideoGallery() {
             renderVideoGallery();
             renderDailyFive();
@@ -1284,15 +1454,8 @@
         }
 
         function generateGag() {
-            const jobs = ['Plumbers', 'Dentists', 'Professors', 'Detectives', 'Chefs', 'Stagehands', 'Doctors', 'Tailors'];
-            const places = ['in a Palace', 'at City Hall', 'on a Movie Set', 'inside a Fancy Restaurant', 'at a Radio Station', 'in a Haunted Hotel', 'at a College', 'on a Train'];
-            const props = ['a runaway pipe organ', 'one suspicious cream pie', 'a bucket with no bottom', 'three collapsing ladders', 'an exploding cake', 'a violin with secrets', 'a courtroom gavel', 'a very angry roast turkey'];
-            const disasters = ['accidentally get promoted', 'start a parade indoors', 'turn the mayor into a witness', 'invent a new kind of plumbing', 'mistake the villain for the valet', 'solve the case by ruining everything'];
-            const pick = (items) => items[Math.floor(Math.random() * items.length)];
-            const title = `${pick(jobs)} ${pick(places)}`;
-            const description = `The boys find ${pick(props)}, ${pick(disasters)}, and somehow leave convinced they did a professional job.`;
-            document.getElementById('gag-title').textContent = title;
-            document.getElementById('gag-description').textContent = description;
+            const pick = gagShorts[Math.floor(Math.random() * gagShorts.length)];
+            setGagShort(pick.key, pick.title);
         }
 
         function toggleMobileNav(forceOpen) {
@@ -1368,8 +1531,10 @@
             initPageRouter();
             renderQuoteAudioList();
             initVideoGallery();
+            renderStoogeRoster();
             initImageLightbox();
             setFeaturedShort('disorder');
+            setGagShort('plumbing', 'Plumbers in a Mansion');
 
             // Show a random quote on load after a delay
             setTimeout(() => {
