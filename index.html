@@ -8,12 +8,12 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@400;700&display=swap');
-        
+
         :root {
             --stooge-yellow: #facc15;
             --stooge-red: #b91c1c;
         }
-        
+
         body {
             font-family: 'Roboto', system_ui, sans-serif;
             overflow-x: hidden;
@@ -22,7 +22,7 @@
         html {
             scroll-padding-top: 96px;
         }
-        
+
         .heading-font {
             font-family: 'Playfair Display', Georgia, serif;
             font-weight: 700;
@@ -31,7 +31,7 @@
         .stooge-card {
             transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.3s ease;
         }
-        
+
         .stooge-card:hover {
             transform: translateY(-12px) scale(1.03);
             box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.4);
@@ -46,7 +46,7 @@
             position: relative;
             display: inline-block;
         }
-        
+
         .section-header:after {
             content: '';
             position: absolute;
@@ -198,6 +198,25 @@
             display: grid;
         }
 
+        .site-page.is-hidden,
+        .home-only.is-hidden {
+            display: none !important;
+        }
+
+        .site-page {
+            min-height: calc(100dvh - 5rem);
+        }
+
+        .page-home-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            color: #facc15;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
         @media (max-width: 767px) {
             nav .max-w-7xl {
                 padding-left: 1rem;
@@ -278,13 +297,14 @@
                         <div class="w-11 h-11 bg-yellow-400 flex items-center justify-center rounded-full">
                             <span class="text-zinc-950 font-black text-3xl tracking-tighter">3</span>
                         </div>
-                        <div>
+                        <a href="#home" aria-label="Go to home" class="block">
                             <span class="brand-title font-black text-3xl tracking-tighter">THE STOOGES</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
-                
+
                 <div class="hidden md:flex items-center gap-x-5 lg:gap-x-8 text-xs lg:text-sm font-medium">
+                    <a href="#home" class="hover:text-yellow-400 transition-colors">Home</a>
                     <a href="#the-trio" class="hover:text-yellow-400 transition-colors">The Trio</a>
                     <a href="#history" class="hover:text-yellow-400 transition-colors">History</a>
                     <a href="#films" class="hover:text-yellow-400 transition-colors">Films</a>
@@ -294,25 +314,26 @@
                     <a href="#quotes" class="hover:text-yellow-400 transition-colors">Quotes</a>
                     <a href="#gallery" class="hover:text-yellow-400 transition-colors">Gallery</a>
                 </div>
-                
+
                 <div class="flex items-center gap-x-3">
                     <button id="theme-toggle" onclick="toggleTheme()" aria-label="Toggle day and night mode"
                             class="w-11 h-11 bg-zinc-800 hover:bg-zinc-700 border border-zinc-700 transition-colors text-yellow-400 rounded-2xl flex items-center justify-center">
                         <i id="theme-icon" class="fa-solid fa-moon"></i>
                     </button>
 
-                    <button onclick="showRandomQuote()" 
+                    <button onclick="showRandomQuote()"
                             class="px-5 py-2.5 bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-bold text-sm rounded-2xl flex items-center gap-x-2">
                         <i class="fa-solid fa-random"></i>
                         <span class="hidden sm:inline">Random Quote</span>
                     </button>
-                    
+
                     <button class="md:hidden px-4 py-2 text-zinc-400 hover:text-white" onclick="toggleMobileNav()">
                         <i class="fa-solid fa-bars text-xl"></i>
                     </button>
                 </div>
             </div>
             <div id="mobile-menu" class="md:hidden pb-5 grid-cols-2 gap-2 text-sm font-medium">
+                <a href="#home" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Home</a>
                 <a href="#the-trio" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Trio</a>
                 <a href="#history" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">History</a>
                 <a href="#films" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Films</a>
@@ -326,34 +347,34 @@
     </nav>
 
     <!-- Hero -->
-    <div class="pt-20 min-h-[100dvh] flex items-center stooge-bg relative overflow-hidden">
+    <div id="home-page" class="site-page pt-20 min-h-[100dvh] flex items-center stooge-bg relative overflow-hidden">
         <div class="absolute inset-0 bg-[radial-gradient(#374151_0.8px,transparent_1px)] bg-[length:5px_5px] opacity-30"></div>
-        
+
         <div class="max-w-5xl mx-auto px-6 relative z-10">
             <div class="max-w-3xl">
                 <div class="inline-flex items-center gap-x-2 px-4 py-1.5 bg-zinc-900 border border-yellow-400/30 rounded-3xl mb-6">
                     <div class="w-2 h-2 bg-yellow-400 rounded-full animate-pulse"></div>
                     <span class="text-sm font-medium tracking-[3px] text-yellow-400">EST. 1925 • 190+ SHORTS</span>
                 </div>
-                
+
                 <h1 class="hero-title text-7xl md:text-8xl font-black tracking-tighter leading-none mb-4">
                     THE<br>THREE<br><span class="stooge-gradient">STOOGES</span>
                 </h1>
-                
+
                 <p class="max-w-md text-2xl text-zinc-400 mb-10">The kings of slapstick. The masters of mayhem. The reason your grandpa laughed so hard.</p>
-                
+
                 <div class="hero-actions flex items-center gap-x-4 gap-y-3">
-                    <a href="#the-trio" 
+                    <a href="#the-trio"
                        class="inline-flex items-center justify-center px-8 py-4 bg-white text-zinc-950 hover:bg-zinc-100 transition-all font-bold rounded-3xl text-lg active:scale-[0.985]">
                         Meet the Boys
                     </a>
-                    <button onclick="document.getElementById('quotes').scrollIntoView({ behavior: 'smooth' })" 
+                    <button onclick="navigateToPage('quotes')"
                             class="inline-flex items-center justify-center px-7 py-4 border border-white/40 hover:bg-white/5 transition-all font-medium rounded-3xl text-lg">
-                        <i class="fa-solid fa-play mr-2.5"></i> 
+                        <i class="fa-solid fa-play mr-2.5"></i>
                         Hear the Wisdom
                     </button>
                 </div>
-                
+
                 <div class="mt-12 flex items-center gap-x-8 text-sm">
                     <div class="flex -space-x-3">
                         <div class="w-8 h-8 bg-zinc-700 rounded-full border-2 border-zinc-950 overflow-hidden ring-1 ring-white/10"><img src="/images/moe-howard-1937.jpg?v=actual-stooges-1" class="w-full h-full object-cover" alt="Moe Howard"></div>
@@ -364,12 +385,12 @@
                 </div>
             </div>
         </div>
-        
+
         <div class="hidden xl:block absolute bottom-12 right-12 text-[220px] font-black text-white/5 tracking-[-20px] pointer-events-none select-none">3</div>
     </div>
 
     <!-- Quick Jump -->
-    <div class="section-block bg-zinc-950">
+    <div id="quick-jump" class="home-only section-block bg-zinc-950">
         <div class="max-w-7xl mx-auto px-6 py-5">
             <div class="flex gap-3 overflow-x-auto pb-1 text-sm">
                 <a href="#videos" class="jump-link px-4 py-2 rounded-2xl bg-yellow-400 text-zinc-950 font-bold">Play Shorts</a>
@@ -382,7 +403,8 @@
     </div>
 
     <!-- The Trio -->
-    <div id="the-trio" class="section-block max-w-7xl mx-auto px-6 pt-20 pb-16">
+    <div id="the-trio" class="site-page section-block max-w-7xl mx-auto px-6 pt-24 pb-16 is-hidden">
+        <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
         <div class="section-heading-row flex items-end justify-between mb-10">
             <div>
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">THE LEGENDS</span>
@@ -390,7 +412,7 @@
             </div>
             <a href="#history" class="hidden md:flex items-center text-sm font-medium text-yellow-400 hover:text-yellow-300 transition-colors">Their full story →</a>
         </div>
-        
+
         <div class="grid md:grid-cols-3 gap-6">
             <!-- Moe -->
             <div class="stooge-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
@@ -409,14 +431,14 @@
                         </div>
                     </div>
                     <p class="mt-5 text-zinc-400 text-[15px] leading-relaxed">The sharp-witted leader with the iconic bowl cut. Moe was the brains (and the slaps) behind the operation.</p>
-                    
+
                     <div class="mt-6 pt-6 border-t border-zinc-800 flex items-center justify-between text-sm">
                         <div><span class="font-mono text-yellow-400">1907</span> — <span class="text-zinc-500">1975</span></div>
                         <div class="text-emerald-400 flex items-center gap-x-1"><i class="fa-solid fa-check text-xs"></i> <span class="text-xs font-medium">190+ films</span></div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Larry -->
             <div class="stooge-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
                 <div class="h-80 relative">
@@ -434,14 +456,14 @@
                         </div>
                     </div>
                     <p class="mt-5 text-zinc-400 text-[15px] leading-relaxed">The curly-haired middle man. Larry's violin skills and gentle demeanor made him the perfect foil to Moe's aggression.</p>
-                    
+
                     <div class="mt-6 pt-6 border-t border-zinc-800 flex items-center justify-between text-sm">
                         <div><span class="font-mono text-yellow-400">1902</span> — <span class="text-zinc-500">1975</span></div>
                         <div class="text-emerald-400 flex items-center gap-x-1"><i class="fa-solid fa-check text-xs"></i> <span class="text-xs font-medium">190+ films</span></div>
                     </div>
                 </div>
             </div>
-            
+
             <!-- Curly -->
             <div class="stooge-card bg-zinc-900 border border-zinc-800 rounded-3xl overflow-hidden group">
                 <div class="h-80 relative">
@@ -459,7 +481,7 @@
                         </div>
                     </div>
                     <p class="mt-5 text-zinc-400 text-[15px] leading-relaxed">The beloved bald-headed genius of physical comedy. Curly's "nyuk nyuk nyuk" and "soitenly!" defined an era.</p>
-                    
+
                     <div class="mt-6 pt-6 border-t border-zinc-800 flex items-center justify-between text-sm">
                         <div><span class="font-mono text-yellow-400">1903</span> — <span class="text-zinc-500">1952</span></div>
                         <div class="text-emerald-400 flex items-center gap-x-1"><i class="fa-solid fa-check text-xs"></i> <span class="text-xs font-medium">97 films</span></div>
@@ -470,19 +492,20 @@
     </div>
 
     <!-- History -->
-    <div id="history" class="section-block bg-zinc-900 py-16">
+    <div id="history" class="site-page section-block bg-zinc-900 py-24 is-hidden">
         <div class="max-w-5xl mx-auto px-6">
+            <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
             <div class="max-w-2xl">
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">FROM VAUDEVILLE TO HOLLYWOOD</span>
                 <h2 class="text-6xl font-black tracking-tighter mt-2 mb-8">A Century of Chaos</h2>
             </div>
-            
+
             <div class="grid md:grid-cols-12 gap-x-12 gap-y-12 text-[15px]">
                 <div class="md:col-span-7 text-zinc-400 leading-relaxed space-y-6">
                     <p>The Three Stooges began in 1925 as a vaudeville act called "Ted Healy and His Stooges." After breaking out on their own, they signed with Columbia Pictures in 1934 and went on to make 190 short films over the next 24 years.</p>
                     <p>They survived the transition from Curly to Shemp, then Joe Besser, and finally Joe DeRita ("Curly Joe"). Through it all, the spirit of anarchic, joyful destruction remained the same.</p>
                 </div>
-                
+
                 <div class="md:col-span-5 bg-zinc-950 border border-zinc-800 p-8 rounded-3xl">
                     <div class="text-xs uppercase tracking-widest text-yellow-400 mb-4">KEY MILESTONES</div>
                     <div class="space-y-6 text-sm">
@@ -498,7 +521,8 @@
     </div>
 
     <!-- Films -->
-    <div id="films" class="section-block max-w-7xl mx-auto px-6 py-20">
+    <div id="films" class="site-page section-block max-w-7xl mx-auto px-6 py-24 is-hidden">
+        <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
         <div class="section-heading-row flex justify-between items-end mb-9">
             <div>
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">THE FILMOGRAPHY</span>
@@ -506,7 +530,7 @@
             </div>
             <div class="text-sm text-zinc-500 hidden md:block">190 total • 1934–1959</div>
         </div>
-        
+
         <div class="grid md:grid-cols-2 gap-3 text-sm">
             <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="playShortModal('meninblack')">
                 <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1934</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">Men in Black</span></div>
@@ -541,17 +565,18 @@
                 <i class="fa-solid fa-play text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
             </div>
         </div>
-        
+
         <div class="text-center mt-8">
-            <button onclick="document.getElementById('videos').scrollIntoView({ behavior: 'smooth' })" class="text-sm px-6 py-3 border border-zinc-700 hover:bg-zinc-900 transition-colors rounded-2xl text-zinc-400 hover:text-white">
+            <button onclick="navigateToPage('videos')" class="text-sm px-6 py-3 border border-zinc-700 hover:bg-zinc-900 transition-colors rounded-2xl text-zinc-400 hover:text-white">
                 Watch playable shorts ->
             </button>
         </div>
     </div>
 
     <!-- Videos -->
-    <div id="videos" class="section-block bg-zinc-900 py-20">
+    <div id="videos" class="site-page section-block bg-zinc-900 py-24 is-hidden">
         <div class="max-w-7xl mx-auto px-6">
+            <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
             <div class="section-heading-row flex justify-between items-end mb-9">
                 <div>
                     <span class="text-yellow-400 text-sm font-bold tracking-[2px]">SHORTS VIDEO GALLERY</span>
@@ -594,7 +619,8 @@
     </div>
 
     <!-- Daily Five -->
-    <div id="daily-five" class="section-block max-w-7xl mx-auto px-6 py-20">
+    <div id="daily-five" class="site-page section-block max-w-7xl mx-auto px-6 py-24 is-hidden">
+        <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
         <div class="section-heading-row flex justify-between items-end mb-9">
             <div>
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">ROTATES EVERY DAY</span>
@@ -616,7 +642,8 @@
     </div>
 
     <!-- Slapstick Lab -->
-    <div id="slapstick-lab" class="section-block max-w-7xl mx-auto px-6 py-20">
+    <div id="slapstick-lab" class="site-page section-block max-w-7xl mx-auto px-6 py-24 is-hidden">
+        <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
         <div class="gag-reel border border-zinc-800 rounded-3xl p-8 md:p-10 overflow-hidden relative">
             <div class="grid lg:grid-cols-[1fr_0.9fr] gap-10 items-center relative z-10">
                 <div>
@@ -642,22 +669,23 @@
     </div>
 
     <!-- Quotes -->
-    <div id="quotes" class="section-block bg-zinc-900 py-20">
+    <div id="quotes" class="site-page section-block bg-zinc-900 py-24 is-hidden">
         <div class="max-w-4xl mx-auto px-6 text-center">
+            <a href="#home" class="page-top-link page-home-link justify-center"><i class="fa-solid fa-arrow-left"></i> Home</a>
             <span class="text-yellow-400 text-sm font-bold tracking-[2px]">WORDS TO LIVE BY</span>
             <h2 class="text-6xl font-black tracking-tighter mt-3 mb-4">Classic Quotes</h2>
             <p class="text-zinc-400 max-w-sm mx-auto">The wisdom of the Stooges, paired with matching real public-domain film audio clips.</p>
-            
+
             <div id="quote-display" class="quote-card mt-10 bg-zinc-950 border border-zinc-800 rounded-3xl p-12 max-w-3xl mx-auto min-h-[220px] flex items-center justify-center">
                 <div>
                     <div id="quote-text" class="text-3xl font-medium leading-tight tracking-tight">"Take over. Raise your right hand."</div>
                     <div id="quote-attribution" class="mt-6 text-yellow-400 font-medium">— Courtroom clip</div>
                 </div>
             </div>
-            
+
             <div class="flex flex-wrap justify-center gap-3 mt-8">
                 <button onclick="showRandomQuote()" class="px-7 py-3.5 flex items-center gap-x-2 bg-yellow-400 hover:bg-amber-300 transition-colors text-zinc-950 font-bold rounded-3xl text-sm">
-                    <i class="fa-solid fa-sync-alt"></i> 
+                    <i class="fa-solid fa-sync-alt"></i>
                     <span>ANOTHER ONE</span>
                 </button>
                 <button onclick="playCurrentQuote()" class="px-7 py-3.5 flex items-center gap-x-2 bg-zinc-800 hover:bg-zinc-700 transition-colors text-yellow-400 font-bold rounded-3xl text-sm border border-zinc-700">
@@ -671,12 +699,13 @@
     </div>
 
     <!-- Gallery -->
-    <div id="gallery" class="section-block max-w-7xl mx-auto px-6 py-20">
+    <div id="gallery" class="site-page section-block max-w-7xl mx-auto px-6 py-24 is-hidden">
+        <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
         <div class="mb-10">
             <span class="text-yellow-400 text-sm font-bold tracking-[2px]">VISUAL MAYHEM</span>
             <h2 class="text-6xl font-black tracking-tighter">Gallery</h2>
         </div>
-        
+
         <div class="grid grid-cols-2 md:grid-cols-4 gap-3">
             <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-1937.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="The Three Stooges in 1937"></div>
             <div class="aspect-square rounded-3xl overflow-hidden border border-zinc-800"><img src="/images/three-stooges-1936-cropped.jpg?v=gallery-audio-1" class="w-full h-full object-cover hover:scale-110 transition-transform duration-500" alt="The Three Stooges in Disorder in the Court"></div>
@@ -732,7 +761,7 @@
         function initializeTailwind() {
             document.documentElement.style.setProperty('--accent', '#facc15');
         }
-        
+
         // Navbar scroll effect
         function initNavbar() {
             const navbar = document.getElementById('navbar');
@@ -744,7 +773,40 @@
                 }
             });
         }
-        
+
+        const pageIds = ['the-trio', 'history', 'films', 'videos', 'daily-five', 'slapstick-lab', 'quotes', 'gallery'];
+
+        function getRouteFromHash() {
+            const route = (window.location.hash || '#home').slice(1);
+            return pageIds.includes(route) ? route : 'home';
+        }
+
+        function navigateToPage(pageId) {
+            window.location.hash = pageId === 'home' ? 'home' : pageId;
+            activatePage();
+        }
+
+        function activatePage() {
+            const route = getRouteFromHash();
+            const isHome = route === 'home';
+            document.getElementById('home-page')?.classList.toggle('is-hidden', !isHome);
+            document.getElementById('quick-jump')?.classList.toggle('is-hidden', !isHome);
+            pageIds.forEach((pageId) => {
+                document.getElementById(pageId)?.classList.toggle('is-hidden', pageId !== route);
+            });
+            document.body.dataset.page = route;
+            toggleMobileNav(false);
+            window.scrollTo({ top: 0, behavior: 'auto' });
+        }
+
+        function initPageRouter() {
+            window.addEventListener('hashchange', activatePage);
+            if (!window.location.hash) {
+                history.replaceState(null, '', '#home');
+            }
+            activatePage();
+        }
+
         // Quotes database
         const quotes = [
             { text: "Take over. Raise your right hand.", author: "Courtroom clip", audio: "/audio/quote-moe-triple-crossing.wav?v=actual-voices-2" },
@@ -941,28 +1003,28 @@
                 alt: "Crime on Their Hands frame"
             }
         };
-        
+
         let currentQuoteIndex = 0;
         let currentQuoteAudio = null;
         let currentShortKey = 'disorder';
         let currentShortPage = 0;
         const SHORTS_PER_PAGE = 5;
-        
+
         function showRandomQuote() {
             const display = document.getElementById('quote-display');
             const textEl = document.getElementById('quote-text');
             const attrEl = document.getElementById('quote-attribution');
-            
+
             // Fade out
             display.style.opacity = '0';
-            
+
             setTimeout(() => {
                 currentQuoteIndex = Math.floor(Math.random() * quotes.length);
                 const quote = quotes[currentQuoteIndex];
-                
+
                 textEl.innerHTML = `"${quote.text}"`;
                 attrEl.innerHTML = `— ${quote.author}`;
-                
+
                 // Fade in
                 display.style.transition = 'opacity 0.4s ease';
                 display.style.opacity = '1';
@@ -1006,7 +1068,7 @@
                 </button>
             `).join('');
         }
-        
+
         function setFeaturedShort(key, shouldPlay = false) {
             const short = shorts[key];
             if (!short) return;
@@ -1116,7 +1178,8 @@
                 currentShortPage = Math.floor(index / SHORTS_PER_PAGE);
                 renderVideoGallery();
             }
-            openShort(key);
+            navigateToPage('videos');
+            setTimeout(() => openShort(key), 80);
         }
 
         function renderDailyFive() {
@@ -1176,7 +1239,7 @@
                 setTimeout(() => video.play().catch(() => {}), 150);
             }
         }
-        
+
         function hideFilmModal() {
             const modal = document.getElementById('film-modal');
             const video = document.getElementById('modal-video');
@@ -1231,7 +1294,7 @@
             document.getElementById('gag-title').textContent = title;
             document.getElementById('gag-description').textContent = description;
         }
-        
+
         function toggleMobileNav(forceOpen) {
             const menu = document.getElementById('mobile-menu');
             if (!menu) return;
@@ -1260,7 +1323,7 @@
             const saved = localStorage.getItem('stooges-theme');
             applyTheme(saved || 'night');
         }
-        
+
         // Keyboard support
         function initKeyboard() {
             document.addEventListener('keydown', function(e) {
@@ -1274,8 +1337,8 @@
                     toggleMobileNav(false);
                 }
             });
-            
-            // Easter egg: type "nyuk" 
+
+            // Easter egg: type "nyuk"
             let typed = "";
             document.addEventListener('keypress', function(e) {
                 typed += e.key.toLowerCase();
@@ -1295,18 +1358,19 @@
                 }
             });
         }
-        
+
         // Boot everything
         function init() {
             initializeTailwind();
             initTheme();
             initNavbar();
             initKeyboard();
+            initPageRouter();
             renderQuoteAudioList();
             initVideoGallery();
             initImageLightbox();
             setFeaturedShort('disorder');
-            
+
             // Show a random quote on load after a delay
             setTimeout(() => {
                 const quoteEl = document.getElementById('quote-text');
@@ -1314,11 +1378,11 @@
                     // already has default
                 }
             }, 1400);
-            
+
             // Subtle console message
             console.log('%c[STOOGES] Nyuk nyuk nyuk! Thanks for visiting.', 'color:#3f3f46');
         }
-        
+
         window.onload = init;
     </script>
 </body>
