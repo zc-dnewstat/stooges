@@ -71,6 +71,27 @@
             transform: translateX(8px);
         }
 
+        .click-enlarge {
+            cursor: zoom-in;
+        }
+
+        .video-card.is-active {
+            border-color: rgb(250 204 21 / 0.85);
+            box-shadow: 0 0 0 1px rgb(250 204 21 / 0.35), 0 20px 45px -28px rgb(250 204 21 / 0.65);
+        }
+
+        .video-card.is-active .play-pill {
+            background: #facc15;
+            color: #18181b;
+        }
+
+        .gag-reel {
+            background:
+                linear-gradient(135deg, rgb(250 204 21 / 0.12), transparent 38%),
+                linear-gradient(315deg, rgb(185 28 28 / 0.16), transparent 45%),
+                #09090b;
+        }
+
         .nav-scrolled {
             background-color: rgba(17, 24, 39, 0.95);
             backdrop-filter: blur(12px);
@@ -127,6 +148,13 @@
             background-color: #f4f4f5;
         }
 
+        body.day-mode .gag-reel {
+            background:
+                linear-gradient(135deg, rgb(250 204 21 / 0.22), transparent 38%),
+                linear-gradient(315deg, rgb(185 28 28 / 0.11), transparent 45%),
+                #ffffff;
+        }
+
         #mobile-menu {
             display: none;
         }
@@ -163,11 +191,12 @@
                     </div>
                 </div>
                 
-                <div class="hidden md:flex items-center gap-x-9 text-sm font-medium">
+                <div class="hidden md:flex items-center gap-x-5 lg:gap-x-8 text-xs lg:text-sm font-medium">
                     <a href="#the-trio" class="hover:text-yellow-400 transition-colors">The Trio</a>
                     <a href="#history" class="hover:text-yellow-400 transition-colors">History</a>
                     <a href="#films" class="hover:text-yellow-400 transition-colors">Films</a>
                     <a href="#videos" class="hover:text-yellow-400 transition-colors">Videos</a>
+                    <a href="#slapstick-lab" class="hover:text-yellow-400 transition-colors">Lab</a>
                     <a href="#quotes" class="hover:text-yellow-400 transition-colors">Quotes</a>
                     <a href="#gallery" class="hover:text-yellow-400 transition-colors">Gallery</a>
                 </div>
@@ -194,6 +223,7 @@
                 <a href="#history" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">History</a>
                 <a href="#films" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Films</a>
                 <a href="#videos" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Videos</a>
+                <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Lab</a>
                 <a href="#quotes" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Quotes</a>
                 <a href="#gallery" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Gallery</a>
             </div>
@@ -378,7 +408,7 @@
                 <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1934</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">Three Little Pigskins</span></div>
                 <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
             </div>
-            <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="showFilmModal('Disorder in the Court', '1936', 'One of their most famous shorts. Curly testifies in court while the boys play music.', 'https://archive.org/embed/disorder_in_the_court')">
+            <div class="film-row group flex items-center justify-between border border-zinc-800 hover:border-yellow-400/30 transition-all px-7 py-5 rounded-3xl cursor-pointer" onclick="openShort('disorder', true)">
                 <div class="flex items-center gap-x-5"><span class="font-mono text-yellow-400 w-12">1936</span> <span class="font-medium group-hover:text-yellow-400 transition-colors">Disorder in the Court</span></div>
                 <i class="fa-solid fa-play text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
             </div>
@@ -419,57 +449,113 @@
                     <span class="text-yellow-400 text-sm font-bold tracking-[2px]">SHORTS VIDEO GALLERY</span>
                     <h2 class="text-6xl font-black tracking-tighter">Watch the Shorts</h2>
                 </div>
-                <div class="text-sm text-zinc-500 hidden md:block">Playable public-domain embeds</div>
+                <div class="text-sm text-zinc-500 hidden md:block">Playable public-domain shorts</div>
             </div>
 
-            <div class="grid lg:grid-cols-2 gap-5">
-                <button onclick="showFilmModal('Disorder in the Court', '1936', 'One of the most widely shared Stooges shorts, with Curly on the witness stand and the boys turning court into chaos.', 'https://archive.org/embed/disorder_in_the_court')" class="group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="/images/disorder-in-the-court-title-1936.jpg?v=videos-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Disorder in the Court title card">
-                        <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition-colors"></div>
-                        <div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play text-xl"></i></span></div>
+            <div class="grid lg:grid-cols-[1.45fr_1fr] gap-6 items-start">
+                <div class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                    <div class="aspect-video bg-black">
+                        <video id="featured-short-video" class="w-full h-full" controls playsinline preload="metadata" poster="/images/disorder-in-the-court-title-1936.jpg?v=videos-2">
+                            <source id="featured-short-source" src="https://archive.org/download/disorder_in_the_court/disorder_in_the_court.mp4" type="video/mp4">
+                        </video>
                     </div>
-                    <div class="p-6 flex items-center justify-between gap-4">
-                        <div><div class="font-mono text-yellow-400 text-sm">1936</div><div class="font-black text-2xl tracking-tight">Disorder in the Court</div></div>
-                        <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+                    <div class="p-6 md:p-8">
+                        <div class="font-mono text-yellow-400 text-sm" id="featured-short-year">1936</div>
+                        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-4">
+                            <div>
+                                <h3 id="featured-short-title" class="font-black text-4xl tracking-tighter">Disorder in the Court</h3>
+                                <p id="featured-short-description" class="mt-3 text-zinc-400 leading-relaxed max-w-2xl">Curly takes the witness stand, the boys play the courtroom like a concert hall, and order leaves the building.</p>
+                            </div>
+                            <button onclick="openFeaturedShortModal()" class="shrink-0 px-5 py-3 bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-bold rounded-2xl text-sm">
+                                <i class="fa-solid fa-up-right-and-down-left-from-center mr-2"></i> Theater View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            <div class="grid gap-4">
+                <button data-short="disorder" class="video-card is-active group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
+                        <div class="relative overflow-hidden bg-black">
+                            <img src="/images/disorder-in-the-court-title-1936.jpg?v=videos-2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Disorder in the Court title card">
+                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
+                        </div>
+                        <div class="p-5">
+                            <div class="font-mono text-yellow-400 text-xs">1936</div>
+                            <div class="font-black text-xl tracking-tight">Disorder in the Court</div>
+                            <p class="mt-2 text-sm text-zinc-400">Courtroom chaos with one of Curly's great witness-stand routines.</p>
+                        </div>
                     </div>
                 </button>
 
-                <button onclick="showFilmModal('Sing a Song of Six Pants', '1947', 'A Shemp-era favorite with the boys as tailors tangled up in a reward chase.', 'https://archive.org/embed/sing_a_song_of_six_pants')" class="group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="/images/three-stooges-title-card-1934-1936.png?v=videos-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Three Stooges title card">
-                        <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition-colors"></div>
-                        <div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play text-xl"></i></span></div>
-                    </div>
-                    <div class="p-6 flex items-center justify-between gap-4">
-                        <div><div class="font-mono text-yellow-400 text-sm">1947</div><div class="font-black text-2xl tracking-tight">Sing a Song of Six Pants</div></div>
-                        <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
-                    </div>
-                </button>
-
-                <button onclick="showFilmModal('Malice in the Palace', '1949', 'The boys run a restaurant and get pulled into a jewel-theft chase.', 'https://archive.org/embed/malice_in_the_palace')" class="group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="/images/three-stooges-pie-fight-trailer.png?v=videos-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Three Stooges pie fight still">
-                        <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition-colors"></div>
-                        <div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play text-xl"></i></span></div>
-                    </div>
-                    <div class="p-6 flex items-center justify-between gap-4">
-                        <div><div class="font-mono text-yellow-400 text-sm">1949</div><div class="font-black text-2xl tracking-tight">Malice in the Palace</div></div>
-                        <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+                <button data-short="sixpants" class="video-card group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
+                        <div class="relative overflow-hidden bg-black">
+                            <img src="/images/three-stooges-title-card-1934-1936.png?v=videos-2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Three Stooges title card">
+                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
+                        </div>
+                        <div class="p-5">
+                            <div class="font-mono text-yellow-400 text-xs">1947</div>
+                            <div class="font-black text-xl tracking-tight">Sing a Song of Six Pants</div>
+                            <p class="mt-2 text-sm text-zinc-400">A tailor-shop chase from the Shemp era.</p>
+                        </div>
                     </div>
                 </button>
 
-                <button onclick="showFilmModal('Brideless Groom', '1947', 'Shemp has to get married fast to inherit a fortune. Naturally, everything goes sideways.', 'https://archive.org/embed/brideless_groom')" class="group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
-                    <div class="aspect-video relative overflow-hidden">
-                        <img src="/images/three-stooges-1937.jpg?v=videos-1" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: 48% 25%;" alt="The Three Stooges in 1937">
-                        <div class="absolute inset-0 bg-black/35 group-hover:bg-black/20 transition-colors"></div>
-                        <div class="absolute inset-0 flex items-center justify-center"><span class="w-16 h-16 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play text-xl"></i></span></div>
-                    </div>
-                    <div class="p-6 flex items-center justify-between gap-4">
-                        <div><div class="font-mono text-yellow-400 text-sm">1947</div><div class="font-black text-2xl tracking-tight">Brideless Groom</div></div>
-                        <i class="fa-solid fa-arrow-right text-zinc-600 group-hover:text-yellow-400 transition-colors"></i>
+                <button data-short="malice" class="video-card group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
+                        <div class="relative overflow-hidden bg-black">
+                            <img src="/images/three-stooges-pie-fight-trailer.png?v=videos-2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Three Stooges pie fight still">
+                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
+                        </div>
+                        <div class="p-5">
+                            <div class="font-mono text-yellow-400 text-xs">1949</div>
+                            <div class="font-black text-xl tracking-tight">Malice in the Palace</div>
+                            <p class="mt-2 text-sm text-zinc-400">Restaurant mayhem, disguises, and a jewel-theft chase.</p>
+                        </div>
                     </div>
                 </button>
+
+                <button data-short="brideless" class="video-card group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
+                        <div class="relative overflow-hidden bg-black">
+                            <img src="/images/three-stooges-1937.jpg?v=videos-2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: 48% 25%;" alt="The Three Stooges in 1937">
+                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
+                        </div>
+                        <div class="p-5">
+                            <div class="font-mono text-yellow-400 text-xs">1947</div>
+                            <div class="font-black text-xl tracking-tight">Brideless Groom</div>
+                            <p class="mt-2 text-sm text-zinc-400">Shemp needs a bride fast. The brides disagree.</p>
+                        </div>
+                    </div>
+                </button>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Slapstick Lab -->
+    <div id="slapstick-lab" class="max-w-7xl mx-auto px-6 py-20">
+        <div class="gag-reel border border-zinc-800 rounded-3xl p-8 md:p-10 overflow-hidden relative">
+            <div class="grid lg:grid-cols-[1fr_0.9fr] gap-10 items-center relative z-10">
+                <div>
+                    <span class="text-yellow-400 text-sm font-bold tracking-[2px]">STOOGE-O-MATIC</span>
+                    <h2 class="text-5xl md:text-6xl font-black tracking-tighter mt-2">Build a Bit</h2>
+                    <p class="mt-5 text-zinc-400 max-w-xl leading-relaxed">Spin up a fresh slapstick premise from classic Stooges ingredients: profession, prop, and the inevitable disaster.</p>
+                    <button onclick="generateGag()" class="mt-8 px-7 py-4 bg-yellow-400 hover:bg-yellow-300 transition-colors text-zinc-950 font-bold rounded-3xl">
+                        <i class="fa-solid fa-wand-magic-sparkles mr-2"></i> Make Mayhem
+                    </button>
+                </div>
+                <div class="bg-zinc-950 border border-zinc-800 rounded-3xl p-7">
+                    <div class="text-xs uppercase tracking-widest text-yellow-400 mb-4">Today's ridiculous short</div>
+                    <div id="gag-title" class="font-black text-4xl tracking-tighter">Plumbers in a Palace</div>
+                    <p id="gag-description" class="mt-5 text-zinc-400 leading-relaxed">The boys arrive to fix one sink, flood three rooms, and accidentally become royal advisors.</p>
+                    <div class="mt-7 grid grid-cols-3 gap-3 text-center text-xs">
+                        <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">190</div><div class="text-zinc-500">Shorts</div></div>
+                        <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">24</div><div class="text-zinc-500">Years</div></div>
+                        <div class="bg-zinc-900 rounded-2xl p-4 border border-zinc-800"><div class="text-2xl font-black text-yellow-400">ALL</div><div class="text-zinc-500">Nyuks</div></div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -536,7 +622,7 @@
     <div id="film-modal" onclick="if (event.target.id === 'film-modal') hideFilmModal()" class="hidden fixed inset-0 bg-black/90 z-[100] flex items-center justify-center p-6">
         <div onclick="event.stopImmediatePropagation()" class="bg-zinc-900 border border-zinc-700 max-w-4xl w-full rounded-3xl overflow-hidden">
             <div id="modal-video-wrap" class="hidden aspect-video bg-black border-b border-zinc-800">
-                <iframe id="modal-video" class="w-full h-full" title="Three Stooges short video" allowfullscreen webkitallowfullscreen frameborder="0"></iframe>
+                <video id="modal-video" class="w-full h-full" controls playsinline preload="metadata"></video>
             </div>
             <div class="p-8">
                 <div id="modal-year" class="font-mono text-yellow-400 text-sm mb-1"></div>
@@ -546,6 +632,17 @@
             <div class="px-8 py-5 bg-zinc-950 flex justify-end border-t border-zinc-800">
                 <button onclick="hideFilmModal()" class="px-6 py-2 text-sm font-medium">Close</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div id="image-lightbox" onclick="if (event.target.id === 'image-lightbox') hideImageLightbox()" class="hidden fixed inset-0 bg-black/95 z-[110] p-5 md:p-8 items-center justify-center">
+        <button onclick="hideImageLightbox()" class="absolute top-5 right-5 w-12 h-12 rounded-full bg-zinc-900 hover:bg-zinc-800 border border-zinc-700 text-white">
+            <i class="fa-solid fa-xmark"></i>
+        </button>
+        <div class="max-w-6xl w-full">
+            <img id="lightbox-image" src="" alt="" class="max-h-[82vh] w-full object-contain rounded-2xl">
+            <div id="lightbox-caption" class="mt-4 text-center text-zinc-300 text-sm"></div>
         </div>
     </div>
 
@@ -578,9 +675,41 @@
             { text: "Kindly speak English. Drop the vernacular.", author: "Courtroom clip", audio: "/audio/quote-larry-look.wav?v=actual-voices-2" },
             { text: "We will show you just what happened.", author: "Courtroom clip", audio: "/audio/quote-moe-spread-out.wav?v=actual-voices-2" }
         ];
+
+        const shorts = {
+            disorder: {
+                title: "Disorder in the Court",
+                year: "1936",
+                description: "Curly takes the witness stand, the boys play the courtroom like a concert hall, and order leaves the building.",
+                src: "https://archive.org/download/disorder_in_the_court/disorder_in_the_court.mp4",
+                poster: "/images/disorder-in-the-court-title-1936.jpg?v=videos-2"
+            },
+            sixpants: {
+                title: "Sing a Song of Six Pants",
+                year: "1947",
+                description: "A Shemp-era tailor-shop chase with reward money, bad timing, and a lot of flying fabric.",
+                src: "https://archive.org/download/sing_a_song_of_six_pants/sing_a_song_of_six_pants.mp4",
+                poster: "/images/three-stooges-title-card-1934-1936.png?v=videos-2"
+            },
+            malice: {
+                title: "Malice in the Palace",
+                year: "1949",
+                description: "The boys run a restaurant, stumble into a jewel-theft chase, and turn a palace into a collision course.",
+                src: "https://archive.org/download/malice_in_the_palace/malice_in_the_palace.mp4",
+                poster: "/images/three-stooges-pie-fight-trailer.png?v=videos-2"
+            },
+            brideless: {
+                title: "Brideless Groom",
+                year: "1947",
+                description: "Shemp has to get married fast to inherit a fortune. Naturally, every prospective bride has other ideas.",
+                src: "https://archive.org/download/brideless_groom/brideless_groom.mp4",
+                poster: "/images/three-stooges-1937.jpg?v=videos-2"
+            }
+        };
         
         let currentQuoteIndex = 0;
         let currentQuoteAudio = null;
+        let currentShortKey = 'disorder';
         
         function showRandomQuote() {
             const display = document.getElementById('quote-display');
@@ -641,8 +770,50 @@
             `).join('');
         }
         
+        function setFeaturedShort(key, shouldPlay = false) {
+            const short = shorts[key];
+            if (!short) return;
+            currentShortKey = key;
+            const video = document.getElementById('featured-short-video');
+            const source = document.getElementById('featured-short-source');
+            document.getElementById('featured-short-title').textContent = short.title;
+            document.getElementById('featured-short-year').textContent = short.year;
+            document.getElementById('featured-short-description').textContent = short.description;
+            if (video && source) {
+                video.pause();
+                source.src = short.src;
+                video.poster = short.poster;
+                video.load();
+                if (shouldPlay) {
+                    video.play().catch(() => {});
+                }
+            }
+            document.querySelectorAll('.video-card').forEach((card) => {
+                card.classList.toggle('is-active', card.dataset.short === key);
+            });
+        }
+
+        function openShort(key, theater = false) {
+            setFeaturedShort(key, !theater);
+            document.getElementById('videos').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            if (theater) {
+                setTimeout(openFeaturedShortModal, 350);
+            }
+        }
+
+        function openFeaturedShortModal() {
+            const short = shorts[currentShortKey] || shorts.disorder;
+            showFilmModal(short.title, short.year, short.description, short.src, short.poster);
+        }
+
+        function initVideoGallery() {
+            document.querySelectorAll('.video-card').forEach((card) => {
+                card.addEventListener('click', () => openShort(card.dataset.short));
+            });
+        }
+
         // Film modal
-        function showFilmModal(title, year, description, videoUrl = '') {
+        function showFilmModal(title, year, description, videoUrl = '', poster = '') {
             const modal = document.getElementById('film-modal');
             const videoWrap = document.getElementById('modal-video-wrap');
             const video = document.getElementById('modal-video');
@@ -651,13 +822,18 @@
             document.getElementById('modal-description').textContent = description;
             if (videoUrl) {
                 video.src = videoUrl;
+                video.poster = poster;
                 videoWrap.classList.remove('hidden');
             } else {
                 video.src = '';
+                video.poster = '';
                 videoWrap.classList.add('hidden');
             }
             modal.classList.remove('hidden');
             modal.classList.add('flex');
+            if (videoUrl) {
+                setTimeout(() => video.play().catch(() => {}), 150);
+            }
         }
         
         function hideFilmModal() {
@@ -665,7 +841,54 @@
             const video = document.getElementById('modal-video');
             modal.classList.remove('flex');
             modal.classList.add('hidden');
-            if (video) video.src = '';
+            if (video) {
+                video.pause();
+                video.src = '';
+                video.poster = '';
+            }
+        }
+
+        function showImageLightbox(img) {
+            const modal = document.getElementById('image-lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            const caption = document.getElementById('lightbox-caption');
+            lightboxImage.src = img.currentSrc || img.src;
+            lightboxImage.alt = img.alt || 'Three Stooges image';
+            caption.textContent = img.alt || '';
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+        }
+
+        function hideImageLightbox() {
+            const modal = document.getElementById('image-lightbox');
+            const lightboxImage = document.getElementById('lightbox-image');
+            modal.classList.remove('flex');
+            modal.classList.add('hidden');
+            lightboxImage.src = '';
+        }
+
+        function initImageLightbox() {
+            document.querySelectorAll('img').forEach((img) => {
+                if (img.closest('.video-card') || img.closest('#image-lightbox')) return;
+                img.classList.add('click-enlarge');
+                img.addEventListener('click', (event) => {
+                    event.preventDefault();
+                    event.stopPropagation();
+                    showImageLightbox(img);
+                });
+            });
+        }
+
+        function generateGag() {
+            const jobs = ['Plumbers', 'Dentists', 'Professors', 'Detectives', 'Chefs', 'Stagehands', 'Doctors', 'Tailors'];
+            const places = ['in a Palace', 'at City Hall', 'on a Movie Set', 'inside a Fancy Restaurant', 'at a Radio Station', 'in a Haunted Hotel', 'at a College', 'on a Train'];
+            const props = ['a runaway pipe organ', 'one suspicious cream pie', 'a bucket with no bottom', 'three collapsing ladders', 'an exploding cake', 'a violin with secrets', 'a courtroom gavel', 'a very angry roast turkey'];
+            const disasters = ['accidentally get promoted', 'start a parade indoors', 'turn the mayor into a witness', 'invent a new kind of plumbing', 'mistake the villain for the valet', 'solve the case by ruining everything'];
+            const pick = (items) => items[Math.floor(Math.random() * items.length)];
+            const title = `${pick(jobs)} ${pick(places)}`;
+            const description = `The boys find ${pick(props)}, ${pick(disasters)}, and somehow leave convinced they did a professional job.`;
+            document.getElementById('gag-title').textContent = title;
+            document.getElementById('gag-description').textContent = description;
         }
         
         function toggleMobileNav(forceOpen) {
@@ -704,6 +927,11 @@
                     e.preventDefault();
                     showRandomQuote();
                 }
+                if (e.key === "Escape") {
+                    hideFilmModal();
+                    hideImageLightbox();
+                    toggleMobileNav(false);
+                }
             });
             
             // Easter egg: type "nyuk" 
@@ -734,6 +962,9 @@
             initNavbar();
             initKeyboard();
             renderQuoteAudioList();
+            initVideoGallery();
+            initImageLightbox();
+            setFeaturedShort('disorder');
             
             // Show a random quote on load after a delay
             setTimeout(() => {
