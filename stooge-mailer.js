@@ -78,12 +78,12 @@ function html(res, status, body) {
   res.end(`<!doctype html><html><head><meta name="viewport" content="width=device-width,initial-scale=1"><title>Stooge Quote Club</title><style>body{font-family:system-ui,sans-serif;background:#09090b;color:#fafafa;display:grid;place-items:center;min-height:100vh;margin:0}.box{max-width:560px;padding:32px;border:1px solid #27272a;border-radius:24px;background:#18181b}a{color:#facc15}</style></head><body><main class="box">${body}</main></body></html>`);
 }
 
-function readBody(req) {
+function readBody(req, maxBytes = 8192) {
   return new Promise((resolve, reject) => {
     let body = '';
     req.on('data', (chunk) => {
       body += chunk;
-      if (body.length > 8192) {
+      if (Buffer.byteLength(body, 'utf8') > maxBytes) {
         reject(new Error('Request body too large'));
         req.destroy();
       }
@@ -93,8 +93,8 @@ function readBody(req) {
   });
 }
 
-async function parseRequestBody(req) {
-  const raw = await readBody(req);
+async function parseRequestBody(req, maxBytes) {
+  const raw = await readBody(req, maxBytes);
   const type = req.headers['content-type'] || '';
   if (type.includes('application/json')) return JSON.parse(raw || '{}');
   const params = new URLSearchParams(raw);
@@ -201,7 +201,11 @@ function smtpAddress(fromHeader) {
   return match ? match[1] : String(fromHeader).trim();
 }
 
-async function sendSmtpMail({ to, subject, text, htmlBody, listUnsubscribe }) {
+function wrapBase64(value) {
+  return String(value).replace(/(.{76})/g, '$1\r\n');
+}
+
+async function sendSmtpMail({ to, subject, text, htmlBody, listUnsubscribe, attachments = [] }) {
   if (!SMTP_URL) throw new Error('SMTP_URL is not configured');
   const parsed = new URL(SMTP_URL);
   const secure = parsed.protocol === 'smtps:';
@@ -229,26 +233,49 @@ async function sendSmtpMail({ to, subject, text, htmlBody, listUnsubscribe }) {
   await smtpCommand(socket, `RCPT TO:<${to}>`);
   await smtpCommand(socket, 'DATA', /^354/);
 
-  const boundary = `stooge-${crypto.randomBytes(12).toString('hex')}`;
-  const message = [
+  const alternativeBoundary = `stooge-alt-${crypto.randomBytes(12).toString('hex')}`;
+  const mixedBoundary = `stooge-mix-${crypto.randomBytes(12).toString('hex')}`;
+  const headers = [
     `From: ${MAIL_FROM}`,
     `To: ${to}`,
     `Subject: ${subject}`,
     'MIME-Version: 1.0',
     listUnsubscribe ? `List-Unsubscribe: <${listUnsubscribe}>` : null,
-    `Content-Type: multipart/alternative; boundary="${boundary}"`,
-    '',
-    `--${boundary}`,
+    attachments.length
+      ? `Content-Type: multipart/mixed; boundary="${mixedBoundary}"`
+      : `Content-Type: multipart/alternative; boundary="${alternativeBoundary}"`,
+    ''
+  ].filter((line) => line !== null);
+  const alternativePart = [
+    attachments.length ? `--${mixedBoundary}` : null,
+    attachments.length ? `Content-Type: multipart/alternative; boundary="${alternativeBoundary}"` : null,
+    attachments.length ? '' : null,
+    `--${alternativeBoundary}`,
     'Content-Type: text/plain; charset=utf-8',
     '',
     text,
     '',
-    `--${boundary}`,
+    `--${alternativeBoundary}`,
     'Content-Type: text/html; charset=utf-8',
     '',
     htmlBody,
     '',
-    `--${boundary}--`,
+    `--${alternativeBoundary}--`
+  ].filter((line) => line !== null);
+  const attachmentParts = attachments.flatMap((attachment) => [
+    '',
+    `--${mixedBoundary}`,
+    `Content-Type: ${attachment.contentType || 'application/octet-stream'}; name="${attachment.filename}"`,
+    'Content-Transfer-Encoding: base64',
+    `Content-Disposition: attachment; filename="${attachment.filename}"`,
+    '',
+    wrapBase64(attachment.content.toString('base64'))
+  ]);
+  const message = [
+    ...headers,
+    ...alternativePart,
+    ...attachmentParts,
+    attachments.length ? `--${mixedBoundary}--` : null,
     '.'
   ].filter((line) => line !== null).join('\r\n');
   socket.write(`${message}\r\n`);
@@ -294,6 +321,54 @@ async function sendDailyQuotes() {
   return { sent, skipped };
 }
 
+async function handleStoogeSnapSend(req, res) {
+  if (req.method !== 'POST') return json(res, 405, { ok: false, error: 'POST required' });
+  let body;
+  try {
+    body = await parseRequestBody(req, 7 * 1024 * 1024);
+  } catch {
+    return json(res, 400, { ok: false, error: 'Bad request body' });
+  }
+
+  const email = normalizeEmail(body.email);
+  if (!isValidEmail(email)) return json(res, 400, { ok: false, error: 'Enter a valid email address.' });
+
+  const imageData = String(body.imageData || '');
+  const match = imageData.match(/^data:image\/png;base64,([a-z0-9+/=]+)$/i);
+  if (!match) return json(res, 400, { ok: false, error: 'Take a Curly portrait first.' });
+
+  const image = Buffer.from(match[1], 'base64');
+  if (!image.length || image.length > 5 * 1024 * 1024) {
+    return json(res, 400, { ok: false, error: 'That portrait is too large to email.' });
+  }
+  if (!SMTP_URL) return json(res, 503, { ok: false, error: 'Email service is not configured.' });
+
+  const text = [
+    'Your Curly Camera Booth portrait is attached.',
+    '',
+    `Make another one: ${BASE_URL}/#curlycam`,
+    ''
+  ].join('\n');
+  const htmlBody = [
+    '<p style="font-size:18px;font-weight:700">Your Curly Camera Booth portrait is attached.</p>',
+    `<p><a href="${BASE_URL}/#curlycam">Make another one</a></p>`
+  ].join('');
+
+  await sendSmtpMail({
+    to: email,
+    subject: 'Your Curly Camera Booth portrait',
+    text,
+    htmlBody,
+    attachments: [{
+      filename: 'curly-camera-booth.png',
+      contentType: 'image/png',
+      content: image
+    }]
+  });
+
+  return json(res, 200, { ok: true, message: 'Sent. Check that inbox for a Curly surprise.' });
+}
+
 function escapeHtml(value) {
   return String(value).replace(/[&<>"']/g, (char) => ({
     '&': '&amp;',
@@ -312,6 +387,7 @@ function serve() {
       if (url.pathname === '/api/stooge-quotes/health') return json(res, 200, { ok: true });
       if (url.pathname === '/api/stooge-quotes/subscribe') return handleSubscribe(req, res);
       if (url.pathname === '/api/stooge-quotes/unsubscribe') return handleUnsubscribe(req, res);
+      if (url.pathname === '/api/stooge-snaps/send') return handleStoogeSnapSend(req, res);
       return json(res, 404, { ok: false, error: 'Not found' });
     } catch (error) {
       console.error(error);

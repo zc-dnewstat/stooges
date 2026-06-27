@@ -237,6 +237,7 @@
             #films h2,
             #videos h2,
             #cartoons h2,
+            #curlycam h2,
             #daily-five h2,
             #slapstick-lab h2,
             #books h2,
@@ -320,6 +321,7 @@
                     <a href="#videos" class="hover:text-yellow-400 transition-colors">Videos</a>
                     <a href="#cartoons" class="hover:text-yellow-400 transition-colors">Cartoons</a>
                     <a href="#daily-signup" class="hover:text-yellow-400 transition-colors">Daily Email</a>
+                    <a href="#curlycam" class="hover:text-yellow-400 transition-colors">Curly Cam</a>
                     <a href="#daily-five" class="hover:text-yellow-400 transition-colors">Daily 5</a>
                     <a href="#slapstick-lab" class="hover:text-yellow-400 transition-colors">Lab</a>
                     <a href="#books" class="hover:text-yellow-400 transition-colors">Books</a>
@@ -354,6 +356,7 @@
                 <a href="#videos" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Videos</a>
                 <a href="#cartoons" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Cartoons</a>
                 <a href="#daily-signup" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily Email</a>
+                <a href="#curlycam" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Curly Cam</a>
                 <a href="#daily-five" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Daily 5</a>
                 <a href="#slapstick-lab" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Lab</a>
                 <a href="#books" onclick="toggleMobileNav(false)" class="px-4 py-3 rounded-2xl bg-zinc-800 hover:text-yellow-400 transition-colors">Books</a>
@@ -415,6 +418,7 @@
                 <a href="#videos" class="jump-link px-4 py-2 rounded-2xl bg-yellow-400 text-zinc-950 font-bold">Play Shorts</a>
                 <a href="#cartoons" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Cartoon Chaos</a>
                 <a href="#daily-signup" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Daily Nyuk-Mail</a>
+                <a href="#curlycam" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Curly Camera Booth</a>
                 <a href="#daily-five" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Today's Five</a>
                 <a href="#films" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Essential List</a>
                 <a href="#books" class="jump-link px-4 py-2 rounded-2xl bg-zinc-900 border border-zinc-800 hover:border-yellow-400 hover:text-yellow-400 transition-colors">Book Nook</a>
@@ -447,6 +451,82 @@
                     <div id="quote-signup-status" class="mt-3 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
                 </div>
             </form>
+        </div>
+    </div>
+
+    <!-- Curly Camera Booth -->
+    <div id="curlycam" class="site-page section-block max-w-7xl mx-auto px-6 py-24 is-hidden">
+        <a href="#home" class="page-top-link page-home-link"><i class="fa-solid fa-arrow-left"></i> Home</a>
+        <div class="section-heading-row flex justify-between items-end mb-9">
+            <div>
+                <span class="text-yellow-400 text-sm font-bold tracking-[2px]">FACE-SWAP FOLDEROL</span>
+                <h2 class="text-6xl font-black tracking-tighter">Curly Camera Booth</h2>
+                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Snap a front-camera photo, and the booth automatically drops your face onto Curly's. No dragging, lining up, or fancy finger-work.</p>
+            </div>
+            <div class="text-sm text-zinc-500 hidden md:block">iPhone and Android camera friendly</div>
+        </div>
+
+        <div class="grid lg:grid-cols-[1fr_1fr] gap-6">
+            <section class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
+                <div class="flex items-center justify-between gap-4 mb-4">
+                    <div>
+                        <div class="text-xs uppercase tracking-widest text-yellow-400">Step 1</div>
+                        <h3 class="mt-1 text-2xl font-black tracking-tight">Take the mugshot</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center">
+                        <i class="fa-solid fa-camera"></i>
+                    </div>
+                </div>
+                <div class="relative aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800">
+                    <video id="curlycam-video" class="hidden h-full w-full object-cover scale-x-[-1]" playsinline muted autoplay></video>
+                    <div id="curlycam-camera-empty" class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center text-zinc-500">
+                        <i class="fa-solid fa-mobile-screen-button text-5xl text-yellow-400"></i>
+                        <p class="max-w-sm">Open your front camera, look at the phone, then tap the shutter.</p>
+                    </div>
+                </div>
+                <canvas id="curlycam-source" class="hidden"></canvas>
+                <div class="mt-5 flex flex-col sm:flex-row gap-3">
+                    <button id="curlycam-start" type="button" onclick="startCurlyCam()" class="flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 transition-colors font-bold rounded-2xl">
+                        <i class="fa-solid fa-video mr-2"></i> Open Front Camera
+                    </button>
+                    <button id="curlycam-capture" type="button" onclick="takeCurlyPhoto()" disabled class="flex-1 px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
+                        <i class="fa-solid fa-bolt mr-2"></i> Make Me Curly
+                    </button>
+                </div>
+                <div id="curlycam-status" class="mt-4 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
+            </section>
+
+            <section class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
+                <div class="flex items-center justify-between gap-4 mb-4">
+                    <div>
+                        <div class="text-xs uppercase tracking-widest text-yellow-400">Step 2</div>
+                        <h3 class="mt-1 text-2xl font-black tracking-tight">Send the souvenir</h3>
+                    </div>
+                    <div class="w-12 h-12 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center">
+                        <i class="fa-solid fa-envelope"></i>
+                    </div>
+                </div>
+                <div class="aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800 flex items-center justify-center">
+                    <canvas id="curlycam-result" class="hidden h-full w-full object-contain"></canvas>
+                    <div id="curlycam-result-empty" class="p-8 text-center text-zinc-500">
+                        <i class="fa-solid fa-face-grin-squint text-5xl text-yellow-400"></i>
+                        <p class="mt-4 max-w-sm">Your Curly portrait appears here after the camera booth works its slapstick magic.</p>
+                    </div>
+                </div>
+                <form id="curlycam-email-form" class="mt-5 grid gap-3" onsubmit="sendCurlyPortrait(event)">
+                    <label class="text-sm font-bold text-zinc-300" for="curlycam-email">Email this portrait to</label>
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <input id="curlycam-email" name="email" type="email" autocomplete="email" required placeholder="curlyfan@example.com" class="min-w-0 flex-1 rounded-2xl bg-zinc-950 border border-zinc-700 px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400">
+                        <button id="curlycam-send" type="submit" disabled class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-950 font-bold rounded-2xl">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Email It
+                        </button>
+                    </div>
+                    <button id="curlycam-delete" type="button" onclick="deleteCurlyPortrait()" disabled class="px-5 py-3 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-300 font-bold rounded-2xl">
+                        <i class="fa-solid fa-trash-can mr-2"></i> Delete Portrait
+                    </button>
+                    <div id="curlycam-email-status" class="min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
+                </form>
+            </section>
         </div>
     </div>
 
@@ -962,7 +1042,7 @@
             });
         }
 
-        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-signup', 'daily-five', 'slapstick-lab', 'books', 'records', 'forum', 'quotes', 'gallery'];
+        const pageIds = ['the-trio', 'history', 'films', 'videos', 'cartoons', 'daily-signup', 'curlycam', 'daily-five', 'slapstick-lab', 'books', 'records', 'forum', 'quotes', 'gallery'];
 
         function getRouteFromHash() {
             const route = (window.location.hash || '#home').slice(1);
@@ -1604,6 +1684,231 @@
                     if (submit) submit.disabled = false;
                 }
             });
+        }
+
+        const curlyCam = {
+            stream: null,
+            detector: null,
+            detectorReady: null,
+            portraitDataUrl: ''
+        };
+
+        function setCurlyCamStatus(message, target = 'curlycam-status') {
+            const status = document.getElementById(target);
+            if (status) status.textContent = message || '';
+        }
+
+        async function loadCurlyFaceDetector() {
+            if (curlyCam.detectorReady) return curlyCam.detectorReady;
+            curlyCam.detectorReady = (async () => {
+                const vision = await import('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18');
+                const fileset = await vision.FilesetResolver.forVisionTasks('https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.18/wasm');
+                curlyCam.detector = await vision.FaceDetector.createFromOptions(fileset, {
+                    baseOptions: {
+                        modelAssetPath: 'https://storage.googleapis.com/mediapipe-models/face_detector/blaze_face_short_range/float16/latest/blaze_face_short_range.tflite'
+                    },
+                    runningMode: 'IMAGE',
+                    minDetectionConfidence: 0.45
+                });
+                return curlyCam.detector;
+            })();
+            return curlyCam.detectorReady;
+        }
+
+        async function startCurlyCam() {
+            const video = document.getElementById('curlycam-video');
+            const empty = document.getElementById('curlycam-camera-empty');
+            const capture = document.getElementById('curlycam-capture');
+            if (!video) return;
+            setCurlyCamStatus('Opening the front camera...');
+            try {
+                if (curlyCam.stream) {
+                    curlyCam.stream.getTracks().forEach((track) => track.stop());
+                }
+                curlyCam.stream = await navigator.mediaDevices.getUserMedia({
+                    audio: false,
+                    video: {
+                        facingMode: 'user',
+                        width: { ideal: 1280 },
+                        height: { ideal: 1600 }
+                    }
+                });
+                video.srcObject = curlyCam.stream;
+                await video.play();
+                video.classList.remove('hidden');
+                empty?.classList.add('hidden');
+                if (capture) capture.disabled = false;
+                setCurlyCamStatus('Camera ready. Center your face and tap Make Me Curly.');
+                loadCurlyFaceDetector().catch(() => {
+                    setCurlyCamStatus('Camera ready. Face detector fallback will still make a portrait.');
+                });
+            } catch (error) {
+                setCurlyCamStatus('Could not open the camera. Check browser camera permission and try again.');
+            }
+        }
+
+        async function detectCapturedFace(canvas) {
+            try {
+                const detector = await loadCurlyFaceDetector();
+                const result = detector.detect(canvas);
+                const detection = result?.detections?.[0];
+                const box = detection?.boundingBox;
+                if (box && box.width > 0 && box.height > 0) {
+                    return {
+                        x: box.originX,
+                        y: box.originY,
+                        width: box.width,
+                        height: box.height
+                    };
+                }
+            } catch {
+                // Use a centered crop if the browser cannot load the detector.
+            }
+            const side = Math.min(canvas.width, canvas.height) * 0.58;
+            return {
+                x: (canvas.width - side) / 2,
+                y: (canvas.height - side) * 0.42,
+                width: side,
+                height: side
+            };
+        }
+
+        function loadCurlyTemplate() {
+            return new Promise((resolve, reject) => {
+                const image = new Image();
+                image.onload = () => resolve(image);
+                image.onerror = reject;
+                image.src = '/images/curly-howard-1937.jpg?v=curlycam-1';
+            });
+        }
+
+        function expandedCrop(box, canvas) {
+            const padX = box.width * 0.48;
+            const padTop = box.height * 0.62;
+            const padBottom = box.height * 0.45;
+            const x = Math.max(0, box.x - padX);
+            const y = Math.max(0, box.y - padTop);
+            const right = Math.min(canvas.width, box.x + box.width + padX);
+            const bottom = Math.min(canvas.height, box.y + box.height + padBottom);
+            return {
+                x,
+                y,
+                width: Math.max(1, right - x),
+                height: Math.max(1, bottom - y)
+            };
+        }
+
+        async function makeCurlyPortrait(sourceCanvas, faceBox) {
+            const resultCanvas = document.getElementById('curlycam-result');
+            const resultEmpty = document.getElementById('curlycam-result-empty');
+            if (!resultCanvas) return '';
+            const template = await loadCurlyTemplate();
+            const scale = 2;
+            const target = { x: 70 * scale, y: 166 * scale, width: 284 * scale, height: 310 * scale };
+            resultCanvas.width = template.naturalWidth * scale;
+            resultCanvas.height = template.naturalHeight * scale;
+            const ctx = resultCanvas.getContext('2d');
+            ctx.drawImage(template, 0, 0, resultCanvas.width, resultCanvas.height);
+
+            const crop = expandedCrop(faceBox, sourceCanvas);
+            ctx.save();
+            ctx.beginPath();
+            ctx.ellipse(
+                target.x + target.width / 2,
+                target.y + target.height / 2,
+                target.width / 2,
+                target.height / 2,
+                0,
+                0,
+                Math.PI * 2
+            );
+            ctx.clip();
+            ctx.filter = 'grayscale(1) contrast(1.08) brightness(1.06)';
+            ctx.drawImage(sourceCanvas, crop.x, crop.y, crop.width, crop.height, target.x, target.y, target.width, target.height);
+            ctx.restore();
+
+            ctx.save();
+            ctx.globalCompositeOperation = 'multiply';
+            ctx.globalAlpha = 0.18;
+            ctx.fillStyle = '#a1a1aa';
+            ctx.beginPath();
+            ctx.ellipse(target.x + target.width / 2, target.y + target.height / 2, target.width / 2, target.height / 2, 0, 0, Math.PI * 2);
+            ctx.fill();
+            ctx.restore();
+
+            const dataUrl = resultCanvas.toDataURL('image/png');
+            curlyCam.portraitDataUrl = dataUrl;
+            resultCanvas.classList.remove('hidden');
+            resultEmpty?.classList.add('hidden');
+            document.getElementById('curlycam-send')?.removeAttribute('disabled');
+            document.getElementById('curlycam-delete')?.removeAttribute('disabled');
+            return dataUrl;
+        }
+
+        async function takeCurlyPhoto() {
+            const video = document.getElementById('curlycam-video');
+            const sourceCanvas = document.getElementById('curlycam-source');
+            if (!video || !sourceCanvas || !video.videoWidth) {
+                setCurlyCamStatus('Open the camera first.');
+                return;
+            }
+            setCurlyCamStatus('Finding your face and fitting it onto Curly...');
+            sourceCanvas.width = video.videoWidth;
+            sourceCanvas.height = video.videoHeight;
+            const sourceCtx = sourceCanvas.getContext('2d');
+            sourceCtx.save();
+            sourceCtx.translate(sourceCanvas.width, 0);
+            sourceCtx.scale(-1, 1);
+            sourceCtx.drawImage(video, 0, 0, sourceCanvas.width, sourceCanvas.height);
+            sourceCtx.restore();
+            const faceBox = await detectCapturedFace(sourceCanvas);
+            await makeCurlyPortrait(sourceCanvas, faceBox);
+            setCurlyCamStatus('Portrait ready. Add an email address and send it.');
+            setCurlyCamStatus('', 'curlycam-email-status');
+        }
+
+        function deleteCurlyPortrait() {
+            curlyCam.portraitDataUrl = '';
+            const resultCanvas = document.getElementById('curlycam-result');
+            const resultEmpty = document.getElementById('curlycam-result-empty');
+            const emailStatus = document.getElementById('curlycam-email-status');
+            if (resultCanvas) {
+                resultCanvas.getContext('2d').clearRect(0, 0, resultCanvas.width, resultCanvas.height);
+                resultCanvas.classList.add('hidden');
+            }
+            resultEmpty?.classList.remove('hidden');
+            document.getElementById('curlycam-send')?.setAttribute('disabled', 'disabled');
+            document.getElementById('curlycam-delete')?.setAttribute('disabled', 'disabled');
+            if (emailStatus) emailStatus.textContent = '';
+            setCurlyCamStatus('Portrait deleted. Take another whenever you are ready.');
+        }
+
+        async function sendCurlyPortrait(event) {
+            event.preventDefault();
+            const form = event.currentTarget;
+            const submit = document.getElementById('curlycam-send');
+            const email = document.getElementById('curlycam-email')?.value || '';
+            if (!curlyCam.portraitDataUrl) {
+                setCurlyCamStatus('Take a portrait first.', 'curlycam-email-status');
+                return;
+            }
+            setCurlyCamStatus('Emailing your Curly portrait...', 'curlycam-email-status');
+            if (submit) submit.disabled = true;
+            try {
+                const response = await fetch('/api/stooge-snaps/send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, imageData: curlyCam.portraitDataUrl })
+                });
+                const result = await response.json();
+                if (!response.ok || !result.ok) throw new Error(result.error || 'Email failed.');
+                setCurlyCamStatus(result.message || 'Sent. Check that inbox for a Curly surprise.', 'curlycam-email-status');
+                form.reset();
+            } catch (error) {
+                setCurlyCamStatus(error.message || 'Could not send the portrait. Try again in a minute.', 'curlycam-email-status');
+            } finally {
+                if (submit && curlyCam.portraitDataUrl) submit.disabled = false;
+            }
         }
 
         function setFeaturedShort(key, shouldPlay = false) {
