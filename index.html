@@ -85,6 +85,12 @@
             color: #18181b;
         }
 
+        .video-page-button.is-active {
+            background: #facc15;
+            border-color: #facc15;
+            color: #18181b;
+        }
+
         .gag-reel {
             background:
                 linear-gradient(135deg, rgb(250 204 21 / 0.12), transparent 38%),
@@ -449,11 +455,11 @@
                     <span class="text-yellow-400 text-sm font-bold tracking-[2px]">SHORTS VIDEO GALLERY</span>
                     <h2 class="text-6xl font-black tracking-tighter">Watch the Shorts</h2>
                 </div>
-                <div class="text-sm text-zinc-500 hidden md:block">Playable public-domain shorts</div>
+                <div class="text-sm text-zinc-500 hidden md:block">Playable Archive-hosted shorts</div>
             </div>
 
             <div class="grid lg:grid-cols-[1.45fr_1fr] gap-6 items-start">
-                <div class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden">
+                <div id="featured-short-panel" class="bg-zinc-950 border border-zinc-800 rounded-3xl overflow-hidden scroll-mt-28">
                     <div class="aspect-video bg-black">
                         <video id="featured-short-video" class="w-full h-full" controls playsinline preload="metadata" poster="/images/disorder-in-the-court-title-1936.jpg?v=videos-2">
                             <source id="featured-short-source" src="https://archive.org/download/disorder_in_the_court/disorder_in_the_court.mp4" type="video/mp4">
@@ -473,62 +479,13 @@
                     </div>
                 </div>
 
-            <div class="grid gap-4">
-                <button data-short="disorder" class="video-card is-active group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
-                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
-                        <div class="relative overflow-hidden bg-black">
-                            <img src="/images/disorder-in-the-court-title-1936.jpg?v=videos-2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Disorder in the Court title card">
-                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
-                        </div>
-                        <div class="p-5">
-                            <div class="font-mono text-yellow-400 text-xs">1936</div>
-                            <div class="font-black text-xl tracking-tight">Disorder in the Court</div>
-                            <p class="mt-2 text-sm text-zinc-400">Courtroom chaos with one of Curly's great witness-stand routines.</p>
-                        </div>
-                    </div>
-                </button>
-
-                <button data-short="sixpants" class="video-card group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
-                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
-                        <div class="relative overflow-hidden bg-black">
-                            <img src="/images/three-stooges-title-card-1934-1936.png?v=videos-2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Three Stooges title card">
-                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
-                        </div>
-                        <div class="p-5">
-                            <div class="font-mono text-yellow-400 text-xs">1947</div>
-                            <div class="font-black text-xl tracking-tight">Sing a Song of Six Pants</div>
-                            <p class="mt-2 text-sm text-zinc-400">A tailor-shop chase from the Shemp era.</p>
-                        </div>
-                    </div>
-                </button>
-
-                <button data-short="malice" class="video-card group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
-                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
-                        <div class="relative overflow-hidden bg-black">
-                            <img src="/images/three-stooges-pie-fight-trailer.png?v=videos-2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" alt="Three Stooges pie fight still">
-                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
-                        </div>
-                        <div class="p-5">
-                            <div class="font-mono text-yellow-400 text-xs">1949</div>
-                            <div class="font-black text-xl tracking-tight">Malice in the Palace</div>
-                            <p class="mt-2 text-sm text-zinc-400">Restaurant mayhem, disguises, and a jewel-theft chase.</p>
-                        </div>
-                    </div>
-                </button>
-
-                <button data-short="brideless" class="video-card group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
-                    <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
-                        <div class="relative overflow-hidden bg-black">
-                            <img src="/images/three-stooges-1937.jpg?v=videos-2" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" style="object-position: 48% 25%;" alt="The Three Stooges in 1937">
-                            <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
-                        </div>
-                        <div class="p-5">
-                            <div class="font-mono text-yellow-400 text-xs">1947</div>
-                            <div class="font-black text-xl tracking-tight">Brideless Groom</div>
-                            <p class="mt-2 text-sm text-zinc-400">Shemp needs a bride fast. The brides disagree.</p>
-                        </div>
-                    </div>
-                </button>
+            <div>
+                <div id="shorts-grid" class="grid gap-4"></div>
+                <div class="mt-5 flex flex-wrap items-center justify-between gap-3">
+                    <div id="shorts-page-status" class="text-xs uppercase tracking-widest text-zinc-500"></div>
+                    <div id="shorts-pagination" class="flex flex-wrap gap-2"></div>
+                </div>
+            </div>
             </div>
             </div>
         </div>
@@ -681,35 +638,100 @@
                 title: "Disorder in the Court",
                 year: "1936",
                 description: "Curly takes the witness stand, the boys play the courtroom like a concert hall, and order leaves the building.",
+                cardDescription: "Courtroom chaos with one of Curly's great witness-stand routines.",
                 src: "https://archive.org/download/disorder_in_the_court/disorder_in_the_court.mp4",
-                poster: "/images/disorder-in-the-court-title-1936.jpg?v=videos-2"
+                poster: "/images/disorder-in-the-court-title-1936.jpg?v=videos-3",
+                alt: "Disorder in the Court title card"
             },
             sixpants: {
                 title: "Sing a Song of Six Pants",
                 year: "1947",
                 description: "A Shemp-era tailor-shop chase with reward money, bad timing, and a lot of flying fabric.",
+                cardDescription: "A tailor-shop chase from the Shemp era.",
                 src: "https://archive.org/download/sing_a_song_of_six_pants/sing_a_song_of_six_pants.mp4",
-                poster: "/images/three-stooges-title-card-1934-1936.png?v=videos-2"
+                poster: "/images/three-stooges-title-card-1934-1936.png?v=videos-3",
+                alt: "Three Stooges title card"
             },
             malice: {
                 title: "Malice in the Palace",
                 year: "1949",
                 description: "The boys run a restaurant, stumble into a jewel-theft chase, and turn a palace into a collision course.",
+                cardDescription: "Restaurant mayhem, disguises, and a jewel-theft chase.",
                 src: "https://archive.org/download/malice_in_the_palace/malice_in_the_palace.mp4",
-                poster: "/images/three-stooges-pie-fight-trailer.png?v=videos-2"
+                poster: "/images/three-stooges-pie-fight-trailer.png?v=videos-3",
+                alt: "Three Stooges pie fight still"
             },
             brideless: {
                 title: "Brideless Groom",
                 year: "1947",
                 description: "Shemp has to get married fast to inherit a fortune. Naturally, every prospective bride has other ideas.",
+                cardDescription: "Shemp needs a bride fast. The brides disagree.",
                 src: "https://archive.org/download/brideless_groom/brideless_groom.mp4",
-                poster: "/images/three-stooges-1937.jpg?v=videos-2"
+                poster: "/images/three-stooges-1937.jpg?v=videos-3",
+                posterPosition: "48% 25%",
+                alt: "The Three Stooges in 1937"
+            },
+            hoipolloi: {
+                title: "Hoi Polloi",
+                year: "1935",
+                description: "A professor tries to turn the boys into gentlemen. The boys turn high society into a demolition derby.",
+                cardDescription: "High-society manners meet low-altitude slapstick.",
+                src: "https://archive.org/download/The3StoogesHoiPolloi/The%203%20Stooges%20Hoi%20Polloi.mp4",
+                poster: "/images/three-stooges-1936-cropped.jpg?v=videos-3",
+                alt: "The Three Stooges in a classic black and white still"
+            },
+            shivering: {
+                title: "Shivering Sherlocks",
+                year: "1948",
+                description: "The boys get tangled in a spooky mansion mystery with Shemp in fine panic form.",
+                cardDescription: "A haunted-house mystery with Shemp-era panic.",
+                src: "https://archive.org/download/ThreeStooges1948/TTS%201948%2001%20Shivering%20Sherlocks.mp4",
+                poster: "https://archive.org/download/ThreeStooges1948/ThreeStooges1948.thumbs/TTS%201948%2001%20Shivering%20Sherlocks_000300.jpg",
+                alt: "Shivering Sherlocks frame"
+            },
+            pardon: {
+                title: "Pardon My Clutch",
+                year: "1948",
+                description: "Car trouble, quick cons, and mechanical mayhem give the boys another excuse to wreck the room.",
+                cardDescription: "Auto-shop chaos with the usual bad judgment.",
+                src: "https://archive.org/download/ThreeStooges1948/TTS%201948%2002%20Pardon%20My%20Clutch.mp4",
+                poster: "https://archive.org/download/ThreeStooges1948/ThreeStooges1948.thumbs/TTS%201948%2002%20Pardon%20My%20Clutch_000300.jpg",
+                alt: "Pardon My Clutch frame"
+            },
+            squareheads: {
+                title: "Squareheads of the Round Table",
+                year: "1948",
+                description: "Medieval costumes, mistaken identities, and royal-level foolishness keep the Shemp run moving.",
+                cardDescription: "A castle-size mess from the Shemp years.",
+                src: "https://archive.org/download/ThreeStooges1948/TTS%201948%2003%20Squareheads%20of%20the%20Round%20Table.mp4",
+                poster: "https://archive.org/download/ThreeStooges1948/ThreeStooges1948.thumbs/TTS%201948%2003%20Squareheads%20of%20the%20Round%20Table_000300.jpg",
+                alt: "Squareheads of the Round Table frame"
+            },
+            fiddlers: {
+                title: "Fiddlers Three",
+                year: "1948",
+                description: "The boys wander into royal intrigue with musical timing and very little common sense.",
+                cardDescription: "Royal trouble, fiddle jokes, and flying dignity.",
+                src: "https://archive.org/download/ThreeStooges1948/TTS%201948%2004%20Fiddlers%20Three.mp4",
+                poster: "https://archive.org/download/ThreeStooges1948/ThreeStooges1948.thumbs/TTS%201948%2004%20Fiddlers%20Three_000300.jpg",
+                alt: "Fiddlers Three frame"
+            },
+            hotscots: {
+                title: "The Hot Scots",
+                year: "1948",
+                description: "The boys are detectives on a foggy estate, which is bad news for everyone and especially the evidence.",
+                cardDescription: "Detective work, fog, and evidence abuse.",
+                src: "https://archive.org/download/ThreeStooges1948/TTS%201948%2005%20The%20Hot%20Scots.mp4",
+                poster: "https://archive.org/download/ThreeStooges1948/ThreeStooges1948.thumbs/TTS%201948%2005%20The%20Hot%20Scots_000300.jpg",
+                alt: "The Hot Scots frame"
             }
         };
         
         let currentQuoteIndex = 0;
         let currentQuoteAudio = null;
         let currentShortKey = 'disorder';
+        let currentShortPage = 0;
+        const SHORTS_PER_PAGE = 5;
         
         function showRandomQuote() {
             const display = document.getElementById('quote-display');
@@ -793,12 +815,24 @@
             });
         }
 
+        function keepFeaturedShortComfortablyInView() {
+            const panel = document.getElementById('featured-short-panel');
+            if (!panel) return;
+            const rect = panel.getBoundingClientRect();
+            const navOffset = window.innerWidth < 768 ? 92 : 104;
+            const isComfortable = rect.top >= navOffset && rect.bottom <= window.innerHeight - 16;
+            if (isComfortable) return;
+            const targetY = window.scrollY + rect.top - navOffset;
+            window.scrollTo({ top: Math.max(0, targetY), behavior: 'smooth' });
+        }
+
         function openShort(key, theater = false) {
             setFeaturedShort(key, !theater);
-            document.getElementById('videos').scrollIntoView({ behavior: 'smooth', block: 'start' });
             if (theater) {
                 setTimeout(openFeaturedShortModal, 350);
+                return;
             }
+            setTimeout(keepFeaturedShortComfortablyInView, 180);
         }
 
         function openFeaturedShortModal() {
@@ -806,10 +840,54 @@
             showFilmModal(short.title, short.year, short.description, short.src, short.poster);
         }
 
-        function initVideoGallery() {
-            document.querySelectorAll('.video-card').forEach((card) => {
+        function getShortEntries() {
+            return Object.entries(shorts);
+        }
+
+        function renderVideoGallery() {
+            const grid = document.getElementById('shorts-grid');
+            const pagination = document.getElementById('shorts-pagination');
+            const status = document.getElementById('shorts-page-status');
+            if (!grid || !pagination || !status) return;
+            const entries = getShortEntries();
+            const totalPages = Math.max(1, Math.ceil(entries.length / SHORTS_PER_PAGE));
+            currentShortPage = Math.min(currentShortPage, totalPages - 1);
+            const pageEntries = entries.slice(currentShortPage * SHORTS_PER_PAGE, (currentShortPage + 1) * SHORTS_PER_PAGE);
+            grid.innerHTML = pageEntries.map(([key, short]) => {
+                const position = short.posterPosition ? ` style="object-position: ${short.posterPosition};"` : '';
+                return `
+                    <button data-short="${key}" class="video-card ${key === currentShortKey ? 'is-active' : ''} group text-left bg-zinc-950 border border-zinc-800 hover:border-yellow-400/50 rounded-3xl overflow-hidden transition-all">
+                        <div class="grid grid-cols-[132px_1fr] sm:grid-cols-[168px_1fr] min-h-32">
+                            <div class="relative overflow-hidden bg-black">
+                                <img src="${short.poster}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"${position} alt="${short.alt || short.title}">
+                                <div class="absolute inset-0 flex items-center justify-center"><span class="play-pill w-12 h-12 rounded-full bg-white/90 text-zinc-950 flex items-center justify-center shadow-xl"><i class="fa-solid fa-play"></i></span></div>
+                            </div>
+                            <div class="p-5">
+                                <div class="font-mono text-yellow-400 text-xs">${short.year}</div>
+                                <div class="font-black text-xl tracking-tight">${short.title}</div>
+                                <p class="mt-2 text-sm text-zinc-400">${short.cardDescription || short.description}</p>
+                            </div>
+                        </div>
+                    </button>
+                `;
+            }).join('');
+            status.textContent = `Shorts ${currentShortPage * SHORTS_PER_PAGE + 1}-${currentShortPage * SHORTS_PER_PAGE + pageEntries.length} of ${entries.length}`;
+            pagination.innerHTML = Array.from({ length: totalPages }, (_, index) => `
+                <button type="button" data-page="${index}" class="video-page-button ${index === currentShortPage ? 'is-active' : ''} min-w-10 h-10 px-3 rounded-2xl border border-zinc-700 text-sm font-bold hover:border-yellow-400 hover:text-yellow-400 transition-colors" aria-label="Show shorts page ${index + 1}">${index + 1}</button>
+            `).join('');
+            grid.querySelectorAll('.video-card').forEach((card) => {
                 card.addEventListener('click', () => openShort(card.dataset.short));
             });
+            pagination.querySelectorAll('.video-page-button').forEach((button) => {
+                button.addEventListener('click', () => {
+                    currentShortPage = Number(button.dataset.page);
+                    renderVideoGallery();
+                });
+            });
+        }
+
+        function initVideoGallery() {
+            renderVideoGallery();
         }
 
         // Film modal
