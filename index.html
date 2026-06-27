@@ -461,7 +461,7 @@
             <div>
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">FACE-SWAP FOLDEROL</span>
                 <h2 class="text-6xl font-black tracking-tighter">Curly Camera Booth</h2>
-                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Snap a front-camera photo, and the booth automatically drops your face onto Curly's. No dragging, lining up, or fancy finger-work.</p>
+                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Enter an email, snap a front-camera photo, and the booth automatically drops your face onto Curly in the Stooges portrait. No dragging, lining up, or fancy finger-work.</p>
             </div>
             <div class="text-sm text-zinc-500 hidden md:block">iPhone and Android camera friendly</div>
         </div>
@@ -481,10 +481,12 @@
                     <video id="curlycam-video" class="hidden h-full w-full object-cover scale-x-[-1]" playsinline muted autoplay></video>
                     <div id="curlycam-camera-empty" class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center text-zinc-500">
                         <i class="fa-solid fa-mobile-screen-button text-5xl text-yellow-400"></i>
-                        <p class="max-w-sm">Open your front camera, look at the phone, then tap the shutter.</p>
+                        <p class="max-w-sm">Enter the destination email, open your front camera, look at the phone, then tap the shutter.</p>
                     </div>
                 </div>
                 <canvas id="curlycam-source" class="hidden"></canvas>
+                <label class="mt-5 block text-sm font-bold text-zinc-300" for="curlycam-email">Email the finished portrait to</label>
+                <input id="curlycam-email" name="email" type="email" autocomplete="email" required placeholder="curlyfan@example.com" class="mt-2 w-full rounded-2xl bg-zinc-950 border border-zinc-700 px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400">
                 <div class="mt-5 flex flex-col sm:flex-row gap-3">
                     <button id="curlycam-start" type="button" onclick="startCurlyCam()" class="flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-video mr-2"></i> Open Front Camera
@@ -500,7 +502,7 @@
                 <div class="flex items-center justify-between gap-4 mb-4">
                     <div>
                         <div class="text-xs uppercase tracking-widest text-yellow-400">Step 2</div>
-                        <h3 class="mt-1 text-2xl font-black tracking-tight">Send the souvenir</h3>
+                        <h3 class="mt-1 text-2xl font-black tracking-tight">See the souvenir</h3>
                     </div>
                     <div class="w-12 h-12 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center">
                         <i class="fa-solid fa-envelope"></i>
@@ -510,17 +512,13 @@
                     <canvas id="curlycam-result" class="hidden h-full w-full object-contain"></canvas>
                     <div id="curlycam-result-empty" class="p-8 text-center text-zinc-500">
                         <i class="fa-solid fa-face-grin-squint text-5xl text-yellow-400"></i>
-                        <p class="mt-4 max-w-sm">Your Curly portrait appears here after the camera booth works its slapstick magic.</p>
+                        <p class="mt-4 max-w-sm">Your face-on-Curly Stooges portrait appears here and emails automatically after the camera booth works its slapstick magic.</p>
                     </div>
                 </div>
                 <form id="curlycam-email-form" class="mt-5 grid gap-3" onsubmit="sendCurlyPortrait(event)">
-                    <label class="text-sm font-bold text-zinc-300" for="curlycam-email">Email this portrait to</label>
-                    <div class="flex flex-col sm:flex-row gap-3">
-                        <input id="curlycam-email" name="email" type="email" autocomplete="email" required placeholder="curlyfan@example.com" class="min-w-0 flex-1 rounded-2xl bg-zinc-950 border border-zinc-700 px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400">
-                        <button id="curlycam-send" type="submit" disabled class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-950 font-bold rounded-2xl">
-                            <i class="fa-solid fa-paper-plane mr-2"></i> Email It
-                        </button>
-                    </div>
+                    <button id="curlycam-send" type="submit" disabled class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-950 font-bold rounded-2xl">
+                        <i class="fa-solid fa-paper-plane mr-2"></i> Email Again
+                    </button>
                     <button id="curlycam-delete" type="button" onclick="deleteCurlyPortrait()" disabled class="px-5 py-3 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-300 font-bold rounded-2xl">
                         <i class="fa-solid fa-trash-can mr-2"></i> Delete Portrait
                     </button>
@@ -1778,7 +1776,7 @@
                 const image = new Image();
                 image.onload = () => resolve(image);
                 image.onerror = reject;
-                image.src = '/images/curly-howard-1937.jpg?v=curlycam-1';
+                image.src = '/images/curly-camera-booth-group.jpg?v=curlycam-group-1';
             });
         }
 
@@ -1803,8 +1801,8 @@
             const resultEmpty = document.getElementById('curlycam-result-empty');
             if (!resultCanvas) return '';
             const template = await loadCurlyTemplate();
-            const scale = 2;
-            const target = { x: 70 * scale, y: 166 * scale, width: 284 * scale, height: 310 * scale };
+            const scale = 1;
+            const target = { x: 276 * scale, y: 326 * scale, width: 254 * scale, height: 250 * scale };
             resultCanvas.width = template.naturalWidth * scale;
             resultCanvas.height = template.naturalHeight * scale;
             const ctx = resultCanvas.getContext('2d');
@@ -1863,8 +1861,8 @@
             sourceCtx.restore();
             const faceBox = await detectCapturedFace(sourceCanvas);
             await makeCurlyPortrait(sourceCanvas, faceBox);
-            setCurlyCamStatus('Portrait ready. Add an email address and send it.');
-            setCurlyCamStatus('', 'curlycam-email-status');
+            setCurlyCamStatus('Portrait ready. Sending it to the email address now...');
+            await emailCurlyPortrait(true);
         }
 
         function deleteCurlyPortrait() {
@@ -1883,16 +1881,20 @@
             setCurlyCamStatus('Portrait deleted. Take another whenever you are ready.');
         }
 
-        async function sendCurlyPortrait(event) {
-            event.preventDefault();
-            const form = event.currentTarget;
+        async function emailCurlyPortrait(isAutomatic = false) {
             const submit = document.getElementById('curlycam-send');
-            const email = document.getElementById('curlycam-email')?.value || '';
+            const emailInput = document.getElementById('curlycam-email');
+            const email = emailInput?.value || '';
             if (!curlyCam.portraitDataUrl) {
                 setCurlyCamStatus('Take a portrait first.', 'curlycam-email-status');
-                return;
+                return false;
             }
-            setCurlyCamStatus('Emailing your Curly portrait...', 'curlycam-email-status');
+            if (!emailInput?.checkValidity()) {
+                setCurlyCamStatus('Enter a valid email before taking the photo so the booth can send it automatically.', 'curlycam-email-status');
+                emailInput?.reportValidity();
+                return false;
+            }
+            setCurlyCamStatus(isAutomatic ? 'Emailing your Curly portrait automatically...' : 'Emailing your Curly portrait...', 'curlycam-email-status');
             if (submit) submit.disabled = true;
             try {
                 const response = await fetch('/api/stooge-snaps/send', {
@@ -1903,12 +1905,18 @@
                 const result = await response.json();
                 if (!response.ok || !result.ok) throw new Error(result.error || 'Email failed.');
                 setCurlyCamStatus(result.message || 'Sent. Check that inbox for a Curly surprise.', 'curlycam-email-status');
-                form.reset();
+                return true;
             } catch (error) {
                 setCurlyCamStatus(error.message || 'Could not send the portrait. Try again in a minute.', 'curlycam-email-status');
+                return false;
             } finally {
                 if (submit && curlyCam.portraitDataUrl) submit.disabled = false;
             }
+        }
+
+        async function sendCurlyPortrait(event) {
+            event.preventDefault();
+            await emailCurlyPortrait(false);
         }
 
         function setFeaturedShort(key, shouldPlay = false) {
