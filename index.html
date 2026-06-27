@@ -461,7 +461,7 @@
             <div>
                 <span class="text-yellow-400 text-sm font-bold tracking-[2px]">FACE-SWAP FOLDEROL</span>
                 <h2 class="text-6xl font-black tracking-tighter">Curly Camera Booth</h2>
-                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Enter an email, snap a front-camera photo, and the booth automatically drops your face onto Curly in the Stooges portrait. No dragging, lining up, or fancy finger-work.</p>
+                <p class="mt-4 max-w-2xl text-zinc-400 leading-relaxed">Snap a front-camera photo and the booth automatically blends your face into Curly's spot in the Stooges portrait. No dragging, lining up, or fancy finger-work.</p>
             </div>
             <div class="text-sm text-zinc-500 hidden md:block">iPhone and Android camera friendly</div>
         </div>
@@ -481,12 +481,10 @@
                     <video id="curlycam-video" class="hidden h-full w-full object-cover scale-x-[-1]" playsinline muted autoplay></video>
                     <div id="curlycam-camera-empty" class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-8 text-center text-zinc-500">
                         <i class="fa-solid fa-mobile-screen-button text-5xl text-yellow-400"></i>
-                        <p class="max-w-sm">Enter the destination email, open your front camera, look at the phone, then tap the shutter.</p>
+                        <p class="max-w-sm">Open your front camera, look straight at the phone, then tap the shutter.</p>
                     </div>
                 </div>
                 <canvas id="curlycam-source" class="hidden"></canvas>
-                <label class="mt-5 block text-sm font-bold text-zinc-300" for="curlycam-email">Email the finished portrait to</label>
-                <input id="curlycam-email" name="email" type="email" autocomplete="email" required placeholder="curlyfan@example.com" class="mt-2 w-full rounded-2xl bg-zinc-950 border border-zinc-700 px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400">
                 <div class="mt-5 flex flex-col sm:flex-row gap-3">
                     <button id="curlycam-start" type="button" onclick="startCurlyCam()" class="flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-video mr-2"></i> Open Front Camera
@@ -505,25 +503,21 @@
                         <h3 class="mt-1 text-2xl font-black tracking-tight">See the souvenir</h3>
                     </div>
                     <div class="w-12 h-12 rounded-full bg-yellow-400 text-zinc-950 flex items-center justify-center">
-                        <i class="fa-solid fa-envelope"></i>
+                        <i class="fa-solid fa-image"></i>
                     </div>
                 </div>
                 <div class="aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800 flex items-center justify-center">
                     <canvas id="curlycam-result" class="hidden h-full w-full object-contain"></canvas>
                     <div id="curlycam-result-empty" class="p-8 text-center text-zinc-500">
                         <i class="fa-solid fa-face-grin-squint text-5xl text-yellow-400"></i>
-                        <p class="mt-4 max-w-sm">Your face-on-Curly Stooges portrait appears here and emails automatically after the camera booth works its slapstick magic.</p>
+                        <p class="mt-4 max-w-sm">Your face-on-Curly Stooges portrait appears here after the camera booth works its slapstick magic.</p>
                     </div>
                 </div>
-                <form id="curlycam-email-form" class="mt-5 grid gap-3" onsubmit="sendCurlyPortrait(event)">
-                    <button id="curlycam-send" type="submit" disabled class="px-6 py-3 bg-yellow-400 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-950 font-bold rounded-2xl">
-                        <i class="fa-solid fa-paper-plane mr-2"></i> Email Again
-                    </button>
+                <div class="mt-5 grid gap-3">
                     <button id="curlycam-delete" type="button" onclick="deleteCurlyPortrait()" disabled class="px-5 py-3 border border-zinc-700 hover:bg-zinc-800 disabled:opacity-40 disabled:cursor-not-allowed transition-colors text-zinc-300 font-bold rounded-2xl">
                         <i class="fa-solid fa-trash-can mr-2"></i> Delete Portrait
                     </button>
-                    <div id="curlycam-email-status" class="min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
-                </form>
+                </div>
             </section>
         </div>
     </div>
@@ -1796,41 +1790,128 @@
             };
         }
 
+        function clamp(value, min, max) {
+            return Math.min(max, Math.max(min, value));
+        }
+
+        function makeFaceCrop(box, canvas) {
+            const width = box.width * 1.18;
+            const height = box.height * 1.34;
+            const centerX = box.x + box.width / 2;
+            const centerY = box.y + box.height * 0.53;
+            const x = clamp(centerX - width / 2, 0, canvas.width - 1);
+            const y = clamp(centerY - height / 2, 0, canvas.height - 1);
+            return {
+                x,
+                y,
+                width: Math.min(width, canvas.width - x),
+                height: Math.min(height, canvas.height - y)
+            };
+        }
+
+        function drawFilmGrain(ctx, width, height, alpha = 0.055) {
+            const grain = ctx.createImageData(width, height);
+            for (let index = 0; index < grain.data.length; index += 4) {
+                const shade = 118 + Math.random() * 54;
+                grain.data[index] = shade;
+                grain.data[index + 1] = shade;
+                grain.data[index + 2] = shade;
+                grain.data[index + 3] = 255;
+            }
+            const grainCanvas = document.createElement('canvas');
+            grainCanvas.width = width;
+            grainCanvas.height = height;
+            grainCanvas.getContext('2d').putImageData(grain, 0, 0);
+            ctx.save();
+            ctx.globalAlpha = alpha;
+            ctx.globalCompositeOperation = 'overlay';
+            ctx.drawImage(grainCanvas, 0, 0);
+            ctx.restore();
+        }
+
+        function buildFeatheredFaceLayer(sourceCanvas, crop, width, height) {
+            const layer = document.createElement('canvas');
+            layer.width = width;
+            layer.height = height;
+            const lctx = layer.getContext('2d');
+
+            lctx.save();
+            lctx.filter = 'grayscale(1) contrast(1.28) brightness(1.02) sepia(0.08)';
+            lctx.drawImage(sourceCanvas, crop.x, crop.y, crop.width, crop.height, 0, 0, width, height);
+            lctx.restore();
+
+            lctx.save();
+            lctx.globalCompositeOperation = 'source-atop';
+            lctx.globalAlpha = 0.16;
+            const vignette = lctx.createRadialGradient(width * 0.48, height * 0.42, width * 0.12, width * 0.5, height * 0.48, width * 0.58);
+            vignette.addColorStop(0, '#f4f4f5');
+            vignette.addColorStop(0.7, '#71717a');
+            vignette.addColorStop(1, '#27272a');
+            lctx.fillStyle = vignette;
+            lctx.fillRect(0, 0, width, height);
+            lctx.restore();
+
+            drawFilmGrain(lctx, width, height, 0.045);
+
+            const mask = document.createElement('canvas');
+            mask.width = width;
+            mask.height = height;
+            const mctx = mask.getContext('2d');
+            const gradient = mctx.createRadialGradient(width * 0.5, height * 0.47, width * 0.28, width * 0.5, height * 0.48, width * 0.57);
+            gradient.addColorStop(0, 'rgba(0,0,0,1)');
+            gradient.addColorStop(0.62, 'rgba(0,0,0,0.96)');
+            gradient.addColorStop(0.82, 'rgba(0,0,0,0.45)');
+            gradient.addColorStop(1, 'rgba(0,0,0,0)');
+            mctx.fillStyle = gradient;
+            mctx.beginPath();
+            mctx.ellipse(width / 2, height * 0.5, width * 0.46, height * 0.49, 0, 0, Math.PI * 2);
+            mctx.fill();
+
+            lctx.save();
+            lctx.globalCompositeOperation = 'destination-in';
+            lctx.drawImage(mask, 0, 0);
+            lctx.restore();
+
+            return layer;
+        }
+
         async function makeCurlyPortrait(sourceCanvas, faceBox) {
             const resultCanvas = document.getElementById('curlycam-result');
             const resultEmpty = document.getElementById('curlycam-result-empty');
             if (!resultCanvas) return '';
             const template = await loadCurlyTemplate();
-            const scale = 1;
-            const target = { x: 276 * scale, y: 326 * scale, width: 254 * scale, height: 250 * scale };
-            resultCanvas.width = template.naturalWidth * scale;
-            resultCanvas.height = template.naturalHeight * scale;
+            resultCanvas.width = template.naturalWidth;
+            resultCanvas.height = template.naturalHeight;
             const ctx = resultCanvas.getContext('2d');
             ctx.drawImage(template, 0, 0, resultCanvas.width, resultCanvas.height);
 
-            const crop = expandedCrop(faceBox, sourceCanvas);
+            const crop = makeFaceCrop(faceBox, sourceCanvas);
+            const target = { x: 310, y: 315, width: 182, height: 226 };
+            const faceLayer = buildFeatheredFaceLayer(sourceCanvas, crop, target.width, target.height);
+
             ctx.save();
-            ctx.beginPath();
-            ctx.ellipse(
-                target.x + target.width / 2,
-                target.y + target.height / 2,
-                target.width / 2,
-                target.height / 2,
-                0,
-                0,
-                Math.PI * 2
-            );
-            ctx.clip();
-            ctx.filter = 'grayscale(1) contrast(1.08) brightness(1.06)';
-            ctx.drawImage(sourceCanvas, crop.x, crop.y, crop.width, crop.height, target.x, target.y, target.width, target.height);
+            ctx.globalAlpha = 0.92;
+            ctx.globalCompositeOperation = 'source-over';
+            ctx.drawImage(faceLayer, target.x, target.y, target.width, target.height);
             ctx.restore();
 
             ctx.save();
             ctx.globalCompositeOperation = 'multiply';
-            ctx.globalAlpha = 0.18;
-            ctx.fillStyle = '#a1a1aa';
+            ctx.globalAlpha = 0.17;
+            const shadow = ctx.createRadialGradient(
+                target.x + target.width * 0.5,
+                target.y + target.height * 0.53,
+                target.width * 0.22,
+                target.x + target.width * 0.5,
+                target.y + target.height * 0.55,
+                target.width * 0.58
+            );
+            shadow.addColorStop(0, 'rgba(255,255,255,0)');
+            shadow.addColorStop(0.76, 'rgba(90,90,90,0.28)');
+            shadow.addColorStop(1, 'rgba(35,35,35,0.65)');
+            ctx.fillStyle = shadow;
             ctx.beginPath();
-            ctx.ellipse(target.x + target.width / 2, target.y + target.height / 2, target.width / 2, target.height / 2, 0, 0, Math.PI * 2);
+            ctx.ellipse(target.x + target.width / 2, target.y + target.height / 2, target.width * 0.52, target.height * 0.51, 0, 0, Math.PI * 2);
             ctx.fill();
             ctx.restore();
 
@@ -1838,7 +1919,6 @@
             curlyCam.portraitDataUrl = dataUrl;
             resultCanvas.classList.remove('hidden');
             resultEmpty?.classList.add('hidden');
-            document.getElementById('curlycam-send')?.removeAttribute('disabled');
             document.getElementById('curlycam-delete')?.removeAttribute('disabled');
             return dataUrl;
         }
@@ -1861,62 +1941,20 @@
             sourceCtx.restore();
             const faceBox = await detectCapturedFace(sourceCanvas);
             await makeCurlyPortrait(sourceCanvas, faceBox);
-            setCurlyCamStatus('Portrait ready. Sending it to the email address now...');
-            await emailCurlyPortrait(true);
+            setCurlyCamStatus('Portrait ready. The blend is on screen.');
         }
 
         function deleteCurlyPortrait() {
             curlyCam.portraitDataUrl = '';
             const resultCanvas = document.getElementById('curlycam-result');
             const resultEmpty = document.getElementById('curlycam-result-empty');
-            const emailStatus = document.getElementById('curlycam-email-status');
             if (resultCanvas) {
                 resultCanvas.getContext('2d').clearRect(0, 0, resultCanvas.width, resultCanvas.height);
                 resultCanvas.classList.add('hidden');
             }
             resultEmpty?.classList.remove('hidden');
-            document.getElementById('curlycam-send')?.setAttribute('disabled', 'disabled');
             document.getElementById('curlycam-delete')?.setAttribute('disabled', 'disabled');
-            if (emailStatus) emailStatus.textContent = '';
             setCurlyCamStatus('Portrait deleted. Take another whenever you are ready.');
-        }
-
-        async function emailCurlyPortrait(isAutomatic = false) {
-            const submit = document.getElementById('curlycam-send');
-            const emailInput = document.getElementById('curlycam-email');
-            const email = emailInput?.value || '';
-            if (!curlyCam.portraitDataUrl) {
-                setCurlyCamStatus('Take a portrait first.', 'curlycam-email-status');
-                return false;
-            }
-            if (!emailInput?.checkValidity()) {
-                setCurlyCamStatus('Enter a valid email before taking the photo so the booth can send it automatically.', 'curlycam-email-status');
-                emailInput?.reportValidity();
-                return false;
-            }
-            setCurlyCamStatus(isAutomatic ? 'Emailing your Curly portrait automatically...' : 'Emailing your Curly portrait...', 'curlycam-email-status');
-            if (submit) submit.disabled = true;
-            try {
-                const response = await fetch('/api/stooge-snaps/send', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ email, imageData: curlyCam.portraitDataUrl })
-                });
-                const result = await response.json();
-                if (!response.ok || !result.ok) throw new Error(result.error || 'Email failed.');
-                setCurlyCamStatus(result.message || 'Sent. Check that inbox for a Curly surprise.', 'curlycam-email-status');
-                return true;
-            } catch (error) {
-                setCurlyCamStatus(error.message || 'Could not send the portrait. Try again in a minute.', 'curlycam-email-status');
-                return false;
-            } finally {
-                if (submit && curlyCam.portraitDataUrl) submit.disabled = false;
-            }
-        }
-
-        async function sendCurlyPortrait(event) {
-            event.preventDefault();
-            await emailCurlyPortrait(false);
         }
 
         function setFeaturedShort(key, shouldPlay = false) {
