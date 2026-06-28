@@ -129,6 +129,45 @@
 
         .curlycam-adjust-button {
             min-height: 48px;
+            min-width: 0;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+        }
+
+        .curlycam-adjust-pad {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 0.5rem;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .curlycam-adjust-tools {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 0.5rem;
+            width: 100%;
+            min-width: 0;
+        }
+
+        .curlycam-adjust-button,
+        #curlycam-done,
+        #curlycam-edit,
+        .curlycam-touch-control {
+            transform: translateZ(0);
+            touch-action: manipulation;
+        }
+
+        #curlycam-adjust-panel {
+            max-width: 100%;
+            overflow: hidden;
+        }
+
+        #curlycam-adjust-title,
+        #curlycam-adjust-summary,
+        #curlycam-adjust-offset {
+            overflow-wrap: anywhere;
         }
 
         .curlycam-adjust-button:disabled {
@@ -138,6 +177,21 @@
 
         .curlycam-adjust-value {
             font-variant-numeric: tabular-nums;
+        }
+
+        #curlycam-done,
+        #curlycam-edit {
+            display: none;
+        }
+
+        #curlycam.has-portrait #curlycam-done,
+        #curlycam.is-final #curlycam-edit {
+            display: inline-flex;
+        }
+
+        #curlycam.is-final #curlycam-done,
+        #curlycam.is-final #curlycam-adjust-panel {
+            display: none;
         }
 
         .gag-reel {
@@ -393,6 +447,133 @@
                 padding: 1rem;
             }
 
+            #curlycam {
+                padding-top: 5.5rem;
+                padding-bottom: 1.5rem;
+            }
+
+            #curlycam .section-heading-row {
+                margin-bottom: 1rem;
+            }
+
+            #curlycam .section-heading-row p {
+                display: none;
+            }
+
+            #curlycam .curlycam-stage,
+            #curlycam .curlycam-result-frame {
+                max-height: 44dvh;
+            }
+
+            #curlycam.is-editing {
+                padding-top: 4.75rem;
+            }
+
+            #curlycam.is-editing .section-heading-row,
+            #curlycam.is-editing #curlycam-target-panel,
+            #curlycam.is-editing #curlycam-camera-panel,
+            #curlycam.is-editing #curlycam-result-heading,
+            #curlycam.is-editing #curlycam-result-actions {
+                display: none;
+            }
+
+            #curlycam.is-editing #curlycam-workspace {
+                display: block;
+                max-width: 100%;
+                overflow: hidden;
+            }
+
+            #curlycam.is-editing #curlycam-result-panel {
+                padding: 0.65rem;
+                width: 100%;
+                max-width: calc(100vw - 1.5rem);
+                overflow: hidden;
+            }
+
+            #curlycam.is-editing .curlycam-result-frame {
+                max-height: min(34dvh, 260px);
+                border-radius: 1rem;
+            }
+
+            #curlycam.is-final .curlycam-result-frame {
+                max-height: min(68dvh, 620px);
+            }
+
+            #curlycam .curlycam-panel {
+                padding: 0.85rem;
+                border-radius: 1.25rem;
+            }
+
+            #curlycam-adjust-panel {
+                position: sticky;
+                bottom: max(0.5rem, env(safe-area-inset-bottom));
+                z-index: 20;
+                margin-top: 0.75rem;
+                padding: 0.7rem;
+                border-radius: 1.25rem;
+                box-shadow: 0 18px 46px -26px rgb(0 0 0 / 0.85);
+                width: 100%;
+                max-width: calc(100vw - 1.5rem);
+                contain: layout paint;
+            }
+
+            #curlycam-adjust-panel > .flex:first-child {
+                min-width: 0;
+            }
+
+            #curlycam-adjust-panel > .flex:first-child > div:first-child {
+                min-width: 0;
+            }
+
+            #curlycam-adjust-panel .curlycam-adjust-button {
+                min-height: 40px;
+                width: 100%;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+                border-radius: 0.9rem;
+            }
+
+            #curlycam-adjust-panel button:active {
+                transform: translateZ(0);
+            }
+
+            #curlycam-adjust-panel .curlycam-adjust-label {
+                display: none;
+            }
+
+            #curlycam-adjust-panel .curlycam-adjust-tools {
+                grid-template-columns: repeat(4, minmax(0, 1fr));
+            }
+
+            #curlycam.is-editing #curlycam-adjust-panel .curlycam-adjust-pad {
+                gap: 0.35rem;
+            }
+
+            #curlycam.is-editing #curlycam-adjust-panel .curlycam-adjust-button {
+                min-height: 36px;
+            }
+
+            #curlycam.is-editing #curlycam-adjust-panel .curlycam-adjust-value-box {
+                padding-top: 0.62rem;
+                padding-bottom: 0.62rem;
+                min-width: 0;
+            }
+
+            #curlycam-adjust-summary {
+                margin-top: 0.45rem;
+                min-width: 0;
+                line-height: 1.25;
+            }
+
+            #curlycam-adjust-panel .mt-3.flex.items-center.gap-2 {
+                align-items: stretch;
+                flex-wrap: wrap;
+            }
+
+            #curlycam-done {
+                flex: 1 0 7.5rem;
+                min-height: 44px;
+            }
 
             .mobile-nav-tile {
                 padding: 0.62rem 0.65rem 0.62rem 0.9rem;
@@ -594,6 +775,12 @@
                             <i class="fa-solid fa-envelope mr-2"></i> Send Me One Daily
                         </button>
                     </div>
+                    <div class="mt-3 flex flex-col sm:flex-row gap-3">
+                        <input id="quote-test-password" type="password" inputmode="numeric" autocomplete="off" placeholder="Test password" class="min-w-0 flex-1 rounded-2xl bg-zinc-900 border border-zinc-700 px-4 py-3 text-white placeholder:text-zinc-600 focus:outline-none focus:border-yellow-400">
+                        <button id="quote-test-send" type="button" class="px-6 py-3 bg-zinc-800 hover:bg-zinc-700 transition-colors text-white font-bold rounded-2xl border border-zinc-700">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Send Test Email
+                        </button>
+                    </div>
                     <div id="quote-signup-status" class="mt-3 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
                 </div>
             </form>
@@ -612,7 +799,7 @@
             <div class="text-sm text-zinc-500 hidden md:block">iPhone and Android camera friendly</div>
         </div>
 
-        <div class="mb-6 bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
+        <div id="curlycam-target-panel" class="mb-6 bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
             <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
                 <div>
                     <div class="text-xs uppercase tracking-widest text-yellow-400">Pick your Stooge</div>
@@ -632,8 +819,8 @@
             </div>
         </div>
 
-        <div class="grid lg:grid-cols-[1fr_1fr] gap-6">
-            <section class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
+        <div id="curlycam-workspace" class="grid lg:grid-cols-[1fr_1fr] gap-6">
+            <section id="curlycam-camera-panel" class="curlycam-panel bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
                 <div class="flex items-center justify-between gap-4 mb-4">
                     <div>
                         <div class="text-xs uppercase tracking-widest text-yellow-400">Step 1</div>
@@ -680,8 +867,8 @@
                 <div id="curlycam-status" class="mt-4 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
             </section>
 
-            <section class="bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
-                <div class="flex items-center justify-between gap-4 mb-4">
+            <section id="curlycam-result-panel" class="curlycam-panel bg-zinc-900 border border-zinc-800 rounded-3xl p-5 md:p-6">
+                <div id="curlycam-result-heading" class="flex items-center justify-between gap-4 mb-4">
                     <div>
                         <div class="text-xs uppercase tracking-widest text-yellow-400">Step 2</div>
                         <h3 class="mt-1 text-2xl font-black tracking-tight">See the souvenir</h3>
@@ -690,14 +877,17 @@
                         <i class="fa-solid fa-image"></i>
                     </div>
                 </div>
-                <div class="aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800 flex items-center justify-center">
+                <div class="curlycam-result-frame aspect-[4/5] overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800 flex items-center justify-center">
                     <canvas id="curlycam-result" class="hidden h-full w-full object-contain"></canvas>
                     <div id="curlycam-result-empty" class="p-8 text-center text-zinc-500">
                         <i class="fa-solid fa-face-grin-squint text-5xl text-yellow-400"></i>
                         <p id="curlycam-result-help" class="mt-4 max-w-sm">Your face-on-Curly Stooges portrait appears here after the camera booth works its slapstick magic.</p>
                     </div>
                 </div>
-                <div class="mt-5 grid gap-3">
+                <div id="curlycam-result-actions" class="mt-5 grid gap-3">
+                    <button id="curlycam-edit" type="button" onclick="editCurlyPortrait()" disabled class="curlycam-touch-control items-center justify-center px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
+                        <i class="fa-solid fa-sliders mr-2"></i> Adjust Face
+                    </button>
                     <button id="curlycam-retake" type="button" onclick="retakeCurlyPhoto()" disabled class="curlycam-touch-control px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-rotate-left mr-2"></i> New Picture
                     </button>
@@ -716,7 +906,7 @@
                             <span class="sr-only">Reset</span>
                         </button>
                     </div>
-                    <div class="mt-4 grid grid-cols-3 gap-2">
+                    <div class="mt-3 curlycam-adjust-pad">
                         <div></div>
                         <button type="button" onclick="nudgeCurlyAdjustment(0, -4)" class="curlycam-adjust-button curlycam-touch-control rounded-2xl border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors" data-curly-adjust-control disabled>
                             <i class="fa-solid fa-arrow-up"></i>
@@ -727,7 +917,7 @@
                             <i class="fa-solid fa-arrow-left"></i>
                             <span class="sr-only">Left</span>
                         </button>
-                        <div class="rounded-2xl border border-zinc-800 bg-zinc-900 px-3 py-3 text-center text-xs text-zinc-400">
+                        <div class="curlycam-adjust-value-box rounded-2xl border border-zinc-800 bg-zinc-900 px-3 py-3 text-center text-xs text-zinc-400">
                             <div id="curlycam-adjust-offset" class="curlycam-adjust-value">0, 0</div>
                         </div>
                         <button type="button" onclick="nudgeCurlyAdjustment(4, 0)" class="curlycam-adjust-button curlycam-touch-control rounded-2xl border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors" data-curly-adjust-control disabled>
@@ -741,21 +931,26 @@
                         </button>
                         <div></div>
                     </div>
-                    <div class="mt-3 grid grid-cols-2 gap-2">
+                    <div class="mt-2 curlycam-adjust-tools">
                         <button type="button" onclick="rotateCurlyAdjustment(-2)" class="curlycam-adjust-button curlycam-touch-control rounded-2xl border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors" data-curly-adjust-control disabled>
-                            <i class="fa-solid fa-rotate-left mr-2"></i> Tilt
+                            <i class="fa-solid fa-rotate-left"></i><span class="curlycam-adjust-label ml-2">Tilt</span>
                         </button>
                         <button type="button" onclick="rotateCurlyAdjustment(2)" class="curlycam-adjust-button curlycam-touch-control rounded-2xl border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors" data-curly-adjust-control disabled>
-                            Tilt <i class="fa-solid fa-rotate-right ml-2"></i>
+                            <span class="curlycam-adjust-label mr-2">Tilt</span><i class="fa-solid fa-rotate-right"></i>
                         </button>
-                        <button type="button" onclick="scaleCurlyAdjustment(-0.03)" class="curlycam-adjust-button curlycam-touch-control rounded-2xl border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors" data-curly-adjust-control disabled>
-                            <i class="fa-solid fa-minus mr-2"></i> Size
+                        <button type="button" onclick="scaleCurlyAdjustment(-0.08)" class="curlycam-adjust-button curlycam-touch-control rounded-2xl border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors" data-curly-adjust-control disabled>
+                            <i class="fa-solid fa-minus"></i><span class="curlycam-adjust-label ml-2">Size</span>
                         </button>
-                        <button type="button" onclick="scaleCurlyAdjustment(0.03)" class="curlycam-adjust-button curlycam-touch-control rounded-2xl border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors" data-curly-adjust-control disabled>
-                            Size <i class="fa-solid fa-plus ml-2"></i>
+                        <button type="button" onclick="scaleCurlyAdjustment(0.08)" class="curlycam-adjust-button curlycam-touch-control rounded-2xl border border-zinc-700 text-zinc-200 hover:bg-zinc-800 transition-colors" data-curly-adjust-control disabled>
+                            <span class="curlycam-adjust-label mr-2">Size</span><i class="fa-solid fa-plus"></i>
                         </button>
                     </div>
-                    <div id="curlycam-adjust-summary" class="curlycam-adjust-value mt-3 text-xs text-zinc-500">Size 100% / Tilt 0 deg</div>
+                    <div class="mt-3 flex items-center gap-2">
+                        <div id="curlycam-adjust-summary" class="curlycam-adjust-value flex-1 text-xs text-zinc-500">Size 100% / Tilt 0 deg</div>
+                        <button id="curlycam-done" type="button" onclick="finishCurlyAdjustment()" disabled class="curlycam-touch-control items-center justify-center rounded-2xl bg-yellow-400 px-4 py-3 text-sm font-black text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed" data-curly-adjust-control>
+                            <i class="fa-solid fa-check mr-2"></i> Done
+                        </button>
+                    </div>
                 </div>
             </section>
         </div>
@@ -2135,6 +2330,8 @@
         function initQuoteSignup() {
             const form = document.getElementById('quote-signup-form');
             const status = document.getElementById('quote-signup-status');
+            const testPassword = document.getElementById('quote-test-password');
+            const testSend = document.getElementById('quote-test-send');
             if (!form || !status) return;
             form.addEventListener('submit', async (event) => {
                 event.preventDefault();
@@ -2157,6 +2354,30 @@
                     if (submit) submit.disabled = false;
                 }
             });
+
+            if (testSend) {
+                testSend.addEventListener('click', async () => {
+                    const formData = new FormData(form);
+                    const email = String(formData.get('email') || '').trim();
+                    const password = testPassword ? testPassword.value : '';
+                    status.textContent = 'Sending test email...';
+                    testSend.disabled = true;
+                    try {
+                        const response = await fetch('/api/stooge-quotes/test-send', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ email, password })
+                        });
+                        const result = await response.json();
+                        if (!response.ok || !result.ok) throw new Error(result.error || 'Test send failed.');
+                        status.textContent = result.message || 'Test email sent. Check that inbox.';
+                    } catch (error) {
+                        status.textContent = error.message || 'Could not send the test email.';
+                    } finally {
+                        testSend.disabled = false;
+                    }
+                });
+            }
         }
 
         const curlyCam = {
@@ -2169,10 +2390,12 @@
             facingMode: 'user',
             target: 'curly',
             sourceMode: 'camera',
+            viewMode: 'setup',
             uploadedObjectUrl: '',
             portraitDataUrl: '',
             lastFaceMatch: null,
             isRenderingAdjustment: false,
+            pendingAdjustmentRender: false,
             adjustments: {
                 curly: { x: 0, y: 0, scale: 1, rotation: 0 },
                 larry: { x: 0, y: 0, scale: 1, rotation: 0 },
@@ -2183,6 +2406,43 @@
         function setCurlyCamStatus(message, target = 'curlycam-status') {
             const status = document.getElementById(target);
             if (status) status.textContent = message || '';
+        }
+
+        function updateCurlyCamLayout() {
+            const booth = document.getElementById('curlycam');
+            const hasPortrait = Boolean(curlyCam.portraitDataUrl);
+            if (!booth) return;
+            booth.classList.toggle('has-portrait', hasPortrait);
+            booth.classList.toggle('is-editing', hasPortrait && curlyCam.viewMode === 'editing');
+            booth.classList.toggle('is-final', hasPortrait && curlyCam.viewMode === 'final');
+            const done = document.getElementById('curlycam-done');
+            const edit = document.getElementById('curlycam-edit');
+            if (done) done.disabled = !hasPortrait || curlyCam.isRenderingAdjustment;
+            if (edit) edit.disabled = !hasPortrait;
+        }
+
+        function focusCurlyResultPanel() {
+            if (window.innerWidth >= 768) return;
+            const panel = document.getElementById('curlycam-result-panel');
+            const navOffset = 82;
+            if (!panel) return;
+            const top = window.scrollY + panel.getBoundingClientRect().top - navOffset;
+            window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        }
+
+        function editCurlyPortrait() {
+            if (!curlyCam.portraitDataUrl) return;
+            curlyCam.viewMode = 'editing';
+            updateCurlyCamLayout();
+            focusCurlyResultPanel();
+        }
+
+        function finishCurlyAdjustment() {
+            if (!curlyCam.portraitDataUrl) return;
+            curlyCam.viewMode = 'final';
+            updateCurlyCamLayout();
+            focusCurlyResultPanel();
+            setCurlyCamStatus('Portrait finished. Use New Picture to make another, or Adjust Face to fine tune again.');
         }
 
         function getCurlyTargetConfig() {
@@ -2211,11 +2471,16 @@
             if (summary) {
                 summary.textContent = `Size ${Math.round(adjustment.scale * 100)}% / Tilt ${Math.round(adjustment.rotation)} deg`;
             }
+            updateCurlyCamLayout();
         }
 
         async function redrawCurlyPortraitFromAdjustment() {
             const sourceCanvas = document.getElementById('curlycam-source');
-            if (!sourceCanvas || !curlyCam.lastFaceMatch || !sourceCanvas.width || curlyCam.isRenderingAdjustment) return;
+            if (!sourceCanvas || !curlyCam.lastFaceMatch || !sourceCanvas.width) return;
+            if (curlyCam.isRenderingAdjustment) {
+                curlyCam.pendingAdjustmentRender = true;
+                return;
+            }
             curlyCam.isRenderingAdjustment = true;
             updateCurlyAdjustmentControls();
             try {
@@ -2224,6 +2489,10 @@
             } finally {
                 curlyCam.isRenderingAdjustment = false;
                 updateCurlyAdjustmentControls();
+                if (curlyCam.pendingAdjustmentRender) {
+                    curlyCam.pendingAdjustmentRender = false;
+                    redrawCurlyPortraitFromAdjustment();
+                }
             }
         }
 
@@ -2244,7 +2513,7 @@
 
         function scaleCurlyAdjustment(amount) {
             const adjustment = getCurlyAdjustment();
-            adjustment.scale = clamp(adjustment.scale + amount, 0.7, 1.35);
+            adjustment.scale = clamp(adjustment.scale + amount, 0.6, 1.75);
             updateCurlyAdjustmentControls();
             redrawCurlyPortraitFromAdjustment();
         }
@@ -2274,6 +2543,7 @@
             const captureLabel = document.getElementById('curlycam-capture-label');
             if (captureLabel) captureLabel.textContent = `Make Me ${activeTarget.label}`;
             updateCurlyAdjustmentControls();
+            updateCurlyCamLayout();
         }
 
         function setCurlyTarget(target) {
@@ -2448,6 +2718,7 @@
         }
 
         const curlyFaceOvalLandmarks = [10, 338, 297, 332, 284, 251, 389, 356, 454, 323, 361, 288, 397, 365, 379, 378, 400, 377, 152, 148, 176, 149, 150, 136, 172, 58, 132, 93, 234, 127, 162, 21, 54, 103, 67, 109];
+        const curlyStableAnchorKeys = ['leftEyeOuter', 'leftEyeInner', 'rightEyeInner', 'rightEyeOuter', 'leftEye', 'rightEye', 'noseBridge', 'nose', 'leftNostril', 'rightNostril', 'mouthLeft', 'mouth', 'mouthRight', 'lowerLip', 'chin'];
 
         const stoogeFaceTargets = {
             curly: {
@@ -2777,6 +3048,48 @@
             };
         }
 
+        function solveSimilarityTransform(pointPairs) {
+            if (!pointPairs.length) return null;
+            let sourceX = 0;
+            let sourceY = 0;
+            let targetX = 0;
+            let targetY = 0;
+            pointPairs.forEach(({ source, target }) => {
+                sourceX += source.x;
+                sourceY += source.y;
+                targetX += target.x;
+                targetY += target.y;
+            });
+            sourceX /= pointPairs.length;
+            sourceY /= pointPairs.length;
+            targetX /= pointPairs.length;
+            targetY /= pointPairs.length;
+
+            let denominator = 0;
+            let scaleRotateA = 0;
+            let scaleRotateB = 0;
+            pointPairs.forEach(({ source, target }) => {
+                const sx = source.x - sourceX;
+                const sy = source.y - sourceY;
+                const tx = target.x - targetX;
+                const ty = target.y - targetY;
+                denominator += sx * sx + sy * sy;
+                scaleRotateA += sx * tx + sy * ty;
+                scaleRotateB += sx * ty - sy * tx;
+            });
+            if (denominator < 1e-8) return null;
+            const a = scaleRotateA / denominator;
+            const b = scaleRotateB / denominator;
+            return {
+                a,
+                b,
+                c: -b,
+                d: a,
+                e: targetX - a * sourceX + b * sourceY,
+                f: targetY - b * sourceX - a * sourceY
+            };
+        }
+
         function drawCurlyTemplateFaceMask(ctx, target = getCurlyTargetConfig()) {
             ctx.beginPath();
             if (target.key === 'larry') {
@@ -2817,8 +3130,10 @@
 
         function weightedAnchorPairs(faceMatch) {
             const pairs = [];
-            Object.entries(getCurlyTargetConfig().anchors).forEach(([key, targetPoint]) => {
+            const targetAnchors = getCurlyTargetConfig().anchors;
+            curlyStableAnchorKeys.forEach((key) => {
                 const source = faceMatch.anchors[key];
+                const targetPoint = targetAnchors[key];
                 if (!source || !targetPoint) return;
                 const repeats = Math.max(1, Math.round(targetPoint.weight || 1));
                 for (let index = 0; index < repeats; index += 1) {
@@ -2831,7 +3146,7 @@
         function buildLandmarkAlignedFaceLayer(sourceCanvas, faceMatch, width, height) {
             const target = getCurlyTargetConfig();
             const pairs = weightedAnchorPairs(faceMatch);
-            const transform = solveAffineTransform(pairs);
+            const transform = solveSimilarityTransform(pairs) || solveAffineTransform(pairs);
             if (!transform) return null;
 
             const layer = document.createElement('canvas');
@@ -3075,6 +3390,8 @@
             inlineRetake?.removeAttribute('disabled');
             inlineRetake?.classList.remove('hidden');
             document.getElementById('curlycam-delete')?.removeAttribute('disabled');
+            document.getElementById('curlycam-edit')?.removeAttribute('disabled');
+            document.getElementById('curlycam-done')?.removeAttribute('disabled');
             updateCurlyAdjustmentControls();
             return dataUrl;
         }
@@ -3082,8 +3399,11 @@
         async function processCurlySourceCanvas(sourceCanvas) {
             const faceBox = await detectCapturedFace(sourceCanvas);
             curlyCam.lastFaceMatch = faceBox;
+            curlyCam.viewMode = 'editing';
             await makeCurlyPortrait(sourceCanvas, faceBox);
-            setCurlyCamStatus(`${getCurlyTargetConfig().label} portrait ready. The blend is on screen.`);
+            updateCurlyCamLayout();
+            focusCurlyResultPanel();
+            setCurlyCamStatus(`${getCurlyTargetConfig().label} portrait ready. Adjust the face, then tap Done.`);
         }
 
         function loadCurlyUploadImage(file) {
@@ -3193,8 +3513,11 @@
             preview?.classList.add('hidden');
             if (!curlyCam.stream) empty?.classList.remove('hidden');
             revokeCurlyUploadPreview();
+            curlyCam.viewMode = 'setup';
             document.getElementById('curlycam-delete')?.setAttribute('disabled', 'disabled');
             document.getElementById('curlycam-retake')?.setAttribute('disabled', 'disabled');
+            document.getElementById('curlycam-edit')?.setAttribute('disabled', 'disabled');
+            document.getElementById('curlycam-done')?.setAttribute('disabled', 'disabled');
             const inlineRetake = document.getElementById('curlycam-retake-inline');
             inlineRetake?.setAttribute('disabled', 'disabled');
             inlineRetake?.classList.add('hidden');
