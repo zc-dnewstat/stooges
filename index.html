@@ -2338,10 +2338,10 @@
                     leftJaw: { x: 340, y: 444, weight: 0.8 },
                     rightJaw: { x: 458, y: 444, weight: 0.8 }
                 },
-                fallbackTarget: { x: 319, y: 300, width: 158, height: 178, rotation: 0 },
-                fallbackCrop: { width: 0.92, height: 0.9, centerX: 0.5, centerY: 0.46 },
-                fade: { cx: 399, cy: 383, inner: 58, outer: 130, x: 285, y: 242, width: 228, height: 248 },
-                shadow: { cx: 399, cy: 383, inner: 56, outer: 140 }
+                fallbackTarget: { x: 326, y: 294, width: 146, height: 156, rotation: 0 },
+                fallbackCrop: { width: 0.64, height: 0.6, centerX: 0.5, centerY: 0.43 },
+                fade: { cx: 399, cy: 374, inner: 50, outer: 108, x: 304, y: 258, width: 190, height: 210 },
+                shadow: { cx: 399, cy: 374, inner: 48, outer: 116 }
             },
             larry: {
                 key: 'larry',
@@ -2370,10 +2370,10 @@
                     leftJaw: { x: 158, y: 718, weight: 0.8 },
                     rightJaw: { x: 269, y: 705, weight: 0.8 }
                 },
-                fallbackTarget: { x: 151, y: 566, width: 124, height: 154, rotation: -0.12 },
-                fallbackCrop: { width: 0.72, height: 0.74, centerX: 0.5, centerY: 0.45 },
-                fade: { cx: 213, cy: 646, inner: 42, outer: 86, x: 135, y: 546, width: 158, height: 188 },
-                shadow: { cx: 213, cy: 648, inner: 38, outer: 94 }
+                fallbackTarget: { x: 154, y: 574, width: 116, height: 134, rotation: -0.12 },
+                fallbackCrop: { width: 0.6, height: 0.58, centerX: 0.5, centerY: 0.43 },
+                fade: { cx: 211, cy: 653, inner: 36, outer: 76, x: 142, y: 566, width: 138, height: 162 },
+                shadow: { cx: 211, cy: 653, inner: 34, outer: 82 }
             },
             moe: {
                 key: 'moe',
@@ -2402,10 +2402,10 @@
                     leftJaw: { x: 538, y: 705, weight: 0.8 },
                     rightJaw: { x: 674, y: 691, weight: 0.8 }
                 },
-                fallbackTarget: { x: 522, y: 570, width: 150, height: 168, rotation: -0.15 },
-                fallbackCrop: { width: 0.82, height: 0.78, centerX: 0.5, centerY: 0.48 },
-                fade: { cx: 599, cy: 656, inner: 50, outer: 105, x: 507, y: 548, width: 180, height: 208 },
-                shadow: { cx: 599, cy: 658, inner: 46, outer: 116 }
+                fallbackTarget: { x: 530, y: 578, width: 136, height: 146, rotation: -0.15 },
+                fallbackCrop: { width: 0.62, height: 0.58, centerX: 0.5, centerY: 0.43 },
+                fade: { cx: 599, cy: 654, inner: 42, outer: 90, x: 520, y: 566, width: 158, height: 178 },
+                shadow: { cx: 599, cy: 654, inner: 40, outer: 98 }
             }
         };
 
@@ -2472,6 +2472,41 @@
             };
         }
 
+        function buildBoxFaceMatch(box) {
+            const x = box.x;
+            const y = box.y;
+            const w = box.width;
+            const h = box.height;
+            const point = (px, py) => ({ x: x + w * px, y: y + h * py });
+            return {
+                box,
+                anchors: {
+                    forehead: point(0.5, 0.08),
+                    leftBrow: point(0.32, 0.27),
+                    rightBrow: point(0.68, 0.27),
+                    leftEyeOuter: point(0.22, 0.36),
+                    leftEyeInner: point(0.42, 0.36),
+                    rightEyeInner: point(0.58, 0.36),
+                    rightEyeOuter: point(0.78, 0.36),
+                    leftEye: point(0.32, 0.36),
+                    rightEye: point(0.68, 0.36),
+                    noseBridge: point(0.5, 0.44),
+                    nose: point(0.5, 0.58),
+                    leftNostril: point(0.43, 0.62),
+                    rightNostril: point(0.57, 0.62),
+                    mouthLeft: point(0.36, 0.76),
+                    mouth: point(0.5, 0.77),
+                    mouthRight: point(0.64, 0.76),
+                    lowerLip: point(0.5, 0.82),
+                    chin: point(0.5, 0.96),
+                    leftCheek: point(0.2, 0.58),
+                    rightCheek: point(0.8, 0.58),
+                    leftJaw: point(0.28, 0.86),
+                    rightJaw: point(0.72, 0.86)
+                }
+            };
+        }
+
         async function detectCapturedFace(canvas) {
             try {
                 const landmarker = await withCurlyCamTimeout(loadCurlyFaceLandmarker(), 4200);
@@ -2487,27 +2522,23 @@
                 const detection = result?.detections?.[0];
                 const box = detection?.boundingBox;
                 if (box && box.width > 0 && box.height > 0) {
-                    return {
-                        box: {
-                            x: box.originX,
-                            y: box.originY,
-                            width: box.width,
-                            height: box.height
-                        }
-                    };
+                    return buildBoxFaceMatch({
+                        x: box.originX,
+                        y: box.originY,
+                        width: box.width,
+                        height: box.height
+                    });
                 }
             } catch {
                 // Use a centered crop if the browser cannot load the detector.
             }
             const side = Math.min(canvas.width, canvas.height) * 0.58;
-            return {
-                box: {
-                    x: (canvas.width - side) / 2,
-                    y: (canvas.height - side) * 0.42,
-                    width: side,
-                    height: side
-                }
-            };
+            return buildBoxFaceMatch({
+                x: (canvas.width - side) / 2,
+                y: (canvas.height - side) * 0.42,
+                width: side,
+                height: side
+            });
         }
 
         function loadCurlyTemplate() {
@@ -2795,16 +2826,17 @@
             const ctx = resultCanvas.getContext('2d');
             ctx.drawImage(template, 0, 0, resultCanvas.width, resultCanvas.height);
 
-            const landmarkLayer = faceMatch.landmarks
+            const alignedLayer = faceMatch.anchors
                 ? buildLandmarkAlignedFaceLayer(sourceCanvas, faceMatch, resultCanvas.width, resultCanvas.height)
                 : null;
+            const usedAnchorAlignment = Boolean(alignedLayer);
             const fallbackTarget = target.fallbackTarget;
 
             ctx.save();
             ctx.globalCompositeOperation = 'source-over';
-            if (landmarkLayer) {
-                ctx.globalAlpha = 0.9;
-                ctx.drawImage(landmarkLayer, 0, 0);
+            if (alignedLayer) {
+                ctx.globalAlpha = faceMatch.landmarks ? 0.9 : 0.84;
+                ctx.drawImage(alignedLayer, 0, 0);
             } else {
                 const crop = makeFaceCrop(faceMatch, sourceCanvas, target);
                 const faceLayer = buildFeatheredFaceLayer(sourceCanvas, crop, fallbackTarget.width, fallbackTarget.height);
@@ -2822,21 +2854,21 @@
 
             ctx.save();
             ctx.globalCompositeOperation = 'multiply';
-            ctx.globalAlpha = landmarkLayer ? 0.22 : 0.17;
+            ctx.globalAlpha = usedAnchorAlignment ? 0.22 : 0.17;
             const shadowConfig = target.shadow;
             const shadow = ctx.createRadialGradient(
-                landmarkLayer ? shadowConfig.cx : fallbackTarget.x + fallbackTarget.width * 0.5,
-                landmarkLayer ? shadowConfig.cy - 6 : fallbackTarget.y + fallbackTarget.height * 0.53,
-                landmarkLayer ? shadowConfig.inner : fallbackTarget.width * 0.22,
-                landmarkLayer ? shadowConfig.cx : fallbackTarget.x + fallbackTarget.width * 0.5,
-                landmarkLayer ? shadowConfig.cy : fallbackTarget.y + fallbackTarget.height * 0.55,
-                landmarkLayer ? shadowConfig.outer : fallbackTarget.width * 0.58
+                usedAnchorAlignment ? shadowConfig.cx : fallbackTarget.x + fallbackTarget.width * 0.5,
+                usedAnchorAlignment ? shadowConfig.cy - 6 : fallbackTarget.y + fallbackTarget.height * 0.53,
+                usedAnchorAlignment ? shadowConfig.inner : fallbackTarget.width * 0.22,
+                usedAnchorAlignment ? shadowConfig.cx : fallbackTarget.x + fallbackTarget.width * 0.5,
+                usedAnchorAlignment ? shadowConfig.cy : fallbackTarget.y + fallbackTarget.height * 0.55,
+                usedAnchorAlignment ? shadowConfig.outer : fallbackTarget.width * 0.58
             );
             shadow.addColorStop(0, 'rgba(255,255,255,0)');
             shadow.addColorStop(0.76, 'rgba(90,90,90,0.28)');
             shadow.addColorStop(1, 'rgba(35,35,35,0.65)');
             ctx.fillStyle = shadow;
-            if (landmarkLayer) {
+            if (usedAnchorAlignment) {
                 drawCurlyTemplateFaceMask(ctx, target);
             } else {
                 ctx.beginPath();
