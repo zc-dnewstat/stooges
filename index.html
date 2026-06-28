@@ -2343,7 +2343,8 @@
                     leftJaw: { x: 340, y: 444, weight: 0.8 },
                     rightJaw: { x: 458, y: 444, weight: 0.8 }
                 },
-                fallbackTarget: { x: 316, y: 292, width: 166, height: 192 },
+                fallbackTarget: { x: 319, y: 300, width: 158, height: 178, rotation: 0 },
+                fallbackCrop: { width: 0.92, height: 0.9, centerX: 0.5, centerY: 0.46 },
                 fade: { cx: 399, cy: 383, inner: 58, outer: 130, x: 285, y: 242, width: 228, height: 248 },
                 shadow: { cx: 399, cy: 383, inner: 56, outer: 140 }
             },
@@ -2374,7 +2375,8 @@
                     leftJaw: { x: 132, y: 727, weight: 0.8 },
                     rightJaw: { x: 272, y: 719, weight: 0.8 }
                 },
-                fallbackTarget: { x: 106, y: 512, width: 190, height: 242 },
+                fallbackTarget: { x: 113, y: 524, width: 174, height: 212, rotation: -0.1 },
+                fallbackCrop: { width: 0.88, height: 0.86, centerX: 0.5, centerY: 0.45 },
                 fade: { cx: 202, cy: 658, inner: 58, outer: 128, x: 88, y: 504, width: 226, height: 268 },
                 shadow: { cx: 202, cy: 661, inner: 54, outer: 140 }
             },
@@ -2405,7 +2407,8 @@
                     leftJaw: { x: 538, y: 705, weight: 0.8 },
                     rightJaw: { x: 674, y: 691, weight: 0.8 }
                 },
-                fallbackTarget: { x: 504, y: 484, width: 188, height: 232 },
+                fallbackTarget: { x: 512, y: 496, width: 170, height: 204, rotation: -0.11 },
+                fallbackCrop: { width: 0.88, height: 0.86, centerX: 0.5, centerY: 0.45 },
                 fade: { cx: 599, cy: 631, inner: 56, outer: 124, x: 492, y: 478, width: 214, height: 252 },
                 shadow: { cx: 599, cy: 634, inner: 52, outer: 136 }
             }
@@ -2541,12 +2544,13 @@
             return Math.min(max, Math.max(min, value));
         }
 
-        function makeFaceCrop(faceMatch, canvas) {
+        function makeFaceCrop(faceMatch, canvas, target = getCurlyTargetConfig()) {
             const box = faceMatch.box || faceMatch;
-            const width = box.width * 1.18;
-            const height = box.height * 1.34;
-            const centerX = box.x + box.width / 2;
-            const centerY = box.y + box.height * 0.53;
+            const crop = target.fallbackCrop || {};
+            const width = box.width * (crop.width || 0.95);
+            const height = box.height * (crop.height || 0.92);
+            const centerX = box.x + box.width * (crop.centerX || 0.5);
+            const centerY = box.y + box.height * (crop.centerY || 0.46);
             const x = clamp(centerX - width / 2, 0, canvas.width - 1);
             const y = clamp(centerY - height / 2, 0, canvas.height - 1);
             return {
@@ -2807,10 +2811,17 @@
                 ctx.globalAlpha = 0.9;
                 ctx.drawImage(landmarkLayer, 0, 0);
             } else {
-                const crop = makeFaceCrop(faceMatch, sourceCanvas);
+                const crop = makeFaceCrop(faceMatch, sourceCanvas, target);
                 const faceLayer = buildFeatheredFaceLayer(sourceCanvas, crop, fallbackTarget.width, fallbackTarget.height);
                 ctx.globalAlpha = 0.92;
-                ctx.drawImage(faceLayer, fallbackTarget.x, fallbackTarget.y, fallbackTarget.width, fallbackTarget.height);
+                const rotation = fallbackTarget.rotation || 0;
+                if (rotation) {
+                    ctx.translate(fallbackTarget.x + fallbackTarget.width / 2, fallbackTarget.y + fallbackTarget.height / 2);
+                    ctx.rotate(rotation);
+                    ctx.drawImage(faceLayer, -fallbackTarget.width / 2, -fallbackTarget.height / 2, fallbackTarget.width, fallbackTarget.height);
+                } else {
+                    ctx.drawImage(faceLayer, fallbackTarget.x, fallbackTarget.y, fallbackTarget.width, fallbackTarget.height);
+                }
             }
             ctx.restore();
 
@@ -2834,7 +2845,15 @@
                 drawCurlyTemplateFaceMask(ctx, target);
             } else {
                 ctx.beginPath();
-                ctx.ellipse(fallbackTarget.x + fallbackTarget.width / 2, fallbackTarget.y + fallbackTarget.height / 2, fallbackTarget.width * 0.52, fallbackTarget.height * 0.51, 0, 0, Math.PI * 2);
+                ctx.ellipse(
+                    fallbackTarget.x + fallbackTarget.width / 2,
+                    fallbackTarget.y + fallbackTarget.height / 2,
+                    fallbackTarget.width * 0.5,
+                    fallbackTarget.height * 0.49,
+                    fallbackTarget.rotation || 0,
+                    0,
+                    Math.PI * 2
+                );
             }
             ctx.fill();
             ctx.restore();
