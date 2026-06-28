@@ -648,10 +648,7 @@
                     </button>
                 </div>
                 <div class="mt-5 flex flex-col sm:flex-row gap-3">
-                    <button id="curlycam-start" type="button" onclick="startCurlyCam()" class="curlycam-touch-control flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 transition-colors font-bold rounded-2xl">
-                        <i class="fa-solid fa-video mr-2"></i> Open Camera
-                    </button>
-                    <button id="curlycam-capture" type="button" onclick="takeCurlyPhoto()" disabled class="curlycam-touch-control flex-1 px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
+                    <button id="curlycam-capture" type="button" onclick="makeCurlyFromCamera()" class="curlycam-touch-control flex-1 px-5 py-3 bg-yellow-400 text-zinc-950 hover:bg-yellow-300 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
                         <i class="fa-solid fa-bolt mr-2"></i> <span id="curlycam-capture-label">Make Me Curly</span>
                     </button>
                     <button id="curlycam-retake-inline" type="button" onclick="retakeCurlyPhoto()" disabled class="curlycam-touch-control hidden flex-1 px-5 py-3 bg-white text-zinc-950 hover:bg-zinc-100 disabled:opacity-40 disabled:cursor-not-allowed transition-colors font-bold rounded-2xl">
@@ -664,7 +661,7 @@
                         <i class="fa-solid fa-image mr-2"></i> Use Photo Instead
                     </button>
                     <div class="curlycam-tesla-note hidden text-xs text-zinc-500 leading-relaxed">
-                        Tesla browsers may not expose the car cameras to websites. If Open Camera is blocked, use a saved photo here and Curly Cam will still make the souvenir.
+                        Tesla browsers may not expose the car cameras to websites. If the Make Me button cannot open the camera, use a saved photo here and Curly Cam will still make the souvenir.
                     </div>
                 </div>
                 <div id="curlycam-status" class="mt-4 min-h-5 text-sm text-zinc-400" aria-live="polite"></div>
@@ -2221,10 +2218,10 @@
             if (note && (isTesla || !navigator.mediaDevices?.getUserMedia)) note.classList.remove('hidden');
             const help = document.getElementById('curlycam-camera-help');
             if (help && isTesla) {
-                help.textContent = 'Try Open Camera. If the Tesla browser blocks vehicle camera access, use a saved photo instead.';
+                help.textContent = 'Pick Front or Rear, then tap Make Me. If the Tesla browser blocks vehicle camera access, use a saved photo instead.';
             }
             if (!navigator.mediaDevices?.getUserMedia) {
-                document.getElementById('curlycam-start')?.setAttribute('disabled', 'disabled');
+                document.getElementById('curlycam-capture')?.setAttribute('disabled', 'disabled');
                 setCurlyCamStatus('This browser does not expose live camera access. Use Photo Instead will still make the Curly portrait.');
             }
         }
@@ -2239,7 +2236,6 @@
         function updateCurlyCameraModeControls() {
             const front = document.getElementById('curlycam-front');
             const rear = document.getElementById('curlycam-rear');
-            const start = document.getElementById('curlycam-start');
             const help = document.getElementById('curlycam-camera-help');
             const isFront = curlyCam.facingMode === 'user';
             front?.classList.toggle('bg-yellow-400', isFront);
@@ -2252,11 +2248,10 @@
             rear?.classList.toggle('border', isFront);
             rear?.classList.toggle('border-zinc-700', isFront);
             rear?.classList.toggle('text-zinc-300', isFront);
-            if (start) start.innerHTML = `<i class="fa-solid fa-video mr-2"></i> Open ${isFront ? 'Front' : 'Rear'} Camera`;
             if (help) {
                 help.textContent = isTeslaBrowser()
-                    ? 'Try Open Camera. If the Tesla browser blocks vehicle camera access, use a saved photo instead.'
-                    : `${isFront ? 'Open the front camera' : 'Open the rear camera'}, look straight at the lens, then tap the shutter.`;
+                    ? 'Pick Front or Rear, then tap Make Me. If the Tesla browser blocks vehicle camera access, use a saved photo instead.'
+                    : `Pick ${isFront ? 'Front' : 'Rear'}, look straight at the lens, then tap Make Me ${getCurlyTargetConfig().label}.`;
             }
         }
 
@@ -2928,7 +2923,7 @@
             const video = document.getElementById('curlycam-video');
             const sourceCanvas = document.getElementById('curlycam-source');
             if (!video || !sourceCanvas || !video.videoWidth) {
-                setCurlyCamStatus('Open the camera first.');
+                setCurlyCamStatus(`Pick Front or Rear, then tap Make Me ${getCurlyTargetConfig().label}.`);
                 return;
             }
             setCurlyCamStatus(`Finding your face and fitting it onto ${getCurlyTargetConfig().label}...`);
@@ -2946,6 +2941,26 @@
             }
             curlyCam.sourceMode = 'camera';
             await processCurlySourceCanvas(sourceCanvas);
+        }
+
+        async function makeCurlyFromCamera() {
+            const capture = document.getElementById('curlycam-capture');
+            const video = document.getElementById('curlycam-video');
+            if (!navigator.mediaDevices?.getUserMedia) {
+                setCurlyCamStatus('Live camera is not available in this browser. Use Photo Instead to pick a saved picture.');
+                return;
+            }
+            capture?.setAttribute('disabled', 'disabled');
+            try {
+                if (!curlyCam.stream || !video?.videoWidth) {
+                    await startCurlyCam(curlyCam.facingMode);
+                    await new Promise((resolve) => setTimeout(resolve, 350));
+                }
+                if (!curlyCam.stream || !video?.videoWidth) return;
+                await takeCurlyPhoto();
+            } finally {
+                capture?.removeAttribute('disabled');
+            }
         }
 
         function resetCurlyPortrait() {
