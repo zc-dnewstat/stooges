@@ -25,6 +25,11 @@ const SENDGRID_API_KEY = process.env.SENDGRID_API_KEY || '';
 const SENDGRID_ENDPOINT = MAIL_ENDPOINT || process.env.SENDGRID_ENDPOINT || 'https://api.sendgrid.com/v3/mail/send';
 const SENDGRID_FROM_EMAIL = process.env.SENDGRID_FROM_EMAIL || MAIL_FROM;
 const SENDGRID_FROM_NAME = process.env.SENDGRID_FROM_NAME || MAIL_FROM_NAME;
+const MAILGUN_API_KEY = process.env.MAILGUN_API_KEY || '';
+const MAILGUN_BASE_URL = (process.env.MAILGUN_BASE_URL || 'https://api.mailgun.net').replace(/\/$/, '');
+const MAILGUN_DOMAIN = process.env.MAILGUN_DOMAIN || '';
+const MAILGUN_FROM_EMAIL = process.env.MAILGUN_FROM_EMAIL || MAIL_FROM;
+const MAILGUN_FROM_NAME = process.env.MAILGUN_FROM_NAME || MAIL_FROM_NAME;
 const TEST_SEND_PASSWORD = process.env.TEST_SEND_PASSWORD || '';
 
 class MailProviderError extends Error {
@@ -408,11 +413,16 @@ function sendGridIsConfigured() {
   return Boolean(SENDGRID_API_KEY && SENDGRID_FROM_EMAIL);
 }
 
+function mailgunIsConfigured() {
+  return Boolean(MAILGUN_API_KEY && MAILGUN_BASE_URL && MAILGUN_DOMAIN && MAILGUN_FROM_EMAIL);
+}
+
 function mailIsConfigured() {
   if (MAIL_PROVIDER === 'sendgrid') return sendGridIsConfigured();
   if (MAIL_PROVIDER === 'mailersend') return mailerSendIsConfigured();
+  if (MAIL_PROVIDER === 'mailgun') return mailgunIsConfigured();
   if (MAIL_PROVIDER === 'smtp') return Boolean(SMTP_URL);
-  return sendGridIsConfigured() || mailerSendIsConfigured() || Boolean(SMTP_URL);
+  return sendGridIsConfigured() || mailerSendIsConfigured() || mailgunIsConfigured() || Boolean(SMTP_URL);
 }
 
 async function sendMailerSendMail({ to, subject, text, htmlBody, listUnsubscribe, attachments = [] }) {
@@ -504,12 +514,47 @@ async function sendSendGridMail({ to, subject, text, htmlBody, listUnsubscribe, 
   }
 }
 
+async function sendMailgunMail({ to, subject, text, htmlBody, listUnsubscribe, attachments = [] }) {
+  if (!mailgunIsConfigured()) throw new Error('Mailgun is not configured');
+  const form = new FormData();
+  const from = MAILGUN_FROM_NAME ? `${MAILGUN_FROM_NAME} <${MAILGUN_FROM_EMAIL}>` : MAILGUN_FROM_EMAIL;
+  form.set('from', from);
+  form.set('to', to);
+  form.set('subject', subject);
+  form.set('text', text);
+  form.set('html', htmlBody);
+  if (listUnsubscribe) form.set('h:List-Unsubscribe', `<${listUnsubscribe}>`);
+
+  for (const attachment of attachments) {
+    form.append(
+      'attachment',
+      new Blob([attachment.content], { type: attachment.contentType || 'application/octet-stream' }),
+      attachment.filename
+    );
+  }
+
+  const response = await fetch(`${MAILGUN_BASE_URL}/v3/${MAILGUN_DOMAIN}/messages`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Basic ${Buffer.from(`api:${MAILGUN_API_KEY}`).toString('base64')}`
+    },
+    body: form
+  });
+
+  if (!response.ok) {
+    const body = await response.text().catch(() => '');
+    throw new MailProviderError('Mailgun', response.status, body);
+  }
+}
+
 async function sendMail(message) {
   if (MAIL_PROVIDER === 'sendgrid') return sendSendGridMail(message);
   if (MAIL_PROVIDER === 'mailersend') return sendMailerSendMail(message);
+  if (MAIL_PROVIDER === 'mailgun') return sendMailgunMail(message);
   if (MAIL_PROVIDER === 'smtp') return sendSmtpMail(message);
   if (sendGridIsConfigured()) return sendSendGridMail(message);
   if (mailerSendIsConfigured()) return sendMailerSendMail(message);
+  if (mailgunIsConfigured()) return sendMailgunMail(message);
   return sendSmtpMail(message);
 }
 
